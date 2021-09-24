@@ -1,0 +1,21 @@
+#pool-classification
+{
+    font-size: 1.4rem;
+    .current-pool .card-title, .other-pool .card-title{ text-transform: uppercase; }
+    #pool-button {
+        float: right;
+        margin-right: 8px;
+    }
+    .card-content {
+        padding: 24px 8px;
+    }
+    .team-info {
+        padding: 8px 0;
+        text-align: left;
+    }
+    .team-logo {
+        height: 32px;
+        width: 32px;
+        margin-right: 8px;
+    }
+}

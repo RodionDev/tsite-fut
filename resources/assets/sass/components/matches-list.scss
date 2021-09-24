@@ -1,0 +1,25 @@
+#matches-list
+{
+    .collapsible-header {
+        .row {
+            margin: 0;
+        }
+        .team-logo {
+            height: 53px;
+            margin: 0 8px;
+        }
+    }
+    .score_input {
+        max-width: 64px;
+    }
+    .motm {
+        padding: 32px 0 8px 0;
+    }
+    .player-image {
+        height: auto;
+        width: 48px;
+    }
+    .player-info .material-placeholder {
+        display: inline;
+    }
+}

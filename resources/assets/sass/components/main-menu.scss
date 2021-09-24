@@ -1,0 +1,25 @@
+#main-menu
+{
+    .tabs {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        .tab {
+            -webkit-box-flex: 1;
+            -ms-flex-positive: 1;
+            flex-grow: 1;
+        }
+    }
+    .brand-logo {
+        line-height: 64px !important;
+        display: block;
+        left: 50%;
+        -webkit-transform: translateX(-50%);
+        transform: translateX(-50%);
+        img {
+            left: -71px;
+            position: absolute;
+            height: 64px;
+        }
+    }
+}
