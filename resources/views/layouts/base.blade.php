@@ -21,7 +21,7 @@
     </div>
     <footer class="container">
         @section('footer')
-            @include('components/banner')
+            @include('components/sponsors')
         @show
     </footer>
     <script src="./js/app.js"></script>
