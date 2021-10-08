@@ -1,6 +1,6 @@
 <section id="main-menu">
-    <nav class="nav-extended">
-        <div id="topbar" class="nav-wrapper">
+    <nav class="nav-extended"  style="background-color: {{ Colour::instance()->primaryColour() }}">
+        <div class="nav-wrapper">
             <a href="#" class="brand-logo">
                 <img class="vertical-centre-image" src="/images/logo.png">
                 <span class="hide-on-small-only">{{ env('APP_NAME', 'FCH') }}</span>
