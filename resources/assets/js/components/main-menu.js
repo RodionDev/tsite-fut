@@ -1,16 +1,12 @@
 let menu = document.getElementById("main-menu");
+let topbar = document.getElementById("topbar");
 let hidden = false;
 document.onscroll = function()
 {
     let amount_scrolled = window.pageYOffset || (document.documentElement || document.body.parentNode || document.body).scrollTop;
-    if(!hidden && amount_scrolled > 64)
+    if(amount_scrolled < 64)
     {
-        menu.classList.add("main-menu-fixed");
-        hidden = true;
+        topbar.setAttribute("style", "height: " + (64-amount_scrolled) + "px !important;");
     }
-    else if(hidden && amount_scrolled == 0)
-    {
-        menu.classList.remove("main-menu-fixed");
-        hidden = false;
-    }
+    else{ topbar.setAttribute("style", "height: " + 0 + "px !important;"); }
 };

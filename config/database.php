@@ -44,7 +44,7 @@ return [
             'prefix' => '',
         ],
     ],
-    'migrations' => 'migrations',
+    'migrations' => 'migration',
     'redis' => [
         'client' => 'predis',
         'default' => [
