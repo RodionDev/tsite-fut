@@ -12,7 +12,7 @@
 </head>
 <body>
     <header>
-        @section('header')
+        @section('main-menu')
             @include('components/main-menu')
         @show
     </header>
