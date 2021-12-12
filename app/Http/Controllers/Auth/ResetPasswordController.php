@@ -5,7 +5,7 @@ use Illuminate\Foundation\Auth\ResetsPasswords;
 class ResetPasswordController extends Controller
 {
     use ResetsPasswords;
-    protected $redirectTo = '/';
+    protected $redirectTo = '/home';
     public function __construct()
     {
         $this->middleware('guest');
