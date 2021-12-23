@@ -3,8 +3,9 @@ let topbar = document.getElementById("topbar");
 let menu_items = menu.getElementsByClassName("tab");
 for(let i=0; i < menu_items.length; i++)
 {
-    let target = menu_items[i].children[0];
-    if(target.getAttribute("href") == window.location.pathname)
+    let target = menu_items[i];
+    let target_location = target.children[0].getAttribute("href");
+    if(target_location == window.location.pathname)
     {
         target.classList.add("active");
     }
