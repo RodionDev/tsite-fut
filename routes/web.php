@@ -1,7 +1,9 @@
 <?php
+Route::middleware(['auth'])->group(function () {
+    Route::view('toernooi', 'pages/tournament') ->name('tournament');
+    Route::view('profiel', 'pages/profile')     ->name('profile');
+});
 Route::get('/', 'HomeController@index')->name('home');
-Route::view('toernooi', 'pages/tournament') ->middleware('auth')->name('tournament');
-Route::view('profiel', 'pages/profile')     ->middleware('auth')->name('profile');
 $router->post('login', 'Auth\LoginController@login');
 $router->get('login', 'Auth\LoginController@index')         ->name('login');
 $router->post('uitloggen', 'Auth\LoginController@logout');
