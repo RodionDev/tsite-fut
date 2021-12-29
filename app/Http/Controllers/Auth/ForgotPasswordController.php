@@ -11,6 +11,6 @@ class ForgotPasswordController extends Controller
     }
     public function showLinkRequestForm()
     {
-        return view('pages.auth.password');
+        return view('pages.auth.reset-password');
     }
 }

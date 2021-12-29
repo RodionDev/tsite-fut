@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('site-title') - {{ env('APP_NAME', 'FCH') }}</title>
-    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="{{ URL::asset('css/app.css') }}">
     @hasSection('css')
         <link rel="stylesheet" href="/css/@yield('css').css">
     @endif
@@ -13,7 +13,7 @@
 <body>
     <header>
         @section('header')
-            @include('components/main-menu')
+            @include('components/header/header')
         @show
     </header>
     <div class="content container flow-text">
@@ -24,7 +24,7 @@
             @include('components/sponsors')
         @show
     </footer>
-    <script src="./js/app.js"></script>
+    <script src="{{ URL::asset('./js/app.js') }}"></script>
     @hasSection('js')
         <script src="./js/@yield('js').js"></script>
     @endif

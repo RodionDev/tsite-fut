@@ -1,64 +1,41 @@
 @extends('layouts/base')
 @section('site-title', 'Registreren')
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Registreren</div>
-                <div class="card-body">
-                    <form method="POST" action="{{ route('registreren') }}">
-                        @csrf
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
-                                @if ($errors->has('name'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
-                                @if ($errors->has('email'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
-                                @if ($errors->has('password'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-                            </div>
-                        </div>
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Register') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+<section id="register">
+    <h1 class="title">Registreren</h1>
+    <div class="card">
+        <div class="card-content">
+            <form method="POST" action="{{ route('register') }}">
+                <div class="row">
+                    @csrf
+                    <div class="col s12 input-field">
+                        <input id="name" type="text" class="validate" name="name" required autofocus />
+                        <label for="name">Naam</label>
+                        <span class="helper-text" data-error="Vul een correcte naam in." data-success="">Vul een naam in.</span>
+                    </div>
+                    <div class="col s12 input-field">
+                        <input id="email" type="email" class="validate" name="email" required />
+                        <label for="email">E-mailadres</label>
+                        <span class="helper-text" data-error="Vul een correct e-mailadres in." data-success="">Vul een e-mailadres in.</span>
+                    </div>
+                    <div class="col s12 input-field">
+                        <label for="password">Wachtwoord</label>
+                        <input id="password" type="password" class="validate" name="password" required>
+                        <span class="helper-text" data-error="Vul een correct e-mailadres in." data-success="">Vul een wachtwoord in.</span>
+                    </div>
+                    <div class="col s12 input-field">
+                        <label for="password-confirm">Wachtwoord Bevestigen</label>
+                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+                        <span class="helper-text" data-error="Vul een correct wachtwoord in." data-success="">Vul je wachtwoord nog een keer in.</span>
+                    </div>
+                    <div class="col s12 input-field">
+                        <button type="submit" class="waves-effect waves-light btn">
+                            Registreren
+                        </button>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
-</div>
+</section>
 @endsection
