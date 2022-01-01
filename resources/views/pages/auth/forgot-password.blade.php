@@ -9,7 +9,7 @@
                 {{ session('status') }}
             @endif
             <form method="POST" action="{{ route('forgot.password') }}">
-                </div class="row">
+                <div class="row">
                     @csrf
                     <div class="col s12 input-field">
                         <input id="email" type="email" class="validate" name="email" value="{{ old('email') }}" required>
