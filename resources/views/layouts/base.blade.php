@@ -23,10 +23,10 @@
         @section('footer')
             @include('components/sponsors')
         @show
+        <script src="{{ URL::asset('./js/app.js') }}"></script>
+        @hasSection('js')
+            <script src="./js/@yield('js').js"></script>
+        @endif
     </footer>
-    <script src="{{ URL::asset('./js/app.js') }}"></script>
-    @hasSection('js')
-        <script src="./js/@yield('js').js"></script>
-    @endif
 </body>
 </html>

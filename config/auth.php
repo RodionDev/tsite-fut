@@ -23,7 +23,7 @@ return [
     'passwords' => [
         'user' => [
             'provider' => 'user',
-            'table' => 'password_resets',
+            'table' => 'password_reset',
             'expire' => 60,
         ],
     ],
