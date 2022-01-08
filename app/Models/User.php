@@ -8,13 +8,13 @@ class User extends Authenticatable
     public $table = 'user';
     public $timestamps = false;
     protected $fillable = [
-        'first_name', 'sur_name', 'email', 'password', 'role', 'avatar',
+        'first_name', 'sur_name', 'email', 'password', 'role_id', 'avatar', 'register_token'
     ];
     protected $hidden = [
         'password', 'remember_token', 'register_token', 
     ];
     public function role()
     {
-        return $this->belongsTo('App\Model\Role');
+        return $this->belongsTo('App\Models\Role');
     }
 }

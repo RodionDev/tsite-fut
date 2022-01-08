@@ -13,9 +13,6 @@ use Illuminate\Validation\Rule;
 class RegisterController extends Controller
 {
     protected $redirectTo = '/';
-    public function __construct()
-    {
-    }
     public function register(Request $request)
     {   
         $this->validator($request->all())->validate();  
