@@ -19,7 +19,9 @@ class InviteController extends Controller
         $this->validator($request->all())->validate();  
         if(Auth::Check()) 
         {    
-            if(Auth::user()->role_id <= (int)$request->role) abort(404);   
+            $user = Auth::user();
+            $role = Role::find($user->role_id);
+            if($role->permission <= Role::find($request->role)->permission) abort(404);   
             event(new Registered($user = $this->create($request->all())));  
             return redirect($this->redirectPath()); 
         }
@@ -55,7 +57,8 @@ class InviteController extends Controller
     public function index()
     {
         $user = Auth::user();   
-        if( $user && $user->role_id >= 2)   
+        $role = Role::find($user->role_id);
+        if( $user && $role->permission >= 2)   
         {
             return view('/pages/auth/invite');  
         }
