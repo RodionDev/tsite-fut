@@ -16,10 +16,9 @@
                     <div class="input-field col s12">
                         <select name="role">
                             <option value="" disabled selected>Kies een rol.</option>
-                            <option value="1">Speler</option>
-                            <option value="2">Teamleider</option>
-                            <option value="3">Organisator</option>
-                            <option value="4">Administrator</option>
+                            @foreach( $roles as $role )
+                                <option value="{{ $role->id }}">{{ $role->name }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="col s12 input-field">

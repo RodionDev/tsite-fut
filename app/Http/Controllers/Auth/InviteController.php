@@ -57,10 +57,11 @@ class InviteController extends Controller
     public function index()
     {
         $user = Auth::user();   
-        $role = Role::find($user->role_id);
-        if( $user && $role->permission >= 2)   
+        $user_role = Role::find($user->role_id);
+        if( $user && $user_role->permission >= 2)   
         {
-            return view('/pages/auth/invite');  
+            $roles = Role::where('permission', '<', $user_role->permission)->get()->all();
+            return view('/pages/auth/invite')->with('roles', $roles);  
         }
         else    return redirect(route('home')); 
     }
