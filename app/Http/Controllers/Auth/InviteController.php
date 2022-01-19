@@ -10,6 +10,8 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Invite;
 class InviteController extends Controller
 {
     use RegistersUsers;
@@ -23,6 +25,10 @@ class InviteController extends Controller
             $role = Role::find($user->role_id);
             if($role->permission <= Role::find($request->role)->permission) abort(404);   
             event(new Registered($user = $this->create($request->all())));  
+            Mail::to($user->email)->send(new Invite(route('register', ['token' => $user->register_token])));
+            if (Mail::failures()) {
+                abort(404);
+            }
             return redirect($this->redirectPath()); 
         }
         abort(404);
