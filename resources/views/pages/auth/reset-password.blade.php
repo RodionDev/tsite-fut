@@ -8,6 +8,15 @@
             <form method="POST" action="{{ route('reset.password') }}">
                 <div class="row">
                     @csrf
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <div class="col s12 input-field">
                         <input id="email" type="email" class="validate" name="email" value="{{ $email ?? old('email') }}" required autofocus />
                         <label for="email">E-mailadres</label>

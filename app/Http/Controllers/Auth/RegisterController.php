@@ -2,7 +2,6 @@
 namespace App\Http\Controllers\Auth;
 use App\Models\User;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Auth\ResetPasswordController;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -10,11 +9,12 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Http\Controllers\ImageController;
 class RegisterController extends Controller
 {
     protected $redirectTo = '/';
     public function register(Request $request)
-    {   
+    {  
         $this->validator($request->all())->validate();  
         $user = DB::table('user')->where('register_token', $request->token)->first();   
         if($user !== null)  
@@ -24,6 +24,12 @@ class RegisterController extends Controller
             $user->password = Hash::make($request->password);   
             $user->register_token = null;   
             $user->last_seen = new \DateTime(); 
+            if ($request->hasFile('avatar'))
+            {
+                $image_controller = new ImageController;
+                $image_path = $image_controller->uploadImage($request->file('avatar'), 'avatars', (string)$user->id);
+                if($image_path) $user->avatar = $image_path;
+            }
             $user->save();  
             Auth::loginUsingId($user->id);  
             return redirect(route('home')); 
@@ -35,7 +41,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'first_name' => 'required|string|max:199',
             'sur_name' => 'required|string|max:199',
-            'avatar' => [ Rule::dimensions()->maxWidth(512)->maxHeight(512)->ratio(1 / 1), ],
+            'avatar' => 'image',
             'password' => 'required|string|min:6|confirmed',
         ]);
     }

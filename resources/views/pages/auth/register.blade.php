@@ -5,7 +5,7 @@
     <h1 class="title">Registreren</h1>
     <div class="card">
         <div class="card-content">
-            <form method="POST" action="/registreren/">
+            <form method="POST" action="/registreren/" enctype="multipart/form-data">
                 <div class="row">
                     @csrf
                     <div class="col s12 input-field">
@@ -22,7 +22,7 @@
                         <div class="file-field input-field">
                             <div class="waves-effect waves-light btn">
                                 <span>Upload</span>
-                                <input type="file">
+                                <input type="file" name="avatar">
                             </div>
                             <div class="file-path-wrapper">
                                 <input id="avatar" class="file-path validate" type="text" placeholder="Avatar" />
