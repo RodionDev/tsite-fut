@@ -7,10 +7,6 @@ class LoginController extends Controller
 {
     use AuthenticatesUsers;
     protected $redirectTo = '/';
-    public function __construct()
-    {
-        $this->middleware('guest')->except('logout');
-    }
     public function index()
     {
         if(Auth::check())   return redirect(route('tournament'));

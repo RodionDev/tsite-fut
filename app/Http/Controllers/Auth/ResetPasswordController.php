@@ -7,10 +7,6 @@ class ResetPasswordController extends Controller
 {
     use ResetsPasswords;
     protected $redirectTo = '/';
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
     public function getReset($token = null)
     {
         if (is_null($token))
