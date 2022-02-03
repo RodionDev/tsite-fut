@@ -1,5 +1,8 @@
 @extends('layouts/base')
 @section('site-title', 'Wachtwoord Aanpassen')
+@section('header')
+@include('components/header/header-no-menu')
+@endsection
 @section('content')
 <section id="reset-password">
     <h1 class="title">Wachtwoord Vergeten</h1>

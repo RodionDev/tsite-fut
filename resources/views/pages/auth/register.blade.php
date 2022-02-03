@@ -1,5 +1,8 @@
 @extends('layouts/base')
 @section('site-title', 'Registreren')
+@section('header')
+@include('components/header/header-no-menu')
+@endsection
 @section('content')
 <section id="register">
     <h1 class="title">Registreren</h1>

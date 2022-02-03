@@ -1,5 +1,8 @@
 @extends('layouts/base')
 @section('site-title', 'Wachtwoord Vergeten')
+@section('header')
+@include('components/header/header-no-menu')
+@endsection
 @section('content')
 <section id="forgot-password">
     <h1 class="title">Wachtwoord vergeten.</h1>
