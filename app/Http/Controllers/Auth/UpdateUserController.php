@@ -10,12 +10,30 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\ImageController;
-class RegisterController extends Controller
+class UpdateUserController extends Controller
 {
     protected $redirectTo = '/';
+    public function updateUser(Request $request)
+    {
+        if(Auth::Check())  
+        {
+            $this->updateValidator($request->all())->validate();  
+            $user = Auth::User();   
+            $user->fill($request->all());   
+            if ($request->hasFile('avatar'))
+            {
+                $image_controller = new ImageController;
+                $image_path = $image_controller->uploadImage($request->file('avatar'), 'avatars', (string)$user->id);
+                if($image_path) $user->avatar = $image_path;
+            }
+            $user->save();  
+            return redirect(route('profile')); 
+        }
+        abort(404);
+    }
     public function register(Request $request)
     {  
-        $this->validator($request->all())->validate();  
+        $this->registerValidator($request->all())->validate();  
         $user = DB::table('user')->where('register_token', $request->token)->first();   
         if($user !== null)  
         {
@@ -36,7 +54,7 @@ class RegisterController extends Controller
         }
         abort(404);
     }
-    protected function validator(array $data)
+    protected function registerValidator(array $data)
     {
         return Validator::make($data, [
             'first_name' => 'required|string|max:199',
@@ -45,14 +63,27 @@ class RegisterController extends Controller
             'password' => 'required|string|min:6|confirmed',
         ]);
     }
-    public function index($token = null)
+    protected function updateValidator(array $data)
+    {
+        return Validator::make($data, [
+            'first_name' => 'string|max:199',
+            'sur_name' => 'string|max:199',
+            'avatar' => 'image',
+        ]);
+    }
+    public function editProfilePage()
+    {
+        if(Auth::Check())   return view("/pages/auth/update-user", ['registering' => 0, 'user' => Auth::User()]);
+        abort(404); 
+    }
+    public function registerPage($token)
     {
         if($token)  
         {
             $user = DB::table('user')->where('register_token', $token)->first();    
             if($user)   
             {
-                return view('/pages/auth/register', ['register_token' => $token]);  
+                return view("/pages/auth/update-user", ['registering' => 1, 'register_token' => $token]);  
             }
         }
         abort(404); 
