@@ -1,11 +1,26 @@
 @extends('layouts/base')
 @section('site-title', 'Wachtwoord Aanpassen')
+@if(!Auth::Check())
 @section('header')
 @include('components/header/header-no-menu')
 @endsection
+@endif
 @section('content')
 <section id="reset-password">
-    <h1 class="title">Wachtwoord Vergeten</h1>
+        @if($success)
+        <div id="success-modal" class="modal modal-default-open">
+            <div class="modal-content">
+                <h4>Wachtwoord is gereset</h4>
+                <p>
+                    Je wachtwoord is succesvol aangepast.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect btn-flat">Sluiten</a>
+            </div>
+        </div>
+        @endif
+    <h1 class="title">Wachtwoord Resetten</h1>
     <div class="card">
         <div class="card-content">
             <form method="POST" action="{{ route('reset.password') }}">
@@ -20,7 +35,11 @@
                             </ul>
                         </div>
                     @endif
+                    @if (Auth::Check())
+                    <div class="col s12 input-field hide">
+                    @else
                     <div class="col s12 input-field">
+                    @endif
                         <input id="email" type="email" class="validate" name="email" value="{{ $email ?? old('email') }}" required autofocus />
                         <label for="email">E-mailadres</label>
                         <span class="helper-text" data-error="Vul een juist e-mailadres in." data-success="">Vul een e-mail in.</span>
@@ -35,9 +54,11 @@
                         <label for="password-confirm">Wachtwoord bevestigen</label>
                         <span class="helper-text" data-error="Vul een juist wachtwoord in." data-success="">Vul een wachtwoord in.</span>
                     </div>
+                    @if($token)
                     <div class="col s12 input-field">
                         <input type="hidden" name="token" value="{{ $token }}">
                     </div>
+                    @endif
                     <div class="col s12 input-field">
                         <button type="submit" class="waves-effect waves-light btn">
                             Wachtwoord aanpassen
