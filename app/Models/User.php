@@ -18,6 +18,14 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Models\Role', 'role_id');
     }
+    public function leadingTeams()
+    {
+        return $this->hasMany('App\Models\User');
+    }
+    public function teams()
+    {
+        return $this->belongsToMany('App\Model\Team');
+    }
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new MailResetPasswordToken($token));
