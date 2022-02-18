@@ -37,6 +37,18 @@
     max-width: 256px;
     max-height: 256px;
 }
+ul.comma-list {
+    display: inline;
+    li {
+        float: left;
+        &::after {
+            content: ",\00a0";
+        }
+        &:last-child::after {
+            content: '';
+        }
+    }
+}
 /*
     TYPOGRAPHY
 */

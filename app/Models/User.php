@@ -24,7 +24,7 @@ class User extends Authenticatable
     }
     public function teams()
     {
-        return $this->belongsToMany('App\Model\Team');
+        return $this->belongsToMany('App\Models\Team');
     }
     public function sendPasswordResetNotification($token)
     {
