@@ -2,32 +2,15 @@
 namespace App\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\Notifications\MailResetPasswordToken;
+use Illuminate\Auth\UserInterface;
+use Illuminate\Auth\Reminders\RemindableInterface;
 class User extends Authenticatable
 {
     use Notifiable;
-    public $table = 'user';
-    public $timestamps = false;
     protected $fillable = [
-        'first_name', 'sur_name', 'email', 'password', 'role_id', 'avatar', 'register_token'
+        'first_name', 'last_name', 'email', 'password',  
     ];
     protected $hidden = [
-        'password', 'remember_token', 'register_token', 
+        'password', 'remember_token',
     ];
-    public function role()
-    {
-        return $this->belongsTo('App\Models\Role', 'role_id');
-    }
-    public function leadingTeams()
-    {
-        return $this->hasMany('App\Models\User');
-    }
-    public function teams()
-    {
-        return $this->belongsToMany('App\Models\Team');
-    }
-    public function sendPasswordResetNotification($token)
-    {
-        $this->notify(new MailResetPasswordToken($token));
-    }
 }

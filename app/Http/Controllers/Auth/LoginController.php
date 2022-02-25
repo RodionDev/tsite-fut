@@ -2,14 +2,12 @@
 namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Support\Facades\Auth;
 class LoginController extends Controller
 {
     use AuthenticatesUsers;
-    protected $redirectTo = '/';
-    public function index()
+    protected $redirectTo = '/home';
+    public function __construct()
     {
-        if(Auth::check())   return redirect(route('tournament'));
-        else                return view('/pages/auth/login');
+        $this->middleware('guest')->except('logout');
     }
 }
