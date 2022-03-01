@@ -1,13 +1,14 @@
 #main-menu
 {
-    &.main-menu-fixed {
-        width: 100%;
-        position: fixed;
-        z-index: 997;
-        top: 0;
-        .nav-wrapper {
-            display: none;
-        }
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 999;
+    .nav-extended{ background-color: $primary-colour; }
+    .nav-wrapper {
+        height: 64px;
+        overflow: hidden;
+        min-height: 0px;
     }
     .tabs {
         display: -webkit-box;
@@ -32,4 +33,16 @@
             margin: 4px 0;
         }
     }
+    &.main-menu-fixed {
+        width: 100%;
+        position: fixed;
+        z-index: 997;
+        top: 0;
+        .nav-wrapper {
+            height: 0;
+        }
+    }
+}
+header {
+    height: 112px;
 }
