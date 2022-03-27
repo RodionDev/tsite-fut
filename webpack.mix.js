@@ -16,4 +16,5 @@ mix
        ],
        'public/js/pages/tournament.js'
    )
-   .sass('resources/assets/sass/pages/tournament.scss', 'public/css/pages');
+   .sass('resources/assets/sass/pages/tournament.scss', 'public/css/pages')
+   .sass('resources/assets/sass/pages/teams.scss', 'public/css/pages');

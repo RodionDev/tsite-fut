@@ -1,6 +1,7 @@
 <?php
 Route::middleware(['auth'])->group(function ($router) {
     Route::view('toernooi', 'pages/tournament') ->name('tournament');
+    $router->get('teams', 'pages\TeamController@teamsList');
     Route::get('profiel', 'Pages\ProfileController@index')     ->name('profile');
     $router->post('profiel-aanpassen', 'Auth\UpdateUserController@updateUser');
     Route::get('profiel-aanpassen', 'Auth\UpdateUserController@editProfilePage')     ->name('profile');

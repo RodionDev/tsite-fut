@@ -17,7 +17,16 @@
                     </div>
                     <div class="col s12">
                         <span>{{ $user->email }}</span> </br>
-                        <span>Teams:</span> 
+                        @if($user->teams())
+                        <span>
+                            <b class="left">Teams:&nbsp;</b>
+                            <ul class="comma-list">
+                                @foreach($user->teams as $team)
+                                    <li>{{ $team->name }}</li>
+                                @endforeach
+                            </ul>
+                        </span>
+                        @endif
                     </div>
                     <div class="col s12">
                         <h2 class="title">Man of the matches</h2>
