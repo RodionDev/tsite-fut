@@ -1,7 +1,9 @@
 <?php
 Route::middleware(['auth'])->group(function ($router) {
-    Route::view('toernooi', 'pages/tournament') ->name('tournament');
+    Route::view('toernooi', 'pages/tournament')                     ->name('tournament');
     $router->get('teams', 'pages\TeamController@teamsList');
+    $router->get('team-toevoegen', 'pages\TeamController@showNewForm');
+    $router->post('team-toevoegen', 'pages\TeamController@create')   ->name('create.team');
     Route::get('profiel', 'Pages\ProfileController@index')     ->name('profile');
     $router->post('profiel-aanpassen', 'Auth\UpdateUserController@updateUser');
     Route::get('profiel-aanpassen', 'Auth\UpdateUserController@editProfilePage')     ->name('profile');
@@ -9,11 +11,9 @@ Route::middleware(['auth'])->group(function ($router) {
     $router->get('uitnodigen', 'Auth\InviteController@index')   ->name('invite');
     $router->post('uitloggen', 'Auth\LoginController@logout');
     Route::get('uitloggen', 'Auth\LoginController@logout')      ->name('logout');
+    Route::get('users/search/{data?}', 'UserController@search');
 });
 Route::get('/', 'HomeController@index')->name('home');
-Route::view('afbeelding-uploaden', 'file-upload');
-Route::post('afbeelding-uploaden', ['as'=>'afbeelding-uploaden','uses'=>'HomeController@fileUpload']);
-Route::post('fileUpload', ['as'=>'fileUpload','uses'=>'HomeController@fileUpload']);
 $router->post('login', 'Auth\LoginController@login');
 $router->get('login', 'Auth\LoginController@index')         ->name('login');
 $router->post('registreren', 'Auth\UpdateUserController@register');
