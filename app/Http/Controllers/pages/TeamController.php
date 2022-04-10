@@ -12,4 +12,19 @@ class TeamController extends Controller
             ['teams' => $teams]
         );
     }
+    public function create()
+    {
+    }
+    public function showNewForm()
+    {
+        if(Auth::Check())
+        {
+            $user = Auth::User();
+            if($user->role->permission >= 3)
+            {
+                return view('/pages/new-team');
+            }
+        }
+        return redirect(route('home'));
+    }
 }

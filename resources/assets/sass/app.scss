@@ -29,11 +29,14 @@
     flex-direction: column;
     justify-content: center;
 }
-.vertical-centre-image {
+img.vertical-centre-image {
     display: inline-block;
     vertical-align: middle;
 }
-.avatar-preview {
+/*
+    ELEMENTS
+*/
+img.avatar-preview {
     max-width: 256px;
     max-height: 256px;
 }
@@ -46,6 +49,26 @@ ul.comma-list {
         }
         &:last-child::after {
             content: '';
+        }
+    }
+}
+input.search-input { margin-bottom: 0 !important; }
+ul.search-results {
+    background: #FFF;
+    position: absolute;
+    width: 97%;
+    z-index: 90;
+    margin: 0;
+    margin-bottom: 8px;
+    border-radius: 0 0 15px 15px; // Border radius only on bottom corners
+    li.search-result {
+        border-radius: 0 0 15px 15px; // Border radius only on bottom corners
+        &:hover { background-color: $accent-colour; color: $text-colour;}
+        img {
+            margin-right: 8px;
+            display: inline;
+            width: 42px;
+            height: 42px;
         }
     }
 }
@@ -67,6 +90,7 @@ h1, h2, h3, h4, h5, h6, .card-title, .title {
     font-size: 24px;
     font-weight: 300;
 }
+a{ color: #000; }
 /*
     BUTTONS
 */
