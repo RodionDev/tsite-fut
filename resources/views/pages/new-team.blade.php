@@ -28,12 +28,7 @@
                     </div>
                     <div class="col s12 input-field">
                             <input id="leader" type="text" class="validate search-input" name="leader" required />
-                            <ul data-results-for="leader" class="collection search-results ">
-                                <a href="#"><li class="collection-item search-result"><img class="circle vertical-centre-image" src="/images/image-missing.png">Pepe Postman</li></a>
-                            </ul>
-                            <input id="leader2" type="text" class="validate search-input" name="leader2" required />
-                            <ul data-results-for="leader2" class="collection search-results ">
-                                <a href="#"><li class="collection-item search-result"><img class="circle vertical-centre-image" src="/images/image-missing.png">Pepe Postman</li></a>
+                            <ul data-results-for="leader" class="collection search-results hide">
                             </ul>
                         <label for="leader">Teamleider</label>
                         <span class="helper-text" data-error="Vul een correcte naam in." data-success="">Vul een teamleider's naam in.</span>

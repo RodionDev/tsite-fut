@@ -22,7 +22,7 @@ class User extends Authenticatable
     public function scopeSearchName($query, $name, $role_id=null)
     {
         $names = explode(" ", $name);
-        return User::where(function($query) use($names, $role_id)
+        return User::select('role_id','first_name', 'sur_name', 'id')->where(function($query) use($names, $role_id)
                     {
                         for ($i=0; $i<count($names); $i++)
                         {
