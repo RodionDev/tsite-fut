@@ -12,4 +12,19 @@ class UserController extends Controller
             User::searchName(request()->name, 3)    ->distinct()->get()
         );
     }
+    public function generateNames(int $amount = 1)
+    {
+        $json = json_decode(file_get_contents("https:
+        return $json;
+    }
+    public function getRandomUserId($role=null)
+    {
+        $user = new User();
+        return $user->getRandomUserId($role);
+    }
+    public function getUserWithToken($token)
+    {
+        $user = new User();
+        return $user->getUserWithToken($token);
+    }
 }

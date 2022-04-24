@@ -19,6 +19,14 @@ class User extends Authenticatable
     {
         return "{$this->first_name} {$this->sur_name}";
     }
+    public function getRandomUserId($role=null)
+    {
+        return User::inRandomOrder()->first()->id;
+    }
+    public function getUserWithToken($token)
+    {
+        return DB::table('user')->where('register_token', $token)->first();
+    }
     public function scopeSearchName($query, $name, $role_id=null)
     {
         $names = explode(" ", $name);
