@@ -47,6 +47,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Models\Role', 'role_id');
     }
+    public function motts()
+    {
+        return $this->hasMany('App\Models\Tournament');
+    }
     public function leadingTeams()
     {
         return $this->hasMany('App\Models\User');

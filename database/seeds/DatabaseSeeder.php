@@ -12,7 +12,8 @@ class DatabaseSeeder extends Seeder
         if (App::Environment() === 'local')
         {
             $this->call(
-                TeamTableSeeder::class
+                TeamTableSeeder::class,
+                TournamentTableSeeder::class,
             );
         }
         $this->call(
