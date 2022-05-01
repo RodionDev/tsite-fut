@@ -15,4 +15,8 @@ class Team extends Model
     {
         return $this->belongsToMany('App\Models\User')->withPivot('squad_number');
     }
+    public function pools()
+    {
+        return $this->belongsToMany('App\Models\Pool');
+    }
 }

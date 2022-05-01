@@ -12,7 +12,7 @@ class UserController extends Controller
             User::searchName(request()->name, 3)    ->distinct()->get()
         );
     }
-    public function generateNames(int $amount = 1)
+    public function generateNames(int $amount = 1, $region="England")
     {
         $json = json_decode(file_get_contents("https:
         return $json;

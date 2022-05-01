@@ -3,8 +3,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 class Tournament extends Model
 {
-    public function mott()
+    public function pools()
     {
-        return $this->belongsTo('App\Models\User', 'mott_id');
+        return $this->hasMany('App\Models\Pool');
     }
 }

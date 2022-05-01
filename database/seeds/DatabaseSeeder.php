@@ -4,20 +4,20 @@ class DatabaseSeeder extends Seeder
 {
     public function run()
     {
-        if (App::Environment() === 'production')
+        $this->call([
+            RoleTableSeeder::class
+        ]);
+        if( App::Environment() === 'production' )
         {
-            $this->call(
-            );
         }
-        if (App::Environment() === 'local')
+        if( App::Environment() === 'local' )
         {
-            $this->call(
+            $this->call([
+                UserTableSeeder::class,
                 TeamTableSeeder::class,
                 TournamentTableSeeder::class,
-            );
+                PoolTableSeeder::class
+            ]);
         }
-        $this->call(
-            RoleTableSeeder::class
-        );
     }
 }
