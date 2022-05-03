@@ -15,8 +15,7 @@ class DatabaseSeeder extends Seeder
             $this->call([
                 UserTableSeeder::class,
                 TeamTableSeeder::class,
-                TournamentTableSeeder::class,
-                PoolTableSeeder::class
+                TournamentTableSeeder::class
             ]);
         }
     }

@@ -14,7 +14,7 @@ class TournamentTableSeeder extends Seeder
         for($i=0; $i<$amount; $i++)
         {
             $tournament = new Tournament();
-            $tournament->name = $names[$i]["surname"] + "-Toernooi";
+            $tournament->name = $names[$i]["surname"] . "-Toernooi";
             $tournament->timestamps = false;
             if(rand(0,1))
             {
@@ -28,7 +28,7 @@ class TournamentTableSeeder extends Seeder
                     $date->add(new DateInterval('P' . $days . 'D'));
                     $tournament->end_date = $date;
                 }
-                if(rand(0,1))   $tournament->tott_id = $user_controller->getRandomUserId();
+                if(rand(0,1))   $tournament->mott_id = $user_controller->getRandomUserId();
             }   
             $tournament->save();
         }

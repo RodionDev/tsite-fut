@@ -6,7 +6,6 @@ class TeamTableSeeder extends Seeder
 {
     public function run()
     {
-        Log::info("TEAMTABLE");
         $amount = 10;
         $user_controller = new UserController;
         $names = $user_controller->generateNames($amount);

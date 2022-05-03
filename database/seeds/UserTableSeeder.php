@@ -37,6 +37,5 @@ class UserTableSeeder extends Seeder
                 $counter++;
             }
         }
-        Log::info("End");
     }
 }
