@@ -6,7 +6,7 @@ class TournamentTableSeeder extends Seeder
 {
     public function run()
     {
-        $amount = 3;
+        $amount = 7;
         $user_controller = new UserController;
         $names = $user_controller->generateNames($amount);
         $date = new DateTime('now');
