@@ -1,9 +1,9 @@
 <?php
-namespace App\Models;
+namespace App;
 use Illuminate\Database\Eloquent\Model;
-class Pool extends Model
+class Match extends Model
 {
-    public $table = 'pool';
+    public $table = 'match';
     public $timestamps = false;
     protected $fillable = [
         'number', 'finished', 'tournament_id'
@@ -12,8 +12,12 @@ class Pool extends Model
     {
         return $this->belongsTo('App\Models\Tournament', 'tournament_id');
     }
-    public function teams()
+    public function matchResults()
     {
-        return $this->belongsToMany('App\Models\Team');
+        return $this->belongsTo('App\Models\MatchResults', 'match_results_id');
+    }
+    public function results()
+    {
+        return $this->matchResults()->results();
     }
 }

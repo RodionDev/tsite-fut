@@ -4,6 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 class Team extends Model
 {
     public $table = 'team';
+    public $timestamps = false;
     protected $fillable = [
         'name', 'logo', 'leader_id'
     ];
@@ -18,5 +19,12 @@ class Team extends Model
     public function pools()
     {
         return $this->belongsToMany('App\Models\Pool');
+    }
+    public function results()
+    {
+        return $this->belongsToMany('App\Models\Result');
+    }
+    public function matches()
+    {
     }
 }

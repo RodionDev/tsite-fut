@@ -30,18 +30,19 @@ class User extends Authenticatable
     public function scopeSearchName($query, $name, $role_id=null)
     {
         $names = explode(" ", $name);
-        return User::select('role_id','first_name', 'sur_name', 'id')->where(function($query) use($names, $role_id)
-                    {
-                        for ($i=0; $i<count($names); $i++)
-                        {
-                            if($role_id)
-                            {
-                                $query->where('role_id', $role_id);
-                            }
-                            $query->where('first_name', 'like', '%'.$names[$i].'%')
-                                ->orWhere('sur_name', 'like', '%'.$names[$i].'%');
-                        }
-                    });
+        return User::select('role_id','first_name', 'sur_name', 'id')
+            ->where(function($query) use($names, $role_id)
+        {
+            for ($i=0; $i<count($names); $i++)
+            {
+                if($role_id)
+                {
+                    $query->where('role_id', $role_id);
+                }
+                $query->where('first_name', 'like', '%'.$names[$i].'%')
+                    ->orWhere('sur_name', 'like', '%'.$names[$i].'%');
+            }
+        });
     }
     public function role()
     {
@@ -50,6 +51,10 @@ class User extends Authenticatable
     public function motts()
     {
         return $this->hasMany('App\Models\Tournament');
+    }
+    public function motms()
+    {
+        return $this->hasMany('App\Models\Result');
     }
     public function leadingTeams()
     {
