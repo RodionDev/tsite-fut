@@ -12,12 +12,19 @@ class Match extends Model
     {
         return $this->belongsTo('App\Models\Tournament', 'tournament_id');
     }
-    public function matchResults()
+    public function result1()
     {
-        return $this->belongsTo('App\Models\MatchResults', 'match_results_id');
+        return $this->belongsTo('App\Models\Result', 'result1_id');
+    }
+    public function result2()
+    {
+        return $this->belongsTo('App\Models\Result', 'result2_id');
     }
     public function results()
     {
-        return $this->matchResults()->results();
+        $results = array();
+        $result[] = $this->result1();
+        $result[] = $this->result2();
+        return $results;
     }
 }

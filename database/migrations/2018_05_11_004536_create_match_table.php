@@ -12,10 +12,12 @@ class CreateMatchTable extends Migration
             $table->boolean('has_ended');   
             $table->dateTime('start')       ->nullable();  
             $table->integer('field')        ->nullable();   
-            $table->integer('match_results_id')    ->unsigned();
-            $table->foreign('match_results_id')    ->references('id')->on('match_results');
             $table->integer('tournament_id')    ->unsigned();
             $table->foreign('tournament_id')    ->references('id')->on('tournament');
+            $table->integer('result1_id')    ->unsigned();
+            $table->foreign('result1_id')    ->references('id')->on('result');
+            $table->integer('result2_id')    ->unsigned();
+            $table->foreign('result2_id')    ->references('id')->on('result');
         });
     }
     public function down()

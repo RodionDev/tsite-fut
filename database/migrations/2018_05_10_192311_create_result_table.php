@@ -2,14 +2,14 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-class CreateResultsTable extends Migration
+class CreateResultTable extends Migration
 {
     public function up()
     {
-        Schema::create('results', function (Blueprint $table)
+        Schema::create('result', function (Blueprint $table)
         {
             $table->increments('id');
-            $table->int('score')        ->nullable();
+            $table->integer('score')    ->nullable();
             $table->integer('team_id')  ->unsigned();
             $table->foreign('team_id')  ->references('id')->on('team');
             $table->integer('motm')     ->nullable()->unsigned();
@@ -18,6 +18,6 @@ class CreateResultsTable extends Migration
     }
     public function down()
     {
-        Schema::dropIfExists('results');
+        Schema::dropIfExists('result');
     }
 }
