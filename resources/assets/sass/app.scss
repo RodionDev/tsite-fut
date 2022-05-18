@@ -33,12 +33,31 @@ img.vertical-centre-image {
     display: inline-block;
     vertical-align: middle;
 }
+.clickable {
+    cursor: pointer;
+}
 /*
     ELEMENTS
 */
 img.avatar-preview {
     max-width: 256px;
     max-height: 256px;
+}
+img.px52 {
+    height: 52px;
+    width: auto;
+    margin: 0 8px 0 0;
+}
+input.disabled {
+    background-color: rgb(235, 235, 228) !important;
+    color: rgb(84, 84, 84) !important;
+}
+.collection-item.row { position: relative; }
+.close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: $accent-colour;
 }
 ul.comma-list {
     display: inline;

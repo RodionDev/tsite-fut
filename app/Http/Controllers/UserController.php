@@ -8,9 +8,18 @@ class UserController extends Controller
 {
     public function search()
     {
-        return response()->json(
-            User::searchName(request()->name, 3)    ->distinct()->get()
-        );
+        if(request()->id)
+        {
+            return response()->json(
+                User::searchName(request()->name, request()->id)    ->distinct()->get()
+            );
+        }
+        else
+        {
+            return response()->json(
+                User::searchName(request()->name)    ->distinct()->get()
+            );
+        }
     }
     public function generateNames(int $amount = 1, $region="England")
     {
