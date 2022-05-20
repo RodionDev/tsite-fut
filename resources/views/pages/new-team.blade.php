@@ -40,8 +40,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="divider"></div>
                     <div class="col s12">
+                        <div class="divider"></div>
                         <div class="row">
                             <div class="col s1">
                                 <img id="player-image" class="px52"></img>
