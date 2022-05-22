@@ -54,7 +54,7 @@ input.disabled {
 }
 .collection-item.row { position: relative; }
 .close {
-    position: absolute;
+    position: absolute !important;
     top: 0;
     right: 0;
     color: $accent-colour;

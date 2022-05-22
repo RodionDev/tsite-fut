@@ -17,11 +17,13 @@ function selectUser(input, name=null, result_output=null, user_id=null, result_i
         column1.classList.add('col', 's1');
         column2.classList.add('col', 's11');
         let name_input = document.createElement('input');
-        name_input.type = 'text';
+        name_input.type = 'checkbox';
         name_input.name = 'users[]';
-        name_input.value = name;
-        name_input.disabled = true;
-        let remove_icon = document.createElement('span');
+        name_input.value = user_id;
+        name_input.readOnly = true;
+        name_input.checked = true;
+        let user_name = document.createTextNode(name);   
+        let remove_icon = document.createElement('i');
         remove_icon.classList.add('mdi', 'mdi-close-circle', 'close', 'clickable');
         remove_icon.addEventListener("mousedown", removeList.bind(null, remove_icon), false);
         let avatar = document.createElement('img');
@@ -29,6 +31,7 @@ function selectUser(input, name=null, result_output=null, user_id=null, result_i
         avatar.src = (image) ? image : 'images/image-missing.png';   
         column1.appendChild(avatar);
         column2.appendChild(name_input);
+        column2.appendChild(user_name);
         column2.appendChild(remove_icon);
         player_li.appendChild(column1);
         player_li.appendChild(column2);

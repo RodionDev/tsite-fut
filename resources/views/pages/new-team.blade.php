@@ -32,7 +32,7 @@
                                 <img id="leader-image" class="px52"></img>
                             </div>
                             <div class="col s11 input-field">
-                                <input id="leader-id" type="text" class="hide" name="leader-id" />  
+                                <input id="leader-id" type="text" class="hide" name="leader_id" />  
                                 <input id="leader" type="text" class="validate search-input" name="leader" required />  
                                 <ul data-search-input="leader" data-search-image="leader-image" data-search-output="leader-id" data-search-id=3 class="collection z-depth-3 search-results hide"></ul> 
                                 <span class="helper-text" data-error="Vul een correcte naam in." data-success="">Vul een teamleider's naam in.</span>
@@ -47,7 +47,7 @@
                                 <img id="player-image" class="px52"></img>
                             </div>
                             <div class="col s11 input-field">
-                                <input id="player" type="text" class="search-input" name="player" required />  
+                                <input id="player" type="text" class="search-input" />  
                                 <ul data-search-input="player" data-search-output="players-list" class="collection z-depth-3 search-results hide"></ul> 
                                 <span class="helper-text" data-error="Vul een correcte naam in." data-success="">Vul een speler's naam in.</span>
                                 <label for="player">Speler</label>
@@ -55,7 +55,7 @@
                         </div>
                         <div class="row">
                             <div class="col s12">
-                                <ul id="players-list" class="collection">
+                                <ul id="players-list" class="collection"> 
                                 </ul>
                             </div>
                         </div>
