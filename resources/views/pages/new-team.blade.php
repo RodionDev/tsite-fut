@@ -6,7 +6,7 @@
     <h1 class="title">Team Toevoegen</h1>
     <div class="card">
         <div class="card-content">
-            <form method="POST" action="{{ route('create.team') }}">
+            <form method="POST" action="{{ route('create.team') }}" enctype="multipart/form-data">
                 <div class="row">
                     @csrf
                     <div class="col s12 input-field">
