@@ -44,7 +44,7 @@ class TeamController extends Controller
                         $team->save();
                     }
                 }
-                return redirect(route('create.team'));
+                return redirect(route('create.team'));  
             }
             abort(404); 
         }
