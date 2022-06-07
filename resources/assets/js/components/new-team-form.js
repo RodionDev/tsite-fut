@@ -100,9 +100,18 @@ function searchUser(list, input, result_output=null, result_image=null, limit_id
         xmlhttp.open("GET", "/users/search?name=" + document.getElementById(input).value, true);
     xmlhttp.send();
 }
+function initRemoves()
+{
+    let removes = document.getElementsByClassName('close');
+    for(let i=0; i < removes.length; i++)
+    {
+        removes[i].addEventListener("mousedown", removeList.bind(null, removes[i]), false);
+    }
+}
 function init()
 {
     console.log('Team form javascript loaded!');
+    initRemoves();
     let search_results = document.querySelectorAll('.search-results'); 
     for(let i=0; i<search_results.length; i++)
     {
