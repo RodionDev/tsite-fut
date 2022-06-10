@@ -1,3 +1,4 @@
+let placeholder_image = window.location.protocol + "
 function removeList(close)
 {
     close.parentNode.parentNode.remove();
@@ -14,8 +15,8 @@ function selectUser(input, name=null, result_output=null, user_id=null, result_i
         let column1 = document.createElement('div');
         let column2 = document.createElement('div');
         player_li.classList.add('collection-item', 'row'); 
-        column1.classList.add('col', 's1');
-        column2.classList.add('col', 's11');
+        column1.classList.add('col', 's12', 'm2');
+        column2.classList.add('col', 's12', 'm10');
         let name_input = document.createElement('input');
         name_input.type = 'checkbox';
         name_input.name = 'users[]';
@@ -28,7 +29,7 @@ function selectUser(input, name=null, result_output=null, user_id=null, result_i
         remove_icon.addEventListener("mousedown", removeList.bind(null, remove_icon), false);
         let avatar = document.createElement('img');
         avatar.classList.add('px52');   
-        avatar.src = (image) ? image : 'images/image-missing.png';   
+        avatar.src = (image) ? image : placeholder_image;   
         column1.appendChild(avatar);
         column2.appendChild(name_input);
         column2.appendChild(user_name);
@@ -42,7 +43,7 @@ function selectUser(input, name=null, result_output=null, user_id=null, result_i
         input_element.value = name;
         input_element.classList.add("disabled");
         if(result_output)   output.value = user_id;
-        if(result_image)    document.getElementById(result_image).src = (image)? image : 'images/image-missing.png';
+        if(result_image)    document.getElementById(result_image).src = (image)? image : placeholder_image;
     }
 }
 function fillList(list, input, users, result_output=null, result_image=null)
@@ -70,7 +71,7 @@ function fillList(list, input, users, result_output=null, result_image=null)
         let user_name = document.createTextNode(name);   
         let image = document.createElement('img');
         image.classList.add('vertical-centre-image');   
-        image.src = (users[i].avatar) ? users[i].avatar : 'images/image-missing.png';   
+        image.src = (users[i].avatar) ? users[i].avatar : placeholder_image;   
         user_li.appendChild(image);  
         user_li.appendChild(user_name); 
         list.appendChild(user_li);  

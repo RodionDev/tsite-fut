@@ -74,8 +74,8 @@
                                     @if(!empty($players))
                                     @foreach($team->players as $player)
                                     <li class="collection-item row">
-                                        <div class="col s1"><img class="px52" src="{{ $player->avatar or asset('images\image-missing.png') }}"></div>
-                                        <div class="col s11">
+                                        <div class="col s12 m2"><img class="px52" src="{{ $player->avatar or asset('images\image-missing.png') }}"></div>
+                                        <div class="col s12 m10">
                                             <input name="users[]" type="checkbox" value="{{ $player->id }}" readonly checked />
                                             {{ $player->getFullName() }}
                                             <i class="mdi mdi-close-circle close clickable"></i>
