@@ -32,6 +32,8 @@ class TeamController extends Controller
                     $team = Team::find($request->id);
                 }
                 else        $team = new Team();
+                if($team->leader_id !== $user->id)
+                    abort(404);
                 $team->name = $request->name;
                 if($request->leader_id)
                     $team->leader_id = $request->leader_id;
@@ -63,12 +65,14 @@ class TeamController extends Controller
                 return redirect(route('teams'));    
             }
             abort(404); 
-            return;
         }
     }
     public function edit(Request $request)
     {
         return $this->create($request, true);
+    }
+    public function remove(Request $request)
+    {
     }
     protected function validator(array $data)
     {
@@ -97,7 +101,8 @@ class TeamController extends Controller
         if(Auth::Check())
         {
             $user = Auth::User();
-            if($user->role->permission >= 3)
+            $team = Team::find($id);
+            if($user->id == $team->leader_id)
             {
                 $team = Team::find($id);
                 $leader = $team->leader;
@@ -107,6 +112,7 @@ class TeamController extends Controller
                     ->with('leader_name', $leader->getFullName())
                     ->with('players', $team->players);
             }
+            else    abort(404);     
         }
         return redirect(route('home'));
     }
