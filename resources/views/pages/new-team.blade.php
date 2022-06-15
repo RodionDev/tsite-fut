@@ -6,7 +6,7 @@
     @if($creating)
     <h1 class="title">Team Toevoegen</h1>
     @else
-    <a href="#" class="btn right">Verwijderen</a>
+<a href="{{ route('delete.team.route', $team->id) }}" class="btn right">Verwijderen</a>
     <h1 class="title">Team Aanpassen</h1>
     @endif
     <div class="card">

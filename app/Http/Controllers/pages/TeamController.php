@@ -71,8 +71,22 @@ class TeamController extends Controller
     {
         return $this->create($request, true);
     }
-    public function remove(Request $request)
+    public function remove(int $id)
     {
+        if(Auth::Check())
+        {
+            $user = Auth::User();
+            $team = Team::find($id);
+            if($team->leader_id == $user->id || $user->role->permission >= 3)
+            {
+                $team->delete();
+                return redirect(route('teams'));
+            }
+        }
+    }
+    public function removeByRequest(Request $request)
+    {
+        return $this->remove($request->id);
     }
     protected function validator(array $data)
     {
@@ -102,7 +116,7 @@ class TeamController extends Controller
         {
             $user = Auth::User();
             $team = Team::find($id);
-            if($user->id == $team->leader_id)
+            if($user->id == $team->leader_id || $user->role->permission >= 3)
             {
                 $team = Team::find($id);
                 $leader = $team->leader;

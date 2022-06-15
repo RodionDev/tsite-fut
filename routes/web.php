@@ -1,10 +1,10 @@
 <?php
 Route::middleware(['auth'])->group(function ($router) {
     Route::view('toernooi', 'pages/tournament')                         ->name('tournament');
-    Route::get('teams', 'pages\TeamController@teamsList')             ->name('teams');
+    Route::get('teams', 'pages\TeamController@teamsList')               ->name('teams');
     $router->get('team-toevoegen', 'pages\TeamController@showNewForm');
     $router->get('team-aanpassen/{id}', 'pages\TeamController@showEditForm');
-    $router->get('team-verwijderen/{id}', 'pages\TeamController@remove');
+    $router->get('team-verwijderen/{id}', 'pages\TeamController@remove')->name('delete.team.route');
     $router->post('team-toevoegen', 'pages\TeamController@create')      ->name('create.team');
     $router->post('team-aanpassen', 'pages\TeamController@edit')        ->name('edit.team');
     $router->post('team-verwijderen', 'pages\TeamController@remove')    ->name('delete.team');
