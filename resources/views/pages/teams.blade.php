@@ -12,10 +12,10 @@
             <li>
                 <div class="collapsible-header">
                     <div class="row">
-                        <div class="col s1 hide-on-small-only"></div>
-                        <div class="col s11 m10">
+                        <div class="col s12 m2">
+                                <img class="header-logo vertical-centre-image" src="{{ $team->logo or asset('images\image-missing.png') }}"></div>
+                        <div class="col s9">
                             <span>
-                                <img class="header-logo vertical-centre-image" src="{{ $team->logo or asset('images\image-missing.png') }}">
                                 {{ $team->name }}
                             </span>
                         </div>
