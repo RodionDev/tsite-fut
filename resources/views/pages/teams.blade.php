@@ -25,6 +25,9 @@
                 <div class="collapsible-body">
                         <div class="row">
                             <div class="col s12">
+                                @if(in_array($team->id, $leading_teams))
+                                <a href="{{ route('edit.team.route', $team->id) }}" class="btn right">Aanpassen</a>
+                                @endif
                                 <span><b>Naam:</b> {{ $team->name }}</span> </br>
                                 <span><b>Logo:</b></br> <img class="hoverable avatar-preview" src="{{ $team->logo or asset('/images/image-missing.png') }}" /></span> </br>
                             </div>

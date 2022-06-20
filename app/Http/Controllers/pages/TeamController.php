@@ -14,8 +14,15 @@ class TeamController extends Controller
     public function teamsList()
     {
         $teams = Team::all();
+        $user = Auth::User();
+        $leading_teams = Team::where('leader_id', $user->id)->get(['id']);
+        $leading_teams_ids = [];
+        foreach($leading_teams as $team)    $leading_teams_ids[] = $team->id;
         return view('pages/teams',
-            ['teams' => $teams]
+        [
+            'teams' => $teams,
+            'leading_teams' => $leading_teams_ids
+        ]
         );
     }
     public function create(Request $request, $update=false)
