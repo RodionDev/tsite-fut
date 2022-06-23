@@ -25,7 +25,7 @@
                 <div class="collapsible-body">
                         <div class="row">
                             <div class="col s12">
-                                @if(in_array($team->id, $leading_teams))
+                                @if($edit_all or in_array($team->id, $leading_teams))
                                 <a href="{{ route('edit.team.route', $team->id) }}" class="btn right">Aanpassen</a>
                                 @endif
                                 <span><b>Naam:</b> {{ $team->name }}</span> </br>
