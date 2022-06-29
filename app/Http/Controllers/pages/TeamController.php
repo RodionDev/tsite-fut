@@ -15,7 +15,7 @@ class TeamController extends Controller
     {
         $teams = Team::all();
         $user = Auth::User();
-        $edit_all = ($user->role->permission >= 3);
+        $edit_all = ($user->role->permission >= 50);
         $leading_teams = Team::where('leader_id', $user->id)->get(['id']);
         $leading_teams_ids = [];
         foreach($leading_teams as $team)    $leading_teams_ids[] = $team->id;
@@ -39,7 +39,7 @@ class TeamController extends Controller
                 $team = Team::find($request->id);
             }
             else        $team = new Team();
-            if($role->permission >= 3 || $team->leader_id !== $user->id)  
+            if($role->permission >= 50 || $team->leader_id !== $user->id)  
             {                
                 $team->name = $request->name;
                 if($request->leader_id)
@@ -84,7 +84,7 @@ class TeamController extends Controller
         {
             $user = Auth::User();
             $team = Team::find($id);
-            if($team->leader_id == $user->id || $user->role->permission >= 3)
+            if($team->leader_id == $user->id || $user->role->permission >= 50)
             {
                 $team->delete();
                 return redirect(route('teams'));
@@ -110,7 +110,7 @@ class TeamController extends Controller
         if(Auth::Check())
         {
             $user = Auth::User();
-            if($user->role->permission >= 3)
+            if($user->role->permission >= 50)
             {
                 return view('/pages/new-team')->with('creating', true);
             }
@@ -123,7 +123,7 @@ class TeamController extends Controller
         {
             $user = Auth::User();
             $team = Team::find($id);
-            if($user->id == $team->leader_id || $user->role->permission >= 3)
+            if($user->id == $team->leader_id || $user->role->permission >= 50)
             {
                 $team = Team::find($id);
                 $leader = $team->leader;
