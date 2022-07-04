@@ -6,20 +6,18 @@ use Illuminate\Support\Facades\Auth;
 use \Illuminate\Http\Response;
 class UserController extends Controller
 {
-    public function search($name=null, $id=null)
+    public function search()
     {
-        $name = ($name) ? $name : request()->name;
-        if(request()->id || $id)
+        if(request()->id)
         {
-            $id = ($id) ? $id : request()->id;
             return response()->json(
-                User::searchName($name, $id)    ->distinct()->get()
+                User::searchName(request()->name, request()->id)    ->distinct()->get()
             );
         }
         else
         {
             return response()->json(
-                User::searchName($name)    ->distinct()->get()
+                User::searchName(request()->name)    ->distinct()->get()
             );
         }
     }

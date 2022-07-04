@@ -1,8 +1,6 @@
 {
     "/css/app.css": "/css/app.css",
     "/css/pages/tournament.css": "/css/pages/tournament.css",
-    "/css/pages/teams.css": "/css/pages/teams.css",
     "/js/app.js": "/js/app.js",
-    "/js/pages/tournament.js": "/js/pages/tournament.js",
-    "/js/pages/new-team.js": "/js/pages/new-team.js"
+    "/js/pages/tournament.js": "/js/pages/tournament.js"
 }

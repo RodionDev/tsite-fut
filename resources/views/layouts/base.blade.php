@@ -4,13 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta nama="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('site-title') - {{ env('APP_NAME', 'FCH') }}</title>
     <link rel="stylesheet" href="{{ URL::asset('css/app.css') }}">
     @hasSection('css')
-        <link rel="stylesheet" href="
-        {{ URL::to('/') . "/css/" }}@yield('css'){{ ".css" }}
-        ">
+        <link rel="stylesheet" href="/css/@yield('css').css">
     @endif
 </head>
 <body>
@@ -28,9 +25,7 @@
         @show
         <script src="{{ URL::asset('./js/app.js') }}"></script>
         @hasSection('js')
-            <script src="
-            {{ URL::to('/') . "/js/" }}@yield('js'){{ ".js" }}
-            "></script>
+            <script src="./js/@yield('js').js"></script>
         @endif
     </footer>
 </body>

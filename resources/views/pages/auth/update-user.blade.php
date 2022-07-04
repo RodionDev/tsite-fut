@@ -45,7 +45,7 @@
                                 <input type="file" name="avatar">
                             </div>
                             <div class="file-path-wrapper">
-                                <input id="avatar" class="file-path validate" type="text" placeholder="Profiel foto" />
+                                <input id="avatar" class="file-path validate" type="text" placeholder="Avatar" />
                             </div>
                         </div>
                         <span class="helper-text" data-error="Selecteer een correcte afbeelding." data-success="">Upload een afbeelding.</span>

@@ -64,7 +64,7 @@ class InviteController extends Controller
     {
         $user = Auth::user();   
         $user_role = Role::find($user->role_id);
-        if( $user && $user_role->permission >= 30)   
+        if( $user && $user_role->permission >= 2)   
         {
             $roles = Role::where('permission', '<', $user_role->permission)->get()->all();  
             return view('/pages/auth/invite')->with('roles', $roles);  
