@@ -4,6 +4,18 @@ class DatabaseSeeder extends Seeder
 {
     public function run()
     {
-        $this->call(RoleTableSeeder::class);
+        $this->call([
+            RoleTableSeeder::class
+        ]);
+        if( App::Environment() === 'production' )
+        {
+        }
+        if( App::Environment() === 'local' )
+        {
+            $this->call([
+                UserTableSeeder::class,
+                TeamTableSeeder::class,
+            ]);
+        }
     }
 }
