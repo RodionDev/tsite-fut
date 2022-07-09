@@ -4,7 +4,6 @@
 /public/css
 /public/js
 /public/images/avatars
-/public/images/teams
 /storage/*.key
 /vendor
 /.idea
