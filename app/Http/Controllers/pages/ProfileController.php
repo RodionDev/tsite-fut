@@ -6,6 +6,7 @@ class ProfileController extends Controller
 {
     public function index()
     {
-        return view('/pages/profile')->with(['user' => Auth::User()]);
+        $user = Auth::User();
+        return view('/pages/profile')->with(['user' => $user, 'teams' => $user->teams]);
     }
 }

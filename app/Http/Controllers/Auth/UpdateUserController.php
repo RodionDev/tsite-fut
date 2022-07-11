@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\UserController;
 class UpdateUserController extends Controller
 {
     protected $redirectTo = '/';
@@ -34,7 +35,8 @@ class UpdateUserController extends Controller
     public function register(Request $request)
     {  
         $this->registerValidator($request->all())->validate();  
-        $user = DB::table('user')->where('register_token', $request->token)->first();   
+        $user_controller = new UserController;
+        $user = $user_controller->getUserWithToken($request->token);   
         if($user !== null)  
         {
             $user = User::find($user->id);  
