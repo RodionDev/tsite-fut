@@ -1,13 +1,20 @@
 <?php
 Route::middleware(['auth'])->group(function ($router) {
     Route::view('toernooi', 'pages/tournament')                                 ->name('tournament');
-    Route::get('teams', 'pages\TeamController@teamsList')                       ->name('teams');
+    $router->get('teams', 'pages\TeamController@teamsList')                       ->name('teams');
     $router->get('team-toevoegen', 'pages\TeamController@showNewForm');
     $router->get('team-aanpassen/{id}', 'pages\TeamController@showEditForm')    ->name('edit.team.route');
     $router->get('team-verwijderen/{id}', 'pages\TeamController@remove')        ->name('delete.team.route');
     $router->post('team-toevoegen', 'pages\TeamController@create')              ->name('create.team');
     $router->post('team-aanpassen', 'pages\TeamController@edit')                ->name('edit.team');
     $router->post('team-verwijderen', 'pages\TeamController@remove')            ->name('delete.team');
+    $router->get('toernooien', 'pages\TournamentController@tournamentsList')              ->name('tournaments');
+    $router->get('toernooi-toevoegen', 'pages\TournamentController@showNewForm');
+    $router->get('toernooi-aanpassen/{id}', 'pages\TournamentController@showEditForm')  ->name('edit.tournament.route');
+    $router->get('toernooi-verwijderen/{id}', 'pages\TournamentController@remove')      ->name('delete.tournament.route');
+    $router->post('toernooi-toevoegen', 'pages\TournamentController@create')            ->name('create.tournament');
+    $router->post('toernooi-aanpassen', 'pages\TournamentController@edit')              ->name('edit.tournament');
+    $router->post('toernooi-verwijderen', 'pages\TournamentController@remove')          ->name('delete.tournament');
     Route::get('profiel', 'Pages\ProfileController@index')     ->name('profile');
     $router->post('profiel-aanpassen', 'Auth\UpdateUserController@updateUser');
     Route::get('profiel-aanpassen', 'Auth\UpdateUserController@editProfilePage')     ->name('profile');
@@ -19,11 +26,11 @@ Route::middleware(['auth'])->group(function ($router) {
 });
 Route::get('/', 'HomeController@index')->name('home');
 $router->post('login', 'Auth\LoginController@login');
-$router->get('login', 'Auth\LoginController@index')         ->name('login');
+$router->get('login', 'Auth\LoginController@index') ->name('login');
 $router->post('registreren', 'Auth\UpdateUserController@register');
-$router->get('registreren/{token}', 'Auth\UpdateUserController@registerPage')           ->name('register');
+$router->get('registreren/{token}', 'Auth\UpdateUserController@registerPage')   ->name('register');
 $router->post('wachtwoord-vergeten', 'Auth\ForgotPasswordController@sendResetLinkEmail')    ->name('forgot.password');
 Route::view('wachtwoord-vergeten', 'pages/auth/forgot-password');
 $router->post('reset-wachtwoord', 'Auth\ResetPasswordController@ResetPassword');
 Route::get('reset-wachtwoord/{token}', 'Auth\ResetPasswordController@showResetForm')        ->name('reset.password.token');
-Route::get('reset-wachtwoord', 'Auth\ResetPasswordController@showResetForm')->name('reset.password');
+Route::get('reset-wachtwoord', 'Auth\ResetPasswordController@showResetForm')                ->name('reset.password');
