@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Controllers\DateController;
 class Tournament extends Model
 {
     public $table = 'tournament';
@@ -8,6 +9,15 @@ class Tournament extends Model
     protected $fillable = [
         'name', 'start_date', 'end_date', 'mott_id'
     ];
+    public function getDutchDate($year=true)
+    {
+        $date_controller = new DateController;
+        $dates = array(
+            'start' =>  $date_controller->dutchDate($this->start_date, $year),
+            'end'   =>  $date_controller->dutchDate($this->end_date, $year)
+        );
+        return $dates;
+    }
     public function pools()
     {
         return $this->hasMany('App\Models\Pool');
