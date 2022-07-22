@@ -35,10 +35,9 @@ class TeamController extends Controller
             $user = Auth::user();   
             $role = Role::Find($user->role_id); 
             if($update)
-            {
                 $team = Team::find($request->id);
-            }
-            else        $team = new Team();
+            else
+                $team = new Team();
             if($role->permission >= 50 || $team->leader_id !== $user->id)  
             {                
                 $team->name = $request->name;
