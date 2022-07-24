@@ -3,23 +3,26 @@ namespace App\Http\Controllers\Pages;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Tourmanet;
+use App\Models\Tournament;
+use App\Models\Pool;
 use Validator;
+use DateTime;
 class TournamentController extends Controller
 {
     public function tournamentsList()
     {
-        $tournament = Tournament::all();
+        $current_date = date('Y-m-d');  
+        $current = Tournament::where('mott_id', null)->whereDate('start_date', '<=', $current_date)->get(); 
+        $upcoming = Tournament::whereDate('start_date', '>', $current_date)->get(); 
+        $finished = Tournament::whereNotNull('mott_id')->whereDate('start_date', '<', $current_date)->get();    
         $user = Auth::User();
-        $edit_all = ($user->role->permission >= 50);
-        $leading_teams = Team::where('leader_id', $user->id)->get(['id']);
-        $leading_teams_ids = [];
-        foreach($leading_teams as $team)    $leading_teams_ids[] = $team->id;
-        return view('pages/teams',
+        $can_edit = ($user->role->permission >= 50);
+        return view('pages/tournaments',
         [
-            'teams' => $teams,
-            'leading_teams' => $leading_teams_ids,
-            'edit_all' => $edit_all
+            'current_tournaments' => $current,
+            'upcoming_tournaments' => $upcoming,
+            'finished_tournaments' => $finished,
+            'can_edit' => $can_edit
         ]
         );
     }
@@ -31,41 +34,31 @@ class TournamentController extends Controller
             $user = Auth::user();   
             $role = Role::Find($user->role_id); 
             if($update)
-            {
-                $team = Team::find($request->id);
-            }
-            else        $team = new Team();
-            if($role->permission >= 50 || $team->leader_id !== $user->id)  
+                $tournament = Tournament::find($request->id);
+            else
+                $tournament = new Tournament();
+            if($role->permission >= 50)  
             {                
-                $team->name = $request->name;
-                if($request->leader_id)
-                    $team->leader_id = $request->leader_id;
-                else    
+                $tournament->name = $request->name;
+                $tournament->start_date = $request->start_date;
+                $tournament->end_date = $request->end_date;
+                $tournament->save();
+                $tournament->pools()->detach();
+                if($request->pools)
                 {
-                    $user_controller = new UserController;
-                    $leader = $user_controller->search($request->leader);
-                    $leader_id = json_decode(json_encode($leader))->original[0]->id;
-                    if($leader) $team->leader_id = $leader_id;
-                    else        abort(404); 
-                }
-                $team->save();
-                $team->players()->detach();
-                if($request->users)
-                {
-                    foreach($request->users as $player)
-                        $team->players()->attach($player);
-                }
-                if($request->hasFile('logo'))
-                {
-                    $image_controller = new ImageController;
-                    $image_path = $image_controller->uploadImage($request->file('logo'), 'teams', $team->id);
-                    if($image_path)
+                    $number = 1;    
+                    foreach($request->pools as $pool)   
                     {
-                        $team->logo = $image_path;
-                        $team->save();
+                        $new_pool = new Pool();
+                        $new_pool->finished = 0;
+                        $new_pool->tournament_id = $tournament->id;
+                        $new_pool->number = $number;
+                        $number++;
+                        foreach($pool->teams as $team)
+                            $new_pool->teams()->attach($team);
                     }
                 }
-                return redirect(route('teams'));    
+                return redirect(route('tournaments'));    
             }
             abort(404); 
         }
