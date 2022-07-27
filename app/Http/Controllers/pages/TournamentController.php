@@ -72,11 +72,11 @@ class TournamentController extends Controller
         if(Auth::Check())
         {
             $user = Auth::User();
-            $team = Team::find($id);
-            if($team->leader_id == $user->id || $user->role->permission >= 50)
+            $tournament = Tournament::find($id);
+            if($user->role->permission >= 50)
             {
-                $team->delete();
-                return redirect(route('teams'));
+                $tournament->delete();
+                return redirect(route('tournaments'));
             }
         }
     }
