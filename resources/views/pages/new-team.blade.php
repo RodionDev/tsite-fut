@@ -15,7 +15,7 @@
             <form method="POST" action="{{ route('create.team') }}" enctype="multipart/form-data">
             @else
             <form method="POST" action="{{ route('edit.team') }}" enctype="multipart/form-data">
-                <input type="text" class="hide" name="id" value="{{ $team->id or '' }}" />  
+            <input type="text" class="hide" name="id" value="{{ $team->id or '' }}" />  
             @endif
                 <div class="row">
                     @csrf
