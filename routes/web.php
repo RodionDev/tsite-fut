@@ -10,7 +10,7 @@ Route::middleware(['auth'])->group(function ($router) {
     $router->post('team-verwijderen', 'pages\TeamController@remove')            ->name('delete.team');
     $router->get('toernooien', 'pages\TournamentController@tournamentsList')            ->name('tournaments');
     $router->get('toernooi/{id}', 'pages\TournamentController@view')                    ->name('tournament');
-    $router->get('toernooi-toevoegen', 'pages\TournamentController@showNewForm');
+    $router->get('toernooi-toevoegen', 'pages\TournamentController@showNewForm')        ->name('create.tournament.route');
     $router->get('toernooi-aanpassen/{id}', 'pages\TournamentController@showEditForm')  ->name('edit.tournament.route');
     $router->get('toernooi-verwijderen/{id}', 'pages\TournamentController@remove')      ->name('delete.tournament.route');
     $router->post('toernooi-toevoegen', 'pages\TournamentController@create')            ->name('create.tournament');

@@ -19,6 +19,10 @@
 /*
     HELPERS
 */
+span.centre {
+    display: block;
+    text-align: center;
+}
 /* Use .equal-height to set the height of columns in a row to the same */
 .equal-height {
     display: flex;

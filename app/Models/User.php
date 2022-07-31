@@ -4,6 +4,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notifications\MailResetPasswordToken;
 use Illuminate\Support\Facades\DB;
+use App\Models\Tournament;
 class User extends Authenticatable
 {
     use Notifiable;
@@ -26,6 +27,15 @@ class User extends Authenticatable
     public function getUserWithToken($token)
     {
         return DB::table('user')->where('register_token', $token)->first();
+    }
+    public function tournaments($get=false)
+    {
+        $id = $this->id;
+        $tournaments = Tournament::whereHas('pools.teams.players', function($query) use($id)
+        {
+           $query->where('id', '=', $id);
+        });
+        return ($get) ? $tournaments->get() : $tournaments;
     }
     public function scopeSearchName($query, $name, $role_id=null)
     {

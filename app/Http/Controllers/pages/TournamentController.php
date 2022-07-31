@@ -11,12 +11,23 @@ class TournamentController extends Controller
 {
     public function tournamentsList()
     {
-        $current_date = date('Y-m-d');  
-        $current = Tournament::where('mott_id', null)->whereDate('start_date', '<=', $current_date)->get(); 
-        $upcoming = Tournament::whereDate('start_date', '>', $current_date)->get(); 
-        $finished = Tournament::whereNotNull('mott_id')->whereDate('start_date', '<', $current_date)->get();    
         $user = Auth::User();
-        $can_edit = ($user->role->permission >= 50);
+        $current_date = date('Y-m-d');  
+        if($user->role->permission >= 50)
+        {
+            $current = Tournament::where('mott_id', null)->whereDate('start_date', '<=', $current_date)->get(); 
+            $upcoming = Tournament::whereDate('start_date', '>', $current_date)->get(); 
+            $finished = Tournament::whereNotNull('mott_id')->whereDate('start_date', '<', $current_date)->get();    
+            $can_edit = true;
+        }
+        else
+        {
+            $tournaments = $user->tournaments();
+            $current = $tournaments->where('mott_id', null)->whereDate('start_date', '<=', $current_date)->get(); 
+            $upcoming = $tournaments->whereDate('start_date', '>', $current_date)->get(); 
+            $finished = $tournaments->whereNotNull('mott_id')->whereDate('start_date', '<', $current_date)->get();    
+            $can_edit = false;
+        }
         return view('pages/tournaments',
         [
             'current_tournaments' => $current,
@@ -89,9 +100,9 @@ class TournamentController extends Controller
         return Validator::make($data,
         [
             'name' => 'required|string|max:199',
-            'logo' => 'image|nullable',
-            'leader' => 'required|string',
-            'leader_id' => 'integer|nullable',
+            'start_date' => 'date|required',
+            'end_date' => 'date|nullable',
+            'mott_id' => 'integer|nullable',
         ]);
     }
     public function showNewForm()
@@ -101,7 +112,7 @@ class TournamentController extends Controller
             $user = Auth::User();
             if($user->role->permission >= 50)
             {
-                return view('/pages/new-team')->with('creating', true);
+                return view('/pages/cud-tournament')->with('creating', true);
             }
         }
         return redirect(route('home'));
@@ -111,16 +122,13 @@ class TournamentController extends Controller
         if(Auth::Check())
         {
             $user = Auth::User();
-            $team = Team::find($id);
-            if($user->id == $team->leader_id || $user->role->permission >= 50)
+            $tournament = Tournament::find($id);
+            if($user->role->permission >= 50)
             {
                 $team = Team::find($id);
-                $leader = $team->leader;
-                return view('/pages/new-team')
+                return view('/pages/cud-tournament')
                     ->with('creating', false)
-                    ->with('team', $team)
-                    ->with('leader_name', $leader->getFullName())
-                    ->with('players', $team->players);
+                    ->with('tournament', $tournament);
             }
             else    abort(404);     
         }
