@@ -124,7 +124,6 @@ class TeamController extends Controller
             $team = Team::find($id);
             if($user->id == $team->leader_id || $user->role->permission >= 50)
             {
-                $team = Team::find($id);
                 $leader = $team->leader;
                 return view('/pages/new-team')
                     ->with('creating', false)
