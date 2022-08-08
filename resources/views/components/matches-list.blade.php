@@ -207,7 +207,7 @@
                             <div class="col s12 motm"><b>Man of the Match</b></div>
                             <div class="col s6">
                                     Onbekend,</br>
-                                    <b><a href="/man-of-the-match/">Stem hier!</a></b>
+                                    <b><a href="{{ route('motm') }}">Stem hier!</a></b>
                             </div>
                             <div class="col s6"><span class="player-info"><img class="vertical-centre-image player-image materialboxed " src="https://goodmenproject.com/wp-content/uploads/2011/03/Anton-Hysen.png"> Ronald Veenstra</span></div>
                         </div>

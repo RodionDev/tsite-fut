@@ -12,7 +12,7 @@
     <div class="row equal-height">
         @foreach($current_tournaments as $tournament)
         <div class="col s12 m6">
-            <div class="card horizontal">
+            <div class="card">
                 <div class="card-stacked">
                     <div class="card-content">
                         <div class="row">
@@ -43,7 +43,7 @@
     <div class="row equal-height">
         @foreach($upcoming_tournaments as $tournament)
         <div class="col s12 m6">
-            <div class="card horizontal">
+            <div class="card">
                 <div class="card-stacked">
                     <div class="card-content">
                         <div class="row">
@@ -74,7 +74,7 @@
     <div class="row equal-height">
         @foreach($finished_tournaments as $tournament)
         <div class="col s12 m6">
-            <div class="card horizontal">
+            <div class="card">
                 <div class="card-stacked">
                     <div class="card-content">
                         <div class="row">

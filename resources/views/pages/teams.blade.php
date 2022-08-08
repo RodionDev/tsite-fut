@@ -4,8 +4,10 @@
 @section('content')
 <section id="teams">
         <h1 class="title">
+            @if($edit_all)
+            <a href="{{ route('create.team.route') }}" class="btn right">Nieuw</a>
+            @endif
             Teams
-            <a href="#" class="btn right">Nieuw</a>
         </h1>
         <ul class="collapsible">
             @foreach($teams as $team)

@@ -70,7 +70,7 @@
                         <button type="submit" class="waves-effect waves-light btn">Registreren</button>
                         @else
                         <button type="submit" class="waves-effect waves-light btn">Updaten</button>
-                        <a class="waves-effect btn-flat" href="/reset-wachtwoord">Wachtwoord aanpassen</a>
+                        <a class="waves-effect btn-flat" href="{{ route('reset.password') }}">Wachtwoord aanpassen</a>
                         @endif
                     </div>
                 </div>
