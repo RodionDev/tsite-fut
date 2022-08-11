@@ -22,10 +22,6 @@ class Tournament extends Model
     {
         return $this->hasMany('App\Models\Pool');
     }
-    public function matches()
-    {
-        return $this->hasMany('App\Models\Match');
-    }
     public function mott()
     {
         return $this->belongsTo('App\Models\User', 'mott_id');

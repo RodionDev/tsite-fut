@@ -12,6 +12,10 @@ class Pool extends Model
     {
         return $this->belongsTo('App\Models\Tournament', 'tournament_id');
     }
+    public function matches()
+    {
+        return $this->hasMany('App\Models\Match');
+    }
     public function teams()
     {
         return $this->belongsToMany('App\Models\Team');
