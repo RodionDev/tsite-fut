@@ -12,6 +12,7 @@ class CreateMatchTable extends Migration
             $table->boolean('has_ended');   
             $table->dateTime('start')       ->nullable();  
             $table->integer('field')        ->nullable();   
+            $table->integer('round');   
             $table->integer('pool_id')    ->unsigned();
             $table->foreign('pool_id')    ->references('id')->on('pool');
             $table->integer('result1_id')    ->unsigned();

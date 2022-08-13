@@ -15,6 +15,7 @@ class CreateTeamUserTable extends Migration
             $table->foreign('user_id')->references('id')->on('user')
                 ->onDelete('cascade')->onUpdate('cascade');
             $table->unique(['team_id', 'user_id']);
+            $table->integer('squad_number') ->nullable();
         });
     }
     public function down()
