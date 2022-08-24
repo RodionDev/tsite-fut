@@ -22,7 +22,8 @@ class User extends Authenticatable
     }
     public function getRandomUserId($role=null)
     {
-        return User::inRandomOrder()->first()->id;
+        if($role)   return User::inRandomOrder()->whereNotNull('first_name')->where('role_id', $role)->first()->id;
+        else    return User::inRandomOrder()->whereNotNull('first_name')->first()->id;
     }
     public function getUserWithToken($token)
     {
