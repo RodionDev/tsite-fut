@@ -15,8 +15,12 @@ mix
        'public/js/pages/tournament.js'
    )
    .sass('resources/assets/sass/pages/tournament.scss', 'public/css/pages')
+   .scripts(
+       ['resources/assets/js/pages/cud-tournament.js'],
+       'public/js/pages/cud-tournament.js'
+    )
    .sass('resources/assets/sass/pages/teams.scss', 'public/css/pages')
    .scripts(
-       ['resources/assets/js/components/new-team-form.js'],
+       ['resources/assets/js/pages/new-team-form.js'],
        'public/js/pages/new-team.js'
     );

@@ -4,7 +4,7 @@
 <section id="profile">
         <h1 class="title">
             Profiel
-            <a href="{{ route('profile.edit', $user->id) }}" class="btn right">Profiel wijzigen</a>
+            <a href="{{ route('profile.edit.route') }}" class="btn right">Profiel wijzigen</a>
         </h1>
         <div class="card">
             <div class="card-content">
