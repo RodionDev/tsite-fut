@@ -11,6 +11,13 @@ use App\Models\Role;
 use Validator;
 class TeamController extends Controller
 {
+    public function search($name=null)
+    {
+        $name = ($name) ? $name : request()->name;
+        return response()->json(
+            Team::searchName($name)    ->distinct()->get()
+        );
+    }
     public function teamsList()
     {
         $teams = Team::all();
