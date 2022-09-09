@@ -24,6 +24,7 @@ Route::middleware(['auth'])->group(function ($router) {
     $router->post('uitloggen', 'Auth\LoginController@logout');
     Route::get('uitloggen', 'Auth\LoginController@logout')      ->name('logout');
     Route::get('users/search/{data?}', 'UserController@search');
+    Route::get('teams/search/{data?}', 'Pages\TeamController@search');
 });
 Route::get('/', 'HomeController@index')->name('home');
 $router->post('login', 'Auth\LoginController@login');
