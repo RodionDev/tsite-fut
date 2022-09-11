@@ -5,7 +5,9 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            RoleTableSeeder::class
+            RoleTableSeeder::class,
+            AdminAccountSeeder::class,
+            EmptyTeamSeeder::class
         ]);
         if( App::Environment() === 'production' )
         {
@@ -14,7 +16,7 @@ class DatabaseSeeder extends Seeder
         {
             $this->call([
                 UserTableSeeder::class,
-                TeamTableSeeder::class,
+                RandomTeamTableSeeder::class,
             ]);
         }
     }
