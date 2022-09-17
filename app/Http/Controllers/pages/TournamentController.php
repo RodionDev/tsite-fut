@@ -8,6 +8,7 @@ use App\Models\Pool;
 use App\Models\Team;
 use App\Models\Match;
 use App\Models\Result;
+use App\Models\Role;
 use Validator;
 use DateTime;
 class TournamentController extends Controller
@@ -44,16 +45,21 @@ class TournamentController extends Controller
     {
         foreach($pools as $pool)
         {
-            $teams = $pool->teams();
+            $teams = $pool->teams;
+            $teams_size = sizeof($teams);
             foreach($teams as $team)
             {
-                for($i=0; $i<sizeof($teams); $i++ )
+                for($i=0; $i<$teams_size-1; $i++ )
                 {
+                    $team_1 = $teams[$i]->id;
+                    $team_2_index = $teams_size-1-$i;
+                    $team_2 = $teams[$team_2_index]->id;
+                    if($team_1 == $team_2)  $team_2 == 1;    
                     $result1 = new Result();
-                    $result1->team_id = $teams[$i];
+                    $result1->team_id = $team_1;
                     $result1->save();
                     $result2 = new Result();
-                    $result2->team_id = $teams[sizeof($teams) - $i];
+                    $result2->team_id = $team_2;
                     $result2->save();
                     $match = new Match();
                     $match->round = $i+1;
@@ -69,12 +75,12 @@ class TournamentController extends Controller
     protected function generatePools($tournament, $teams, $pools=1)
     {
         $teams_iteration = 0;   
-        $teams_per_pool = ($teams)/$pools;    
+        $teams_per_pool = sizeof($teams)/$pools;    
         $teams_too_many = 0;    
         $added_pools = [];  
         $rounded_teams_per_pool = floor($teams_per_pool);
         if(floor($teams_per_pool) !== $teams_per_pool)
-            $teams_too_many = ($teams_per_pool - $rounded_teams_per_pool)*pools;  
+            $teams_too_many = ($teams_per_pool - $rounded_teams_per_pool)*$pools;  
         for($i=0; $i<$pools; $i++)
         {
             $pool = new Pool();
@@ -90,18 +96,18 @@ class TournamentController extends Controller
             $teams_in_pool = [];    
             for($i=0; $i<$teams_per_pool; $i++) 
             {
-                $teams_in_pool[] = $teams[$team_iteration]; 
+                $teams_in_pool[] = $teams[$teams_iteration]; 
                 $teams_iteration++;
             }
-            $pool->teams()->attach($teams_in_pool); 
-            $pool-save();
+            $pool->save();
+            $pool->teams()->sync($teams_in_pool); 
+            $pool->save();
             $added_pools[] = $pool; 
         }
         return  $this->generateMatches($added_pools);
     }
     public function create(Request $request, $update=false)
     {
-        dd($request->all());
         $this->validator($request->all())->validate();  
         if(Auth::Check()) 
         {
