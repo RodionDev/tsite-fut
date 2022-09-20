@@ -26,4 +26,25 @@ class Tournament extends Model
     {
         return $this->belongsTo('App\Models\User', 'mott_id');
     }
+    public function matches($get = false)
+    {
+        $id = $this->id;
+        $matches = Match::whereHas('pool', function($query) use($id)
+        {
+           $query->where('tournament_id', '=', $id);
+        });
+        return ($get) ? $matches->get() : $matches;
+    }
+    public function myFirstMatch($user_id, $get=null)
+    {
+        $matches = Match::whereHas('result1.team.players', function($query) use($user_id)
+        {
+           $query->where('user_id', '=', $user_id);
+        })
+        ->orWhereHas('result2.team.players', function($query) use($user_id)
+        {
+            $query->where('user_id', '=', $user_id);
+        });
+        return ($get) ? $matches->get() : $matches;
+    }
 }
