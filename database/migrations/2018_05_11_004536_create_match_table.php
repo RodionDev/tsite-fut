@@ -14,7 +14,8 @@ class CreateMatchTable extends Migration
             $table->integer('field')        ->nullable();   
             $table->integer('round');   
             $table->integer('pool_id')    ->unsigned();
-            $table->foreign('pool_id')    ->references('id')->on('pool');
+            $table->foreign('pool_id')    ->references('id')->on('pool')
+                ->onDelete('cascade');
             $table->integer('result1_id')    ->unsigned();
             $table->foreign('result1_id')    ->references('id')->on('result');
             $table->integer('result2_id')    ->unsigned();

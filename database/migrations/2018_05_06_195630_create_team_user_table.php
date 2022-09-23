@@ -10,10 +10,10 @@ class CreateTeamUserTable extends Migration
         {
             $table->integer('team_id')->unsigned();
             $table->foreign('team_id')->references('id')->on('team')
-                ->onDelete('cascade')->onUpdate('cascade');
+                ->onDelete('cascade');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('user')
-                ->onDelete('cascade')->onUpdate('cascade');
+                ->onDelete('cascade');
             $table->unique(['team_id', 'user_id']);
             $table->integer('squad_number') ->nullable();
         });
