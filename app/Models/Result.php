@@ -16,8 +16,12 @@ class Result extends Model
     {
         return $this->belongsTo('App\Models\Team', 'motm_id');
     }
-    public function matches()
+    public function result1()
     {
-        return $this->belongsToMany('App\Models\Match');
+        return $this->belongsTo('App\Models\Match', 'result1_id');
+    }
+    public function result2()
+    {
+        return $this->belongsTo('App\Models\Match', 'result2_id');
     }
 }

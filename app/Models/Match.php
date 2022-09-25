@@ -14,15 +14,15 @@ class Match extends Model
     }
     public function pool()
     {
-        return $this->belongsTo('App\Models\Pool', 'pool_id');
+        return $this->hasOne('App\Models\Pool', 'pool_id');
     }
     public function result1()
     {
-        return $this->belongsTo('App\Models\Result', 'result1_id');
+        return $this->hasOne('App\Models\Result', 'id', 'result1_id');
     }
     public function result2()
     {
-        return $this->belongsTo('App\Models\Result', 'result2_id');
+        return $this->hasOne('App\Models\Result', 'id', 'result2_id');
     }
     public function results()
     {
@@ -30,5 +30,10 @@ class Match extends Model
         $result[] = $this->result1();
         $result[] = $this->result2();
         return $results;
+    }
+    public function scopeMyFirstMatch($query, $tournament_id, $user_id)
+    {
+        $my_match = Match::where('tournament_id', $tournament_id)->get();
+        dd($my_match);
     }
 }

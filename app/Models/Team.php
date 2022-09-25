@@ -22,7 +22,7 @@ class Team extends Model
     }
     public function results()
     {
-        return $this->belongsToMany('App\Models\Result');
+        return $this->hasMany('App\Models\Result', 'team_id');
     }
     public function matches()
     {
