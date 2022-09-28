@@ -1,6 +1,5 @@
 <?php
 Route::middleware(['auth'])->group(function ($router) {
-    Route::view('toernooi', 'pages/tournament') ->name('tournament');
     Route::view('motm', 'pages/motm')   ->name('motm');
     $router->get('teams', 'pages\TeamController@teamsList')                     ->name('teams');
     $router->get('teams/toevoegen', 'pages\TeamController@showNewForm')          ->name('create.team.route');
@@ -16,6 +15,7 @@ Route::middleware(['auth'])->group(function ($router) {
     $router->post('toernooi/toevoegen', 'pages\TournamentController@create')            ->name('create.tournament');
     $router->post('toernooi/aanpassen', 'pages\TournamentController@edit')              ->name('edit.tournament');
     $router->post('toernooi/verwijderen', 'pages\TournamentController@remove')          ->name('delete.tournament');
+    $router->get('toernooi/{id}', 'pages\TournamentController@viewTournament')                    ->name('tournament');
     Route::get('profiel', 'Pages\ProfileController@index')                          ->name('profile');
     $router->post('profiel/aanpassen', 'Auth\UpdateUserController@updateUser')      ->name('profile.edit');
     Route::get('profiel/aanpassen', 'Auth\UpdateUserController@editProfilePage')    ->name('profile.edit.route');

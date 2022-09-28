@@ -13,34 +13,6 @@ use Validator;
 use DateTime;
 class TournamentController extends Controller
 {
-    public function tournamentsList()
-    {
-        $user = Auth::User();
-        $current_date = date('Y-m-d');  
-        if($user->role->permission >= 50)
-        {
-            $current = Tournament::where('mott_id', null)->whereDate('start_date', '<=', $current_date)->get(); 
-            $upcoming = Tournament::whereDate('start_date', '>', $current_date)->get(); 
-            $finished = Tournament::whereNotNull('mott_id')->whereDate('start_date', '<', $current_date)->get();    
-            $can_edit = true;
-        }
-        else
-        {
-            $tournaments = $user->tournaments();
-            $current = $tournaments->where('mott_id', null)->whereDate('start_date', '<=', $current_date)->get(); 
-            $upcoming = $tournaments->whereDate('start_date', '>', $current_date)->get(); 
-            $finished = $tournaments->whereNotNull('mott_id')->whereDate('start_date', '<', $current_date)->get();    
-            $can_edit = false;
-        }
-        return view('pages/tournaments',
-        [
-            'current_tournaments' => $current,
-            'upcoming_tournaments' => $upcoming,
-            'finished_tournaments' => $finished,
-            'can_edit' => $can_edit
-        ]
-        );
-    }
     protected function generateMatches($pools)
     {
         foreach($pools as $pool)
@@ -72,7 +44,7 @@ class TournamentController extends Controller
             }
         }
     }
-    protected function generatePools($tournament, $teams, $pools=1)
+    protected function generatePools($tournament, $teams, $pools)
     {
         $teams_iteration = 0;   
         $teams_per_pool = sizeof($teams)/$pools;    
@@ -118,7 +90,7 @@ class TournamentController extends Controller
             else
                 $tournament = new Tournament();
             if($role->permission >= 50)  
-            {                
+            {
                 $tournament->name = $request->name;
                 $tournament->start_date = $request->start_date;
                 $tournament->end_date = $request->end_date;
@@ -159,6 +131,48 @@ class TournamentController extends Controller
             'start_date' => 'date|required',
             'end_date' => 'date|nullable',
             'mott_id' => 'integer|nullable',
+        ]);
+    }
+    public function viewTournament($id)
+    {
+        $user = Auth::user();
+        $tournament = Tournament::find($id);
+        $my_first_match = $tournament->myMatches($user->id)->first();
+        $team1 = $my_first_match->result1()->first()->team()->first();
+        $team2 = $my_first_match->result2()->first()->team()->first();
+        return view('pages/tournament',
+        [
+            'id' => $id,
+            'match' => $my_first_match,
+            'team1' => $team1,
+            'team2' => $team2
+        ]);
+    }
+    public function tournamentsList()
+    {
+        $user = Auth::User();
+        $current_date = date('Y-m-d');  
+        if($user->role->permission >= 50)
+        {
+            $current = Tournament::where('mott_id', null)->whereDate('start_date', '<=', $current_date)->get(); 
+            $upcoming = Tournament::whereDate('start_date', '>', $current_date)->get(); 
+            $finished = Tournament::whereNotNull('mott_id')->whereDate('start_date', '<', $current_date)->get();    
+            $can_edit = true;
+        }
+        else
+        {
+            $tournaments = $user->tournaments();
+            $current = $tournaments->where('mott_id', null)->whereDate('start_date', '<=', $current_date)->get(); 
+            $upcoming = $tournaments->whereDate('start_date', '>', $current_date)->get(); 
+            $finished = $tournaments->whereNotNull('mott_id')->whereDate('start_date', '<', $current_date)->get();    
+            $can_edit = false;
+        }
+        return view('pages/tournaments',
+        [
+            'current_tournaments' => $current,
+            'upcoming_tournaments' => $upcoming,
+            'finished_tournaments' => $finished,
+            'can_edit' => $can_edit
         ]);
     }
     public function showNewForm()
