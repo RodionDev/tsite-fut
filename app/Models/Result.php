@@ -9,7 +9,7 @@ class Result extends Model
         'score', 'motm_id', 'team_id'
     ];
     public function team()
-    {
+    {   
         return $this->belongsTo('App\Models\Team', 'team_id');
     }
     public function motm()
