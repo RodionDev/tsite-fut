@@ -137,19 +137,28 @@ class TournamentController extends Controller
     {
         $user = Auth::user();
         $tournament = Tournament::find($id);
-        $my_first_match = $tournament->myMatches($user->id)->first();
-        $team1 = $my_first_match->result1()->first()->team()->first();
-        $team2 = $my_first_match->result2()->first()->team()->first();
-        $pools = $tournament->pools()->get()->all();
-        $my_pool = $team1->pools()->first();
-        array_unshift($pools, $my_pool);
+        $user_permission = $user->role()->first()->permission;
+        $my_first_match = $tournament->myMatches($user->id)->first();   
+        $team1 = $my_first_match->result1()->first()->team()->first();  
+        $team2 = $my_first_match->result2()->first()->team()->first();  
+        $pools = $tournament->pools()->get()->all();    
+        $my_pool = $team1->pools()->first();    
+        array_unshift($pools, $my_pool);    
+        $current_date = date('Y-m-d');  
+        $current_matches = $tournament->matches()->where('has_ended', 0)->whereDate('start', '<=', $current_date)->get();
+        $upcoming_matches = $tournament->matches()->where('has_ended', 0)->whereDate('start', '>', $current_date)->get();
+        $finished_matches = $tournament->matches()->where('has_ended', 1);
         return view('pages/tournament',
         [
             'id' => $id,
+            'permission' => $user_permission,
             'match' => $my_first_match,
             'team1' => $team1,
             'team2' => $team2,
-            'pools' => $pools
+            'pools' => $pools,
+            'current_matches' => $current_matches,
+            'upcoming_matches' => $upcoming_matches,
+            'finished_matches' => $finished_matches,
         ]);
     }
     public function tournamentsList()
