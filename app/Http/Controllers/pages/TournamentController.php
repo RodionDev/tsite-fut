@@ -137,17 +137,19 @@ class TournamentController extends Controller
     {
         $user = Auth::user();
         $tournament = Tournament::find($id);
-        $user_permission = $user->role()->first()->permission;
+        $user_permission = $user->role->permission;
         $my_first_match = $tournament->myMatches($user->id)->first();   
-        $team1 = $my_first_match->result1()->first()->team()->first();  
-        $team2 = $my_first_match->result2()->first()->team()->first();  
+        $team1 = $my_first_match->result1->team;  
+        $team2 = $my_first_match->result2->team;  
         $pools = $tournament->pools()->get()->all();    
-        $my_pool = $team1->pools()->first();    
+        $my_pool = $team1->pools()->where('tournament_id', $tournament->id)->first();    
         array_unshift($pools, $my_pool);    
         $current_date = date('Y-m-d');  
         $current_matches = $tournament->matches()->where('has_ended', 0)->whereDate('start', '<=', $current_date)->get();
+        $finished_matches = $tournament->matches()->where('has_ended', 1)->get();
         $upcoming_matches = $tournament->matches()->where('has_ended', 0)->whereDate('start', '>', $current_date)->get();
-        $finished_matches = $tournament->matches()->where('has_ended', 1);
+        $upcoming_matches_2 = $tournament->matches()->where('has_ended', 0)->where('start', null)->get();
+        $upcoming_matches = $upcoming_matches->merge($upcoming_matches_2);
         return view('pages/tournament',
         [
             'id' => $id,
