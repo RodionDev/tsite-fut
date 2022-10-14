@@ -16,7 +16,9 @@ Route::middleware(['auth'])->group(function ($router) {
     $router->post('toernooien/aanpassen', 'pages\TournamentController@edit')              ->name('edit.tournament');
     $router->post('toernooien/verwijderen', 'pages\TournamentController@remove')          ->name('delete.tournament');
     $router->get('toernooien/{id}', 'pages\TournamentController@viewTournament')          ->name('tournament');
-    $router->get('wedstrijden/aanpassen/{id}', 'pages\MatchController@edit')  ->name('match.edit.route');
+    $router->get('wedstrijden/aanpassen/{id}', 'pages\MatchController@showEditForm')->name('match.edit.route');
+    $router->post('wedstrijden/aanpassen', 'pages\MatchController@edit')            ->name('match.edit');
+    $router->get('wedstrijden/verwijderen/{id}', 'pages\MatchController@remove')    ->name('match.delete.route');
     Route::get('profiel', 'Pages\ProfileController@index')                          ->name('profile');
     $router->post('profiel/aanpassen', 'Auth\UpdateUserController@updateUser')      ->name('profile.edit');
     Route::get('profiel/aanpassen', 'Auth\UpdateUserController@editProfilePage')    ->name('profile.edit.route');
