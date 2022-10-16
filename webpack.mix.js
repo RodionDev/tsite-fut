@@ -5,7 +5,6 @@ mix
             'node_modules/materialize-css/dist/js/materialize.min.js',
             'resources/assets/js/app.js',
             'resources/assets/js/components/main-menu.js',
-            'resources/assets/js/components/sponsors.js'
         ], 
         'public/js/app.js'
     )

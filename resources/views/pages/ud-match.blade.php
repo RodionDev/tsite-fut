@@ -3,7 +3,6 @@
 @section('js', 'pages/cud-tournament')
 @section('content')
 <section id="new-team">
-    <a href="{{ route('match.delete.route', $match->id) }}" class="btn right">Verwijderen</a>
     <h1 class="title">Wedstrijd Aanpassen</h1>
     <form method="POST" action="{{ route('match.edit') }}" enctype="multipart/form-data">
         @csrf
