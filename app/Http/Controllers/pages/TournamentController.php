@@ -43,6 +43,7 @@ class TournamentController extends Controller
                 }
             }
         }
+        return redirect(route('home'));
     }
     protected function generatePools($tournament, $teams, $pools)
     {
@@ -59,14 +60,14 @@ class TournamentController extends Controller
             $pool->number = $i+1;
             $pool->tournament_id = $tournament->id;
             $pool->finished = 0;
-            if($teams_too_many !== 0)
+            if($teams_too_many > 0)
             {
                 $extra = 1;
                 $teams_too_many -= 1;
             }
             else    $extra = 0;
             $teams_in_pool = [];    
-            for($i=0; $i<$teams_per_pool; $i++) 
+            for($j=0; $j<$teams_per_pool+$extra-1; $j++) 
             {
                 $teams_in_pool[] = $teams[$teams_iteration]; 
                 $teams_iteration++;
@@ -138,11 +139,16 @@ class TournamentController extends Controller
         $user = Auth::user();
         $tournament = Tournament::find($id);
         $user_permission = $user->role->permission;
+        $team1=null;
+        $team2=null;
         $my_first_match = $tournament->myMatches($user->id)->first();   
-        $team1 = $my_first_match->result1->team;  
-        $team2 = $my_first_match->result2->team;  
+        if($my_first_match)
+        {
+            $team1 = $my_first_match->result1->team;  
+            $team2 = $my_first_match->result2->team;  
+        }
         $pools = $tournament->pools()->get()->all();    
-        $my_pool = $team1->pools()->where('tournament_id', $tournament->id)->first();    
+        $my_pool = $tournament->myPools()->first();
         array_unshift($pools, $my_pool);    
         $current_date = date('Y-m-d');  
         $current_matches = $tournament->matches()->where('has_ended', 0)->whereDate('start', '<=', $current_date)->get();
