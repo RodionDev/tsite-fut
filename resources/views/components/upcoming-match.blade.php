@@ -1,3 +1,4 @@
+@if(!empty($match))
 <section id="upcoming-match">
     <h1 class="title">Eerstvolgende Wedstrijd</h1>
     <div class="card">
@@ -29,3 +30,4 @@
         </div>
     </div>
 </section>
+@endif
