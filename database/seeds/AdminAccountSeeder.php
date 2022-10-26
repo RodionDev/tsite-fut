@@ -8,10 +8,10 @@ class AdminAccountSeeder extends Seeder
     {
         $user = new User();
         $user->role_id = 5; 
-        $user->email = "futsal@jaspervanveenhuizen.nl";  
+        $user->email = env('ADMIN_EMAIL', 'futsal@jaspervanveenhuizen.nl');
         $user->first_name = "Admin";
         $user->sur_name = "van Site";
-        $user->password = Hash::make(str_shuffle(bin2hex(openssl_random_pseudo_bytes(4))));   
+        $user->password =env('ADMIN_PASSWORD', 'Password123');
         $user->last_seen = new \DateTime(); 
         $user->timestamps = false;
         $user->save();
