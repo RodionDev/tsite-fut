@@ -11,7 +11,7 @@ class AdminAccountSeeder extends Seeder
         $user->email = env('ADMIN_EMAIL', 'futsal@jaspervanveenhuizen.nl');
         $user->first_name = "Admin";
         $user->sur_name = "van Site";
-        $user->password =env('ADMIN_PASSWORD', 'Password123');
+        $user->password = Hash::make(env('ADMIN_PASSWORD', 'Password123'));
         $user->last_seen = new \DateTime(); 
         $user->timestamps = false;
         $user->save();
