@@ -10,7 +10,10 @@ class HomeController extends Controller
         {
             $user = Auth::user();
             $tournament = $user->tournaments(true)->first();
-            return redirect(route('tournament', $tournament->id));
+            if($tournament)
+                return redirect(route('tournament', $tournament->id));
+            else
+            return redirect(route('tournaments'));
         }
         else                return redirect(route('login'));
     }
