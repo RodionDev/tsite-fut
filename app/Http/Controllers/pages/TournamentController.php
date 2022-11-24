@@ -52,8 +52,8 @@ class TournamentController extends Controller
         $teams_too_many = 0;    
         $added_pools = [];  
         $rounded_teams_per_pool = floor($teams_per_pool);
-        if(floor($teams_per_pool) !== $teams_per_pool)
-            $teams_too_many = ($teams_per_pool - $rounded_teams_per_pool)*$pools;  
+        if($rounded_teams_per_pool !== $teams_per_pool)
+            $teams_too_many = round(($teams_per_pool - $rounded_teams_per_pool)*$pools);  
         for($i=0; $i<$pools; $i++)
         {
             $pool = new Pool();
@@ -67,7 +67,7 @@ class TournamentController extends Controller
             }
             else    $extra = 0;
             $teams_in_pool = [];    
-            for($j=0; $j<$teams_per_pool+$extra-1; $j++) 
+            for($j=0; $j<$rounded_teams_per_pool+$extra; $j++) 
             {
                 $teams_in_pool[] = $teams[$teams_iteration]; 
                 $teams_iteration++;
@@ -77,7 +77,7 @@ class TournamentController extends Controller
             $pool->save();
             $added_pools[] = $pool; 
         }
-        return  $this->generateMatches($added_pools);
+        return redirect(route('tournament', $tournament->id));
     }
     public function create(Request $request, $update=false)
     {
@@ -96,7 +96,7 @@ class TournamentController extends Controller
                 $tournament->start_date = $request->start_date;
                 $tournament->end_date = $request->end_date;
                 $tournament->save();
-                if($request->teams && $request->pools_amount)
+                if(!$update && $request->teams && $request->pools_amount)
                     return $this->generatePools($tournament, $request->teams, $request->pools_amount);
                 return redirect(route('tournaments'));    
             }
