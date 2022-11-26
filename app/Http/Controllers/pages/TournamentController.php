@@ -149,7 +149,8 @@ class TournamentController extends Controller
         }
         $pools = $tournament->pools()->get()->all();    
         $my_pool = $tournament->myPools()->first();
-        array_unshift($pools, $my_pool);    
+        if($pools && $my_pool)
+            array_unshift($pools, $my_pool);    
         $current_date = date('Y-m-d');  
         $current_matches = $tournament->matches()->where('has_ended', 0)->whereDate('start', '<=', $current_date)->get();
         $finished_matches = $tournament->matches()->where('has_ended', 1)->get();
