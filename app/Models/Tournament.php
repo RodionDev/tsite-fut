@@ -33,6 +33,10 @@ class Tournament extends Model
     {
         return $this->hasManyThrough('App\Models\Match', 'App\Models\Pool');
     }
+    public function extraMatches()
+    {
+        return $this->hasMany('App\Models\Match');
+    }
     public function myPools($get=null)
     {
         $user = Auth::user();

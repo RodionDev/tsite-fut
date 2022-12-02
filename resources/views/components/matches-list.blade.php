@@ -1,5 +1,8 @@
 <section id="matches-list" >
-    <h1 class="title">Wedstrijden</h1>
+    <h1 class="title">
+        <a class="waves-effect waves-light btn right" href="{{ route('match.create.route', $id) }}">Nieuw</a></br>
+        Wedstrijden
+    </h1>
     <div class="row flex">
         <div class="col s12">
             <h5>Bezig</h5>
@@ -155,11 +158,6 @@
                         @else
                         <span class="font-size-5">Onbekend</span></br>
                         @endif
-                        <div class="row">
-                            <div class="col s12 m6">
-                                <img class="team-logo vertical-centre-image" src="{{ $match->result2->team->logo or asset('images\image-missing.png') }}">
-                            </div>
-                        </div>
                         @if($permission == 20 || $permission >= 50)
                         <a class="waves-effect waves-light btn right" href="{{ route('match.edit.route', $match->id) }}">Wijzigen</a></br>
                         @endif
