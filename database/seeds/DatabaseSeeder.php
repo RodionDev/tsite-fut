@@ -7,7 +7,6 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleTableSeeder::class,
             AdminAccountSeeder::class,
-            EmptyTeamSeeder::class
         ]);
         if( App::Environment() === 'production' )
         {
