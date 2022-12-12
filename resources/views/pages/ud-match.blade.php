@@ -3,6 +3,9 @@
 @section('js', 'pages/cud-tournament')
 @section('content')
 <section id="new-team">
+    @if($permission >= 50 && $updating)
+    <a href="{{ route('match.delete.route', $match->id) }}" class="btn right">Verwijderen</a>
+    @endif
     @if($updating)
     <h1 class="title">Wedstrijd Aanpassen</h1>
     <form method="POST" action="{{ route('match.edit') }}" enctype="multipart/form-data">

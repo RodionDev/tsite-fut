@@ -15,7 +15,7 @@
     <h1 class="title">Profiel Aanpassen</h1>
     @endif
     @if($registering)
-    <form method="POST" action="/registreren" enctype="multipart/form-data"></form>
+    <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
     @else
     <form method="POST" action="{{ route('profile.edit') }}" enctype="multipart/form-data">
     @endif

@@ -14,6 +14,12 @@ class MatchController extends Controller
     {
         return $this->edit($request, true);
     }
+    public function remove($id)
+    {
+        $match = Match::find($id);
+        $match->delete();
+        return redirect( route('tournaments') );
+    }
     public function create(Request $request)
     {
         return $this->edit($request, false);
