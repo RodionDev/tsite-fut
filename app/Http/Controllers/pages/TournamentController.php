@@ -149,7 +149,8 @@ class TournamentController extends Controller
         }
         $pools = $tournament->pools()->get()->all();    
         $my_pool = $tournament->myPools()->first();
-        if(!$my_pool)   $my_pool = $pools[0];
+        if(!$my_pool && $pools[0])   $my_pool = $pools[0];
+        else    $my_pool = null;
         if($pools && $my_pool)
             array_unshift($pools, $my_pool);    
         $current_date = date('Y-m-d');  
