@@ -36,7 +36,7 @@ class DateController extends Controller
                         . " " .
                         (int)$english_date[1]
                         . " " .
-                        $months[(int)$english_date[2]];
+                        $months[(int)$english_date[2]-1];
         if($year) $dutch_date =     $dutch_date
                                     . " " .
                                     $english_date[3];
