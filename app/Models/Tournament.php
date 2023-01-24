@@ -47,6 +47,11 @@ class Tournament extends Model
         });
         return ($get) ? $pools->get() : $pools;
     }
+    public function poolNumber()
+    {
+        $highest_pool = $this->pools()->orderBy('number', 'desc')->first()->number;
+        return ($highest_pool) ? $highest_pool : 0;
+    }
     public function myMatches($user_id)
     {
         $matches = $this->matches();

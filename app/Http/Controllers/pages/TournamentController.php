@@ -51,13 +51,14 @@ class TournamentController extends Controller
         $teams_per_pool = sizeof($teams)/$pools;    
         $teams_too_many = 0;    
         $added_pools = [];  
+        $pool_count = Tournament::find($tournament->id)->poolNumber();
         $rounded_teams_per_pool = floor($teams_per_pool);
         if($rounded_teams_per_pool !== $teams_per_pool)
             $teams_too_many = round(($teams_per_pool - $rounded_teams_per_pool)*$pools);  
         for($i=0; $i<$pools; $i++)
         {
             $pool = new Pool();
-            $pool->number = $i+1;
+            $pool->number = $i+1 + $pool_count;
             $pool->tournament_id = $tournament->id;
             $pool->finished = 0;
             if($teams_too_many > 0)
@@ -96,7 +97,7 @@ class TournamentController extends Controller
                 $tournament->start_date = $request->start_date;
                 $tournament->end_date = $request->end_date;
                 $tournament->save();
-                if(!$update && $request->teams && $request->pools_amount)
+                if($request->teams && $request->pools_amount)
                     return $this->generatePools($tournament, $request->teams, $request->pools_amount);
                 return redirect(route('tournaments'));    
             }
