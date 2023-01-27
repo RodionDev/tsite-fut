@@ -98,8 +98,8 @@ class MatchController extends Controller
             'field' => 'integer|nullable',
             'time' => 'date_format:H:i|nullable',
             'date' => 'required_with:time|date|nullable',
-            'score1' => 'integer|nullable',
-            'score2' => 'required_with:score1|integer',
+            'score1' => 'required_with:score2|integer|nullable',
+            'score2' => 'required_with:score1|integer|nullable',
         ]);
     }
     public function showCreateForm($tournament_id)
