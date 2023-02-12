@@ -49,12 +49,17 @@
                                 <span class="font-size-4">{{ $match->result2->score or 0 }}</span>
                             </div>
                         </div>
-                        <span class="font-size-2">Veld: {{ $match->field }}</span></br>
-                        @if($match->start)
-                        <span class="font-size-5">{{ date_format(date_create($match->start), "H:i") }}</span></br>
-                        @else
-                        <span class="font-size-5">Onbekend</span></br>
-                        @endif
+                        <div class="row">
+                            <div class="col s12">
+                                <span class="font-size-2">Veld: {{ $match->field }}</span></br>
+                                @if($match->start)
+                                <span class="font-size-5">{{ date_format(date_create($match->start), "H:i") }}</span></br>
+                                <span class="font-size-5">{{ $match->getDutchDate(false) }}</span>
+                                @else
+                                <span class="font-size-5">Onbekend</span></br>
+                                @endif
+                            </div>
+                        </div>
                         @if($permission == 20 || $permission >= 50)
                         <a class="waves-effect waves-light btn right" href="{{ route('match.edit.route', $match->id) }}">Wijzigen</a></br>
                         @endif
@@ -100,12 +105,17 @@
                         </div>
                     </div>
                     <div class="collapsible-body center">
-                        <span class="font-size-2">Veld: {{ $match->field }}</span></br>
-                        @if($match->start)
-                        <span class="font-size-5">{{ date_format(date_create($match->start), "H:i") }}</span></br>
-                        @else
-                        <span class="font-size-5">Onbekend</span></br>
-                        @endif
+                        <div class="row">
+                            <div class="col s12">
+                                <span class="font-size-2">Veld: {{ $match->field }}</span></br>
+                                @if($match->start)
+                                <span class="font-size-5">{{ date_format(date_create($match->start), "H:i") }}</span></br>
+                                <span class="font-size-5">{{ $match->getDutchDate(false) }}</span>
+                                @else
+                                <span class="font-size-5">Onbekend</span></br>
+                                @endif
+                            </div>
+                        </div>
                         @if($permission == 20 || $permission >= 50)
                         <a class="waves-effect waves-light btn right" href="{{ route('match.edit.route', $match->id) }}">Wijzigen</a></br>
                         @endif
@@ -152,12 +162,17 @@
                         </div>
                     </div>
                     <div class="collapsible-body center">
-                        <span class="font-size-2">Veld: {{ $match->field }}</span></br>
-                        @if($match->start)
-                        <span class="font-size-5">{{ date_format(date_create($match->start), "H:i") }}</span></br>
-                        @else
-                        <span class="font-size-5">Onbekend</span></br>
-                        @endif
+                        <div class="row">
+                            <div class="col s12">
+                                <span class="font-size-2">Veld: {{ $match->field }}</span></br>
+                                @if($match->start)
+                                <span class="font-size-5">{{ date_format(date_create($match->start), "H:i") }}</span></br>
+                                <span class="font-size-5">{{ $match->getDutchDate(false) }}</span>
+                                @else
+                                <span class="font-size-5">Onbekend</span></br>
+                                @endif
+                            </div>
+                        </div>
                         @if($permission == 20 || $permission >= 50)
                         <a class="waves-effect waves-light btn right" href="{{ route('match.edit.route', $match->id) }}">Wijzigen</a></br>
                         @endif

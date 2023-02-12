@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Controllers\DateController;
 class Match extends Model
 {
     public $table = 'match';
@@ -34,6 +35,11 @@ class Match extends Model
         $result[] = $this->result1();
         $result[] = $this->result2();
         return $results;
+    }
+    public function getDutchDate($year=true)
+    {
+        $date_controller = new DateController;
+        return $date_controller->dutchDate($this->start, $year);
     }
     public function scopeMyFirstMatch($query, $tournament_id, $user_id)
     {

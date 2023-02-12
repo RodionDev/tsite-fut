@@ -7,7 +7,7 @@
                 <div class="col s12">
                     <span class="font-size-2">{{ date_format(date_create($match->start), "H:i") }}</span>
                     </br>
-                    <span class="font-size-5">{{ date_format(date_create($match->start), "d/m") }}</span>
+                    <span class="font-size-5">{{ $match->getDutchDate(false) }}</span>
                 </div>
                 <div class="col s12 m5 team-info">
                     <img class="team-logo" src="{{ $team1->logo or asset('images\image-missing.png') }}">
@@ -24,7 +24,7 @@
                     <span>{{ $team2->name }}</span>
                 </div>
                 <div class="col s12">
-                    <span class="font-size-3">Field: {{ $match->field }}</span>
+                    <span class="font-size-3">Veld: {{ $match->field }}</span>
                 </div>
             </div>
         </div>
