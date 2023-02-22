@@ -10,7 +10,7 @@ class CreateTournamentTable extends Migration
         {
             $table->increments('id');
             $table->string('name');
-            $table->date('start_date');
+            $table->date('start_date')  ->nullable();
             $table->date('end_date')    ->nullable();
             $table->integer('mott_id')  ->nullable()->unsigned();
             $table->foreign('mott_id')  ->references('id')->on('user');

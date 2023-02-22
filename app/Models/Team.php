@@ -23,17 +23,9 @@ class Team extends Model
     }
     public function results()
     {
-        return $this->hasMany('App\Models\Result', 'team_id');
+        return $this->belongsToMany('App\Models\Result');
     }
     public function matches()
     {
-    }
-    public function scopeSearchName($query, $name)
-    {
-        return Team::select('name','logo', 'leader_id', 'id')
-            ->where(function($query) use($name)
-        {
-            $query->where('name', 'like', '%'.$name.'%');
-        });
     }
 }

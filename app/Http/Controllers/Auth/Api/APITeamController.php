@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 namespace App\Http\Controllers\Auth\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Tournament;
 use App\Models\Team;
 use App\Models\Role;
 use JWTFactory;
@@ -16,13 +17,9 @@ class APITeamController extends Controller
     public function index()
     {
         return Team::all();
-    }
+     }
     public function create()
     {
-        return Team::create([
-            'name' => $request['name'],
-            'logo' => $request['logo'],
-        ]);
     }
     public function store(Request $request)
     {

@@ -6,19 +6,19 @@
     @if($creating)
     <h1 class="title">Team Toevoegen</h1>
     @else
-    <a href="{{ route('delete.team.route', $team->id) }}" class="btn right">Verwijderen</a>
+<a href="{{ route('delete.team.route', $team->id) }}" class="btn right">Verwijderen</a>
     <h1 class="title">Team Aanpassen</h1>
     @endif
-    @if($creating)
-    <form method="POST" action="{{ route('create.team') }}" enctype="multipart/form-data">
-    @else
-    <form method="POST" action="{{ route('edit.team') }}" enctype="multipart/form-data">
-    <input type="text" class="hide" name="id" value="{{ $team->id or '' }}" />  
-    @endif
-        @csrf
-        <div class="card">
-            <div class="card-content">
+    <div class="card">
+        <div class="card-content">
+            @if($creating)
+            <form method="POST" action="{{ route('create.team') }}" enctype="multipart/form-data">
+            @else
+            <form method="POST" action="{{ route('edit.team') }}" enctype="multipart/form-data">
+                <input type="text" class="hide" name="id" value="{{ $team->id or '' }}" />  
+            @endif
                 <div class="row">
+                    @csrf
                     <div class="col s12 input-field">
                         <input id="name" type="text" class="validate" name="name" value="{{ $team->name or '' }}" required />
                         <label for="name">Team Naam</label>
@@ -55,13 +55,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-content">
-                <div class="row">
                     <div class="col s12">
+                        <div class="divider"></div>
                         <div class="row">
                             <div class="col s1">
                                 <img id="player-image" class="px52"></img>
@@ -104,8 +99,8 @@
                         @endif
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
-    </form>
+    </div>
 </section>
 @endsection
