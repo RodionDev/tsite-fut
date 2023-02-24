@@ -1,10 +1,10 @@
 <?php
 return [
-    'driver' => env('MAIL_DRIVER', 'smtp'),
+    'driver' => env('MAIL_DRIVER', 'mailgun'),
     'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
     'port' => env('MAIL_PORT', 587),
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'address' => env('MAIL_FROM_ADDRESS', 'admin@mijntoernooien.nl'),
         'name' => env('MAIL_FROM_NAME', 'Futsal CLub Heerenveen'),
     ],
     'encryption' => env('MAIL_ENCRYPTION', 'tls'),
