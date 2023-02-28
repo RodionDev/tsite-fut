@@ -6,15 +6,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        if(Auth::check())
-        {
-            $user = Auth::user();
-            $tournament = $user->tournaments(true)->first();
-            if($tournament)
-                return redirect(route('tournament', $tournament->id));
-            else
-            return redirect(route('tournaments'));
-        }
+        if(Auth::check())   return redirect(route('tournament'));
         else                return redirect(route('login'));
     }
 }
