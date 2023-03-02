@@ -10,6 +10,7 @@ class CreateUserTable extends Migration
         {
             $table->increments('id');
             $table->integer('role_id')          ->unsigned();
+            $table->foreign('role_id')          ->references('id')->on('role');
             $table->string('email')             ->unique();
             $table->string('first_name')        ->nullable();
             $table->string('sur_name')          ->nullable();

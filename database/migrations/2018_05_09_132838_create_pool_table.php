@@ -12,7 +12,7 @@ class CreatePoolTable extends Migration
             $table->integer('number');  
             $table->boolean('finished');    
             $table->integer('tournament_id')  ->unsigned();
-            $table->foreign('tournament_id')  ->references('id')->on('tournament');
+            $table->foreign('tournament_id')  ->references('id')->on('tournament')->onDelete('cascade');
         });
     }
     public function down()

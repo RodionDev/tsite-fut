@@ -3,7 +3,7 @@
 */
 @import "variables";
 @import 'node_modules/materialize-css/sass/materialize';
-@import 'node_modules/mdi/scss/materialdesignicons.scss';
+@import 'node_modules/@mdi/font/scss/materialdesignicons.scss';
 @import './components/main-menu.scss';
 @import './components/sponsors.scss';
 /*
@@ -19,6 +19,10 @@
 /*
     HELPERS
 */
+span.centre {
+    display: block;
+    text-align: center;
+}
 /* Use .equal-height to set the height of columns in a row to the same */
 .equal-height {
     display: flex;
@@ -46,6 +50,7 @@ img.avatar-preview {
 img.px52 {
     height: 52px;
     width: auto;
+    max-width: 100%;
     margin: 0 8px 0 0;
 }
 input.disabled {
