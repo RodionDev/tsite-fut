@@ -2,21 +2,18 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use \Illuminate\Http\Response;
 class UserController extends Controller
 {
-    public function search($name=null, $role_id=null)
+    public function search($name=null, $id=null)
     {
         $name = ($name) ? $name : request()->name;
-        if(request()->id || $role_id)
+        if(request()->id || $id)
         {
-            $role_id = ($role_id) ? $role_id : request()->id;
-            $role = Role::find($role_id);
-            $permission = $role->permission;
+            $id = ($id) ? $id : request()->id;
             return response()->json(
-                User::searchName($name, $permission)    ->distinct()->get()
+                User::searchName($name, $id)    ->distinct()->get()
             );
         }
         else

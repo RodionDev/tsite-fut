@@ -12,8 +12,8 @@ class ImageController extends Controller
         {
             if($image_name == null) $image_name = md5(microtime());
             $images_root = ($folder) ?
-            '/images/' . $folder . '/' : 
-            '/images/';
+            '\images\\' . $folder . '\\' : 
+            '\images\\';
             if($folder) $this->createFolder($folder);
             if(file_exists($images_root . $image_name))    removeImage($image_name, $folder);
             $image->move(public_path() . $images_root, $image_name . '.' . $image->getClientOriginalExtension());
@@ -36,8 +36,7 @@ class ImageController extends Controller
     }
     protected function createFolder($folder)
     {
-        clearstatcache();
-        $folder_path = public_path() . '/images/' . $folder . '/';   
+        $folder_path = public_path() . '\images\\' . $folder;   
         if(!file_exists($folder_path))  mkdir($folder_path);    
     }
 }

@@ -14,15 +14,15 @@
     @else
     <h1 class="title">Profiel Aanpassen</h1>
     @endif
-    @if($registering)
-    <form method="POST" action="/registreren" enctype="multipart/form-data">
-    @else
-    <form method="POST" action="{{ route('profile.edit') }}" enctype="multipart/form-data">
-    @endif
-        @csrf
-        <div class="card">
-            <div class="card-content">
+    <div class="card">
+        <div class="card-content">
+            @if($registering)
+            <form method="POST" action="/registreren/" enctype="multipart/form-data">
+            @else
+            <form method="POST" action="/profiel-aanpassen/" enctype="multipart/form-data">
+            @endif
                 <div class="row">
+                    @csrf
                     <div class="col s12 input-field">
                         <input id="first_name" type="text" value="{{ $user->first_name or '' }}" class="validate" name="first_name" required autofocus />
                         <label for="first_name">Voornaam*</label>
@@ -70,12 +70,12 @@
                         <button type="submit" class="waves-effect waves-light btn">Registreren</button>
                         @else
                         <button type="submit" class="waves-effect waves-light btn">Updaten</button>
-                        <a class="waves-effect btn-flat" href="{{ route('reset.password') }}">Wachtwoord aanpassen</a>
+                        <a class="waves-effect btn-flat" href="/reset-wachtwoord">Wachtwoord aanpassen</a>
                         @endif
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
-    </form>
+    </div>
 </section>
 @endsection
