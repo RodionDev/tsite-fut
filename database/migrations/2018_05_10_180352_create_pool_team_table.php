@@ -10,10 +10,10 @@ class CreatePoolTeamTable extends Migration
         {
             $table->integer('pool_id')->unsigned();
             $table->foreign('pool_id')->references('id')->on('pool')
-                ->onDelete('cascade')->onUpdate('cascade');
+                ->onDelete('cascade');
             $table->integer('team_id')->unsigned();
             $table->foreign('team_id')->references('id')->on('team')
-                ->onDelete('cascade')->onUpdate('cascade');
+                ->onDelete('cascade');
             $table->unique(['pool_id', 'team_id']);
         });
     }

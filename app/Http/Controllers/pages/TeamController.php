@@ -11,6 +11,13 @@ use App\Models\Role;
 use Validator;
 class TeamController extends Controller
 {
+    public function search($name=null, $tournament=null)
+    {
+        $name = ($name) ? $name : request()->name;
+        return response()->json(
+            Team::searchName($name)    ->distinct()->get()
+        );
+    }
     public function teamsList()
     {
         $teams = Team::all();
@@ -35,10 +42,9 @@ class TeamController extends Controller
             $user = Auth::user();   
             $role = Role::Find($user->role_id); 
             if($update)
-            {
                 $team = Team::find($request->id);
-            }
-            else        $team = new Team();
+            else
+                $team = new Team();
             if($role->permission >= 50 || $team->leader_id !== $user->id)  
             {                
                 $team->name = $request->name;
@@ -125,7 +131,6 @@ class TeamController extends Controller
             $team = Team::find($id);
             if($user->id == $team->leader_id || $user->role->permission >= 50)
             {
-                $team = Team::find($id);
                 $leader = $team->leader;
                 return view('/pages/new-team')
                     ->with('creating', false)

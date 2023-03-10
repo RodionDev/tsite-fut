@@ -2,7 +2,7 @@
 use Illuminate\Database\Seeder;
 use App\Models\Team;
 use App\Http\Controllers\UserController;
-class TeamTableSeeder extends Seeder
+class RandomTeamTableSeeder extends Seeder
 {
     public function run()
     {
