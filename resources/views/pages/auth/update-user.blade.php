@@ -64,6 +64,10 @@
                     <div class="col s12 input-field hide">
                         <input id="token" type="text" name="token" value="{{ $register_token }}" required />
                     </div>
+                    <div class="col s12 input-field">
+                        <input type="checkbox" required>
+                    <label>Ja, ik accepteer de <a href="{{ route('terms.of.service') }}" target="_blank">Algemene voorwaarden</a>  van mijntoernooien.nl. (link opent in een nieuw venster)</label>
+                    </div>
                     @endif
                     <div class="col s12 input-field">
                         @if($registering)

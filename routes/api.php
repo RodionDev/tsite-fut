@@ -2,11 +2,14 @@
 use Illuminate\Http\Request;
 Route::post('user/register', 'Auth\Api\APIRegisterController@register');
 Route::post('user/login', 'Auth\Api\APILoginController@login');
-Route::get('teams', ['uses' => 'Auth\Api\APITeamController@index', 'middleware' => 'jwt.auth' ]);
-Route::get('matchs',['uses' => 'Auth\Api\APIMatchController@index', 'middleware' => 'jwt.auth' ]);
-Route::get('tournament', 'Auth\Api\APITournamentController@index' );
-Route::get('poule', 'Auth\Api\APITournamentController@index');
-Route::middleware('jwt.auth')->get('users', function(Request $request) {
-    $user = JWTAuth::parseToken()->toUser();
-    return $user;
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
 });
+Route::middleware('jwt.auth')->get('users', function(Request $request) {
+    return auth()->user();
+});
+Route::get('articles', 'ArticleController@index');
+Route::get('article/{id}', 'ArticleController@show');
+Route::post('articles', 'ArticleController@store');
+Route::put('articles', 'ArticleController@store');
+Route::delete('articles', 'ArticleController@destroy');

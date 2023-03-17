@@ -17,7 +17,7 @@ class APITournamentController extends Controller
     public function index()
     {
         return Tournament::all();
-     }
+    }
     public function create()
     {
     }

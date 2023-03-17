@@ -17,11 +17,7 @@ class AuthController extends Controller
 	    }
 	    return response([
 	            'status' => 'success',
-				'token' => $token
+	            'token' => $token
 	        ]);
 	}
-	public function decode(Token $token) {
-		$payload = $this->payloadFactory>setRefreshFlow($this->refreshFlow)->make($payloadArray);
-		return $payload;
-	  }
 }
