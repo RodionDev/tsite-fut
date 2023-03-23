@@ -50,8 +50,9 @@ class Tournament extends Model
     }
     public function poolNumber()
     {
-        $highest_pool = $this->pools()->orderBy('number', 'desc')->first()->number;
-        return ($highest_pool) ? $highest_pool : 0;
+        $pools = $this->pools();
+        $pool = ($pools) ? $pools->orderBy('number', 'desc')->first() : null;
+        return ($pool) ? $pool->number : 0;
     }
     public function myMatches($user_id)
     {
