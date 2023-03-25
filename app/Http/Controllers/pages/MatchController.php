@@ -87,7 +87,12 @@ class MatchController extends Controller
                 $result1->save();
                 $result2->save();
                 $match->save();
-                return redirect(route('match.edit.route', $match->id));
+                if(!$updating && $request->tournament_id)
+                    return redirect(route('match.create.route', $request->tournament_id));
+                elseif($match->id)
+                    return redirect(route('match.edit.route', $match->id));
+                else
+                    return redirect(route('tournaments'));
             }
         }
     }
