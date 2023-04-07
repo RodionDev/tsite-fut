@@ -13,10 +13,8 @@ class UserController extends Controller
         if(request()->id || $role_id)
         {
             $role_id = ($role_id) ? $role_id : request()->id;
-            $role = Role::find($role_id);
-            $permission = $role->permission;
             return response()->json(
-                User::searchName($name, $permission)    ->distinct()->get()
+                User::searchName($name, $role_id)    ->distinct()->get()
             );
         }
         else

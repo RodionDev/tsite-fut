@@ -48,7 +48,7 @@ class User extends Authenticatable
             {
                 if($role_id)
                 {
-                    $query->where('role_id', $role_id);
+                    $query->where('role_id', '>=', $role_id);
                 }
                 $query->where('first_name', 'like', '%'.$names[$i].'%')
                     ->orWhere('sur_name', 'like', '%'.$names[$i].'%');
