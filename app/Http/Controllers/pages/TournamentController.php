@@ -153,16 +153,17 @@ class TournamentController extends Controller
         if(!$my_pool && !empty($pools))   $my_pool = $pools[0];
         if($pools && $my_pool)
             array_unshift($pools, $my_pool);    
-        $current_date = date('Y-m-d');  
-        $current_matches = $tournament->matches()->where('has_ended', 0)->whereDate('start', '<=', $current_date)->get();
-        $current_matches_2 = $tournament->extraMatches()->where('has_ended', 0)->whereDate('start', '<=', $current_date)->get();
+        $current_date = new DateTime();  
+        $current_date = $current_date->format('Y-m-d H:i:00');
+        $current_matches = $tournament->matches()->where('has_ended', 0)->where('start', '<=', $current_date)->get();
+        $current_matches_2 = $tournament->extraMatches()->where('has_ended', 0)->where('start', '<=', $current_date)->get();
         $current_matches = $current_matches->merge($current_matches_2);
         $finished_matches = $tournament->matches()->where('has_ended', 1)->get();
         $finished_matches_2 = $tournament->extraMatches()->where('has_ended', 1)->get();
         $finished_matches = $finished_matches->merge($finished_matches_2);
-        $upcoming_matches = $tournament->matches()->where('has_ended', 0)->whereDate('start', '>', $current_date)->get();
+        $upcoming_matches = $tournament->matches()->where('has_ended', 0)->where('start', '>', $current_date)->get();
         $upcoming_matches_2 = $tournament->matches()->where('has_ended', 0)->where('start', null)->get();
-        $upcoming_matches_3 = $tournament->extraMatches()->where('has_ended', 0)->whereDate('start', '>', $current_date)->get();
+        $upcoming_matches_3 = $tournament->extraMatches()->where('has_ended', 0)->where('start', '>', $current_date)->get();
         $upcoming_matches_4 = $tournament->extraMatches()->where('has_ended', 0)->where('start', null)->get();
         $upcoming_matches = $upcoming_matches->merge($upcoming_matches_2)->merge($upcoming_matches_3)->merge($upcoming_matches_4);
         return view('pages/tournament',
