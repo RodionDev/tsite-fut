@@ -9,7 +9,8 @@ class AddTournamentIdToMatchTable extends Migration
         Schema::table('match', function (Blueprint $table) 
         {
             $table->integer('tournament_id')  ->nullable()->unsigned();
-            $table->foreign('tournament_id')  ->references('id')->on('tournament');
+            $table->foreign('tournament_id')  ->references('id')->on('tournament')
+            ->onDelete('cascade');
         });
     }
     public function down()

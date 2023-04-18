@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Match;
 use App\Models\Role;
 use App\Models\Result;
-use App\Models\Team;
 use App\Http\Controllers\Pages\TeamController;
 use Validator;
 class MatchController extends Controller
@@ -139,63 +138,5 @@ class MatchController extends Controller
             'start_time' => $start_time,
             'start_date' => $start_date
         ]);  
-    }
-    public function showScoreboard()
-    {
-        $matches = Match::all();
-        $teams = Team::all();
-        $winners = [];
-        $losers = [];
-        $tiedplayed = [];
-        foreach ($matches as $match) {  
-            $score1 = Result::find($match->result1_id);
-            $score2 = Result::find($match->result2_id);
-            $winner;
-            $loser;
-            if($score1->score == $score2->score)
-            {
-                array_push($tiedplayed, Team::find($score1->team_id), Team::find($score2->team_id));
-            }
-            elseif($score1->score > $score2->score)
-            {
-                $winner = Team::find($score1->team_id);
-                $loser = Team::find($score2->team_id);
-            }
-            else
-            {
-                $winner = Team::find($score2->team_id);
-                $loser = Team::find($score1->team_id);
-            }
-            array_push($winners, $winner);
-            array_push($losers, $loser);
-        }
-        foreach ($teams as $key => $team) {
-            $team->won = 0;
-            $team->lost = 0;
-            $team->tied = 0;
-            foreach ($winners as $winner) {
-                if($winner->id == $team->id)
-                {
-                    $team->won = $team->won + 1;
-                    $teams[$key] = $team;
-                }
-            }
-            foreach ($losers as $loser) {
-                if($loser->id == $team->id)
-                {
-                    $team->lost = $team->lost + 1;
-                    $teams[$key] = $team;
-                }
-            }
-            foreach ($tiedplayed as $tiedplay) {
-                if($tiedplay->id == $team->id)
-                {
-                    $team->tied = $team->tied + 1;
-                    $teams[$key] = $team;
-                }
-            }
-        }
-        $teams = $teams->sortByDesc('won');
-        return view('pages.scoreboard', compact('teams'));
     }
 }
