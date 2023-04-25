@@ -90,7 +90,6 @@ function searchTeam(list, input, result_output=null, result_image=null, limit_id
     let xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function()
     {
-        console.log(this.responseText);
         if(this.readyState == 4 && this.status == 200)
         {
             return fillList(list, input, JSON.parse(this.responseText), result_output, result_image);
@@ -117,13 +116,9 @@ function init()
     let search_results = document.querySelectorAll('.search-results'); 
     for(let i=0; i<search_results.length; i++)
     {
-        console.log('found the search results :)');
         let input = document.getElementById( search_results[i].dataset.searchInput );    
         let search_image = search_results[i].dataset.searchImage;
         let search_output = search_results[i].dataset.searchOutput;
-        console.log('input: ' + input);
-        console.log('search_image: ' + search_image);
-        console.log('search_output: ' + search_output);
         input.addEventListener("keyup", function(e)
         {
             if(input.value.length > 1)
