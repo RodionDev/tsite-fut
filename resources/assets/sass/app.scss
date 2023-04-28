@@ -120,6 +120,7 @@ a{ color: #000; }
 */
 .btn, .btn:active, .btn-flat:active {
     background-color: $accent-colour !important;
+    border-radius: 5px;
 }
 .btn-flat:active {
     color: #FFF;
