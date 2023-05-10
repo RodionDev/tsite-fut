@@ -16,6 +16,10 @@
 .row {
     width: 100%;
 }
+.s6 > span {
+    word-wrap: break-word;
+    display: contents !important;
+}
 /*
     HELPERS
 */
@@ -49,6 +53,17 @@ img.avatar-preview {
 }
 img.px52 {
     height: 52px;
+    width: auto;
+    max-width: 100%;
+    margin: 0 8px 0 0;
+    @media only screen and (max-width: 600px) {
+        width: 52px;
+        height: auto;
+        max-height: 100%;
+    }
+}
+img.px32 {
+    height: 32px;
     width: auto;
     max-width: 100%;
     margin: 0 8px 0 0;

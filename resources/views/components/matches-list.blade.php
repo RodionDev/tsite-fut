@@ -11,29 +11,30 @@
                 <li>
                     <div class="collapsible-header">
                         <div class="row">
-                            <div class="col s1"></div>
-                            <div class="col s10">
+                            <div class="col m1 hide-on-small-only"></div>
+                            <div class="col s12 m10">
                                 <div class="row">
                                     <div class="col s6">
                                         <span>
-                                            <img class="team-logo vertical-centre-image" src="{{ $match->result1->team->logo or asset('images\image-missing.png') }}">
+                                            <img class="px52 vertical-centre-image" src="{{ $match->result1->team->logo or asset('images\image-missing.png') }}">
                                             {{ $match->result1->team->name }}
                                         </span>
                                     </div>
                                     <div class="col s6">
                                         <span class="right">
                                             {{ $match->result2->team->name }}
-                                            <img class="team-logo vertical-centre-image" src="{{ $match->result2->team->logo or asset('images\image-missing.png') }}">
+                                            <img class="px52 vertical-centre-image" src="{{ $match->result2->team->logo or asset('images\image-missing.png') }}">
                                         </span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col s1">
+                            <div class="col s1 hide-on-small-only">
                                 <i class="mdi mdi-36px mdi-menu-down center"></i>
                             </div>
                             <div class="col s12 center">
                                 @if($match->start)
                                 {{ date_format(date_create($match->start), "H:i") }}
+                                <span class="hide-on-small-only">- {{ $match->getDutchDate(false) }}</span>
                                 @else
                                 Onbekend
                                 @endif
@@ -75,29 +76,30 @@
                 <li>
                     <div class="collapsible-header">
                         <div class="row">
-                            <div class="col s1"></div>
-                            <div class="col s10">
+                            <div class="col m1 hide-on-small-only"></div>
+                            <div class="col s12 m10">
                                 <div class="row">
                                     <div class="col s6">
                                         <span>
-                                            <img class="team-logo vertical-centre-image" src="{{ $match->result1->team->logo or asset('images\image-missing.png') }}">
+                                            <img class="px52 vertical-centre-image" src="{{ $match->result1->team->logo or asset('images\image-missing.png') }}">
                                             {{ $match->result1->team->name }}
                                         </span>
                                     </div>
                                     <div class="col s6">
                                         <span class="right">
                                             {{ $match->result2->team->name }}
-                                            <img class="team-logo vertical-centre-image" src="{{ $match->result2->team->logo or asset('images\image-missing.png') }}">
+                                            <img class="px52 vertical-centre-image" src="{{ $match->result2->team->logo or asset('images\image-missing.png') }}">
                                         </span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col s1">
+                            <div class="col m1 hide-on-small-only">
                                 <i class="mdi mdi-36px mdi-menu-down center"></i>
                             </div>
                             <div class="col s12 center">
                                 @if($match->start)
                                 {{ date_format(date_create($match->start), "H:i") }}
+                                <span class="hide-on-small-only">- {{ $match->getDutchDate(false) }}</span>
                                 @else
                                 Onbekend
                                 @endif
@@ -131,24 +133,24 @@
                 <li>
                     <div class="collapsible-header">
                         <div class="row">
-                            <div class="col s1"></div>
-                            <div class="col s10">
+                            <div class="col m1 hide-on-small-only"></div>
+                            <div class="col s12 m10">
                                 <div class="row">
                                     <div class="col s6">
                                         <span>
-                                            <img class="team-logo vertical-centre-image" src="{{ $match->result1->team->logo or asset('images\image-missing.png') }}">
+                                            <img class="px52 vertical-centre-image" src="{{ $match->result1->team->logo or asset('images\image-missing.png') }}">
                                             {{ $match->result1->team->name}}
                                         </span>
                                     </div>
                                     <div class="col s6">
                                         <span class="right">
                                             {{ $match->result2->team->name}}
-                                            <img class="team-logo vertical-centre-image" src="{{ $match->result2->team->logo or asset('images\image-missing.png') }}">
+                                            <img class="px52 vertical-centre-image" src="{{ $match->result2->team->logo or asset('images\image-missing.png') }}">
                                         </span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col s1">
+                            <div class="col m1 hide-on-small-only">
                                 <i class="mdi mdi-36px mdi-menu-down center"></i>
                             </div>
                             <div class="col s1"></div>

@@ -10,7 +10,7 @@
                     <span class="font-size-5">{{ $match->getDutchDate(false) }}</span>
                 </div>
                 <div class="col s12 m5 team-info">
-                    <img class="team-logo" src="{{ $team1->logo or asset('images\image-missing.png') }}">
+                    <img class="px52" src="{{ $team1->logo or asset('images\image-missing.png') }}">
                     </br>
                     <span>{{ $team1->name }}</span>
                 </div>
@@ -19,7 +19,7 @@
                     <div class="hide-on-med-and-up">VS</div>
                 </div>
                 <div class="col s12 m5 team-info">
-                    <img class="team-logo" src="{{ $team2->logo or asset('images\image-missing.png') }}">
+                    <img class="px52" src="{{ $team2->logo or asset('images\image-missing.png') }}">
                     </br>
                     <span>{{ $team2->name }}</span>
                 </div>
