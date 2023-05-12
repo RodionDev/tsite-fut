@@ -78,7 +78,7 @@ class MatchController extends Controller
                 }
                 if($request->field) $match->field = $request->field;
                 if($request->tournament_id) $match->tournament_id = $request->tournament_id;
-                if($request->score1 && $request->score2)
+                if($request->score1 !== null && $request->score2 !== null)
                 {
                     $result1->score = $request->score1;
                     $result2->score = $request->score2;
