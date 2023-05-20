@@ -18,7 +18,7 @@
 }
 .s6 > span {
     word-wrap: break-word;
-    display: contents !important;
+    @media only screen and (max-width: 600px) { display: contents !important; } /* we do this so images dont go through the sides */
 }
 /*
     HELPERS
@@ -41,7 +41,7 @@ img.vertical-centre-image {
     display: inline-block;
     vertical-align: middle;
 }
-.clickable {
+.clickable {    // show hand when hovering over
     cursor: pointer;
 }
 /*
@@ -62,10 +62,9 @@ img.px52 {
         max-height: 100%;
     }
 }
-img.px32 {
-    height: 32px;
-    width: auto;
-    max-width: 100%;
+img.px40 {
+    height: auto;
+    width: 40px;
     margin: 0 8px 0 0;
 }
 input.disabled {
