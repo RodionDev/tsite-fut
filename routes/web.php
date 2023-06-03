@@ -43,3 +43,4 @@ $router->post('wachtwoord/aanpassen', 'Auth\ResetPasswordController@ResetPasswor
 $router->get('wachtwoord/aanpassen/{token}', 'Auth\ResetPasswordController@showResetForm')        ->name('reset.password.token');
 $router->get('wachtwoord/aanpassen', 'Auth\ResetPasswordController@showResetForm')                ->name('reset.password');
 Route::view('algemene-voorwaarden', 'pages/terms-of-service') ->name('terms.of.service');
+Route::view('privacy-statement', 'pages/privacy-statement') ->name('privacy.statement');
