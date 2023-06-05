@@ -214,9 +214,9 @@ class TournamentController extends Controller
         else
         {
             $tournaments = $user->tournaments();
-            $current = $tournaments->where('mott_id', null)->whereDate('start_date', '<=', $current_date)->get(); 
-            $upcoming = $tournaments->whereDate('start_date', '>', $current_date)->get(); 
-            $finished = $tournaments->whereNotNull('mott_id')->whereDate('start_date', '<', $current_date)->get();    
+            $current = Tournament::where('mott_id', null)->whereDate('start_date', '<=', $current_date)->get(); 
+            $upcoming = Tournament::whereDate('start_date', '>', $current_date)->get(); 
+            $finished = Tournament::whereNotNull('mott_id')->whereDate('start_date', '<', $current_date)->get();    
             $can_edit = false;
         }
         return view('pages/tournaments',
