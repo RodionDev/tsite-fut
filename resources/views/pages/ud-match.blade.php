@@ -33,7 +33,7 @@
                         <span class="helper-text" data-error="Vul een correcte tijd in." data-success="">Vul een tijd in.</span>
                     </div>
                     <div class="col s12 input-field">
-                        <input id="field" type="number" class="validate" name="field" min="1" value="{{ $match->field or null }}" />
+                        <input id="field" type="number" class="validate" name="field" value="{{ $match->field or null }}" />
                         <label for="field">Speel veld</label>
                         <span class="helper-text" data-error="Vul een correct getal in." data-success="">Vul het veld nummer in.</span>
                     </div>

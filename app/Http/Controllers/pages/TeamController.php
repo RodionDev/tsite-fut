@@ -118,7 +118,7 @@ class TeamController extends Controller
             $user = Auth::User();
             if($user->role->permission >= 50)
             {
-                return view('/pages/new-team')->with('creating', true)->with('user', $user);
+                return view('/pages/new-team')->with('creating', true);
             }
         }
         return redirect(route('home'));
@@ -136,8 +136,7 @@ class TeamController extends Controller
                     ->with('creating', false)
                     ->with('team', $team)
                     ->with('leader_name', $leader->getFullName())
-                    ->with('players', $team->players)
-                    ->with('user', $user);
+                    ->with('players', $team->players);
             }
             else    abort(404);     
         }

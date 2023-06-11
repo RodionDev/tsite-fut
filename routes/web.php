@@ -13,6 +13,7 @@ Route::middleware(['auth'])->group(function ($router)
     $router->get('toernooien/toevoegen', 'pages\TournamentController@showNewForm')          ->name('create.tournament.route');
     $router->get('toernooien/aanpassen/{id}', 'pages\TournamentController@showEditForm')    ->name('edit.tournament.route');
     $router->get('toernooien/verwijderen/{id}', 'pages\TournamentController@remove')        ->name('delete.tournament.route');
+    $router->get('toernooi/scoreboard/{id}', 'pages\MatchController@showScoreboard')        ->name('scoreboard');   
     $router->post('toernooien/toevoegen', 'pages\TournamentController@create')              ->name('create.tournament');
     $router->post('toernooien/aanpassen', 'pages\TournamentController@edit')                ->name('edit.tournament');
     $router->post('toernooien/verwijderen', 'pages\TournamentController@remove')            ->name('delete.tournament');
@@ -43,4 +44,3 @@ $router->post('wachtwoord/aanpassen', 'Auth\ResetPasswordController@ResetPasswor
 $router->get('wachtwoord/aanpassen/{token}', 'Auth\ResetPasswordController@showResetForm')        ->name('reset.password.token');
 $router->get('wachtwoord/aanpassen', 'Auth\ResetPasswordController@showResetForm')                ->name('reset.password');
 Route::view('algemene-voorwaarden', 'pages/terms-of-service') ->name('terms.of.service');
-Route::view('privacy-statement', 'pages/privacy-statement') ->name('privacy.statement');
