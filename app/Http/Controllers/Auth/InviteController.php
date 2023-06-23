@@ -1,5 +1,7 @@
 <?php
 namespace App\Http\Controllers\Auth;
+use App\Models\User;
+use App\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -7,10 +9,8 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
-use App\Models\User;
-use App\Models\Role;
+use Illuminate\Support\Facades\Mail;
 use App\Mail\Invite;
 class InviteController extends Controller
 {
@@ -18,14 +18,12 @@ class InviteController extends Controller
     protected $redirectTo = '/uitnodigen';
     public function invite(Request $request)
     {
-        dd($request->all());
         $this->validator($request->all())->validate();  
         if(Auth::Check()) 
         {    
             $user = Auth::user();
             $role = Role::find($user->role_id);
             if($role->permission <= Role::find($request->role)->permission) abort(404);   
-            $invited_user = User::where('email', $request->email);
             event(new Registered($user = $this->create($request->all())));  
             Mail::to($user->email)->send(new Invite(route('register', ['token' => $user->register_token])));
             if (Mail::failures()) {

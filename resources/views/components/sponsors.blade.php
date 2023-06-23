@@ -1,16 +1,14 @@
+<div class="divider"></div>
 <section id="sponsors">
-    <div id="sponsors-carousel" class="carousel">
-        <a class="carousel-item" target="_blank" href="https://example.com"><img src="https://cdn.worldvectorlogo.com/logos/uvex-1.svg"></a>
-        <a class="carousel-item" target="_blank" href="https://example.com"><img src="https://cdn.worldvectorlogo.com/logos/la-baie-1.svg"></a>
-        <a class="carousel-item" target="_blank" href="https://example.com"><img src="https://cdn.worldvectorlogo.com/logos/belenenses.svg"></a>
-        <a class="carousel-item" target="_blank" href="https://example.com"><img src="https://cdn.worldvectorlogo.com/logos/color-services.svg"></a>
-        <a class="carousel-item" target="_blank" href="https://example.com"><img src="https://cdn.worldvectorlogo.com/logos/rosario-central.svg"></a>
-        <a class="carousel-item" target="_blank" href="https://example.com"><img src="https://cdn.worldvectorlogo.com/logos/cibona-7265.svg"></a>
-        <a class="carousel-item" target="_blank" href="https://example.com"><img src="https://cdn.worldvectorlogo.com/logos/uvex-1.svg"></a>
-        <a class="carousel-item" target="_blank" href="https://example.com"><img src="https://cdn.worldvectorlogo.com/logos/la-baie-1.svg"></a>
-        <a class="carousel-item" target="_blank" href="https://example.com"><img src="https://cdn.worldvectorlogo.com/logos/belenenses.svg"></a>
-        <a class="carousel-item" target="_blank" href="https://example.com"><img src="https://cdn.worldvectorlogo.com/logos/color-services.svg"></a>
-        <a class="carousel-item" target="_blank" href="https://example.com"><img src="https://cdn.worldvectorlogo.com/logos/rosario-central.svg"></a>
-        <a class="carousel-item" target="_blank" href="https://example.com"><img src="https://cdn.worldvectorlogo.com/logos/cibona-7265.svg"></a>
+    <div class="row">
+        <div class="col s12 center">
+            <h1 class="font-size-5">Gesponsoord door:</h1>
+        </div>
+        <div class="col s12 m6 center">
+            <a target="_blank" href="https://www.sportstad.nl/"><img src="{{ asset('/images/sponsors/1.png') }}"></a>
+        </div>
+        <div class="col s12 m6 center">
+            <a target="_blank" href="http://www.sportstadcafe.nl/"><img src="{{ asset('/images/sponsors/2.png') }}"></a>
+        </div>
     </div>
 </section>
