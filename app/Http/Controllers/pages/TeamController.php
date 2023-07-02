@@ -45,7 +45,7 @@ class TeamController extends Controller
                 $team = Team::find($request->id);
             else
                 $team = new Team();
-            if($role->permission >= 50 || $team->leader_id == $user->id)  
+            if($role->permission >= 50 || $team->leader_id !== $user->id)  
             {                
                 $team->name = $request->name;
                 if($request->leader_id)
@@ -75,21 +75,13 @@ class TeamController extends Controller
                         $team->save();
                     }
                 }
-                return redirect(route('edit.team.route', $team->id));    
+                return redirect(route('teams'));    
             }
             abort(404); 
         }
     }
     public function edit(Request $request)
     {
-        $team = Team::find($request->id);
-        $team->name = $request->name;
-        $team->leader_id = $request->leader_id;
-        $team->save();
-        foreach ($request->users as $key => $user_id) 
-        {
-            $team->addPlayerToTeam($user_id, $team->id);
-        }
         return $this->create($request, true);
     }
     public function remove(int $id)
