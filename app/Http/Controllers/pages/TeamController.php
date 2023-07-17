@@ -86,9 +86,12 @@ class TeamController extends Controller
         $team->name = $request->name;
         $team->leader_id = $request->leader_id;
         $team->save();
-        foreach ($request->users as $key => $user_id) 
+        if($request->users)
         {
-            $team->addPlayerToTeam($user_id, $team->id);
+            foreach ($request->users as $key => $user_id) 
+            {
+                $team->addPlayerToTeam($user_id, $team->id);
+            }
         }
         return $this->create($request, true);
     }
