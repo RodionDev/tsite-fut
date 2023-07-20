@@ -1,7 +1,5 @@
 <?php
 namespace App\Http\Controllers\Auth;
-use App\Models\User;
-use App\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -9,8 +7,10 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Role;
 use App\Mail\Invite;
 class InviteController extends Controller
 {
@@ -21,11 +21,15 @@ class InviteController extends Controller
         $this->validator($request->all())->validate();  
         if(Auth::Check()) 
         {    
-            $user = Auth::user();
-            $role = Role::find($user->role_id);
+            $user = Auth::user();   
+            $role = Role::find($user->role_id); 
             if($role->permission <= Role::find($request->role)->permission) abort(404);   
-            event(new Registered($user = $this->create($request->all())));  
-            Mail::to($user->email)->send(new Invite(route('register', ['token' => $user->register_token])));
+            $invited_user = User::where('email', $request->email)->get()->first();   
+            if(!$invited_user)
+                event(new Registered( $invited_user = $this->create($request->all() )));  
+            elseif($invited_user->last_seen !== null)
+                abort(404);
+            Mail::to($invited_user->email)->send(new Invite(route('register', ['token' => $invited_user->register_token])));
             if (Mail::failures()) {
                 abort(404);
             }
@@ -36,7 +40,7 @@ class InviteController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'email' => 'required|string|email|max:199|unique:user',
+            'email' => 'required|string|email|max:199',
             'role' => 'required|int|max:4',
         ]);
     }
