@@ -29,6 +29,12 @@ class InviteController extends Controller
                 event(new Registered( $invited_user = $this->create($request->all() )));  
             elseif($invited_user->last_seen !== null)
                 abort(404);
+            else
+            {
+                $invited_user_object = User::find($invited_user->id);
+                $invited_user_object->register_token = $this->generateRegisterToken();
+                $invited_user_object->save();
+            }
             Mail::to($invited_user->email)->send(new Invite(route('register', ['token' => $invited_user->register_token])));
             if (Mail::failures()) {
                 abort(404);
