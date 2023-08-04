@@ -20,7 +20,7 @@ class InviteController extends Controller
     {
         $this->validator($request->all())->validate();  
         if(Auth::Check()) 
-        {    
+        {
             $user = Auth::user();   
             $role = Role::find($user->role_id); 
             if($role->permission <= Role::find($request->role)->permission) abort(404);   
@@ -39,7 +39,13 @@ class InviteController extends Controller
             if (Mail::failures()) {
                 abort(404);
             }
-            return redirect($this->redirectPath()); 
+            if($request->request_url)
+            {
+                $request_url = $invited_user->register_token;
+                return redirect(route('invite.with.url', $request_url));    
+            }
+            else
+                return redirect($this->redirectPath()); 
         }
         abort(404);
     }
@@ -70,14 +76,14 @@ class InviteController extends Controller
         }
         return $url;
     }
-    public function index()
+    public function index($url = null)
     {
         $user = Auth::user();   
         $user_role = Role::find($user->role_id);
         if( $user && $user_role->permission >= 30)   
         {
             $roles = Role::where('permission', '<', $user_role->permission)->get()->all();  
-            return view('/pages/auth/invite')->with('roles', $roles);  
+            return view('/pages/auth/invite')->with('roles', $roles)->with('url', $url);  
         }
         else    return redirect(route('home')); 
     }

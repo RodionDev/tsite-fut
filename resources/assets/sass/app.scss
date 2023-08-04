@@ -27,6 +27,9 @@ img {image-orientation: from-image;}
 /*
     HELPERS
 */
+.break-word {
+    word-break: break-all;
+}
 span.centre {
     display: block;
     text-align: center;

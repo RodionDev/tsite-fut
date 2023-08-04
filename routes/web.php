@@ -27,6 +27,7 @@ Route::middleware(['auth'])->group(function ($router)
     Route::get('profiel/aanpassen', 'Auth\UpdateUserController@editProfilePage')    ->name('profile.edit.route');
     $router->post('uitnodigen', 'Auth\InviteController@invite');
     $router->get('uitnodigen', 'Auth\InviteController@index')   ->name('invite');
+    $router->get('uitnodigen/{url}', 'Auth\InviteController@index')   ->name('invite.with.url');
     $router->post('uitloggen', 'Auth\LoginController@logout');
     Route::get('uitloggen', 'Auth\LoginController@logout')      ->name('logout');
     Route::get('users/search/{data?}', 'UserController@search');
