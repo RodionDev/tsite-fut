@@ -82,17 +82,6 @@ class TeamController extends Controller
     }
     public function edit(Request $request)
     {
-        $team = Team::find($request->id);
-        $team->name = $request->name;
-        $team->leader_id = $request->leader_id;
-        $team->save();
-        if($request->users)
-        {
-            foreach ($request->users as $key => $user_id) 
-            {
-                $team->addPlayerToTeam($user_id, $team->id);
-            }
-        }
         return $this->create($request, true);
     }
     public function remove(int $id)
