@@ -34,6 +34,13 @@ class TeamController extends Controller
         ]
         );
     }
+    private function isInTeam($player_id, $team_id)
+    {
+        $team = Team::find($team_id);
+        $players_in_team = $team->players()->where('id', $player_id)->get();
+        if($players_in_team)    return true;
+        else    return false;
+    }
     public function create(Request $request, $update=false)
     {
         $this->validator($request->all())->validate();  
@@ -63,7 +70,10 @@ class TeamController extends Controller
                 if($request->users)
                 {
                     foreach($request->users as $player)
-                        $team->players()->attach($player);
+                    {
+                        if($this->isInTeam($player, $team->id))
+                            $team->players()->attach($player);
+                    }
                 }
                 if($request->hasFile('logo'))
                 {
