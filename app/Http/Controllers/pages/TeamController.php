@@ -37,8 +37,8 @@ class TeamController extends Controller
     private function isInTeam($player_id, $team_id)
     {
         $team = Team::find($team_id);
-        $players_in_team = $team->players()->where('id', $player_id)->get();
-        if($players_in_team)    return true;
+        $is_in_team = $team->players()->where('id', $player_id)->get();
+        if($is_in_team)    return true;
         else    return false;
     }
     public function create(Request $request, $update=false)
@@ -71,7 +71,7 @@ class TeamController extends Controller
                 {
                     foreach($request->users as $player)
                     {
-                        if($this->isInTeam($player, $team->id))
+                        if(!$this->isInTeam($player, $team->id))
                             $team->players()->attach($player);
                     }
                 }
