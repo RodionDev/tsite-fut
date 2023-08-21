@@ -71,7 +71,6 @@ class TeamController extends Controller
                 {
                     foreach($request->users as $player)
                     {
-                        if(!$this->isInTeam($player, $team->id))
                             $team->players()->attach($player);
                     }
                 }
