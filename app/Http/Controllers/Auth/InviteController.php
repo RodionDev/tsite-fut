@@ -41,11 +41,10 @@ class InviteController extends Controller
             }
             if($request->request_url)
             {
-                $request_url = $invited_user->register_token;
+                $request_url = $invited_user_object->register_token;
                 return redirect(route('invite.with.url', $request_url));    
             }
-            else
-                return redirect($this->redirectPath()); 
+            return redirect($this->redirectPath()); 
         }
         abort(404);
     }
