@@ -38,7 +38,7 @@ $router->post('login', 'Auth\LoginController@login');
 $router->get('login', 'Auth\LoginController@index') ->name('login');
 $router->post('registreren', 'Auth\UpdateUserController@register');
 $router->get('registreren/{token}', 'Auth\UpdateUserController@registerPage')   ->name('register');
-$router->post('wachtwoord/vergeten', 'Auth\ForgotPasswordController@forgotPassword')        ->name('forgot.password');
+$router->post('wachtwoord/vergeten', 'Auth\ForgotPasswordController@sendResetLinkEmail')        ->name('forgot.password');
 Route::view('wachtwoord/vergeten', 'pages/auth/forgot-password');
 $router->post('wachtwoord/aanpassen', 'Auth\ResetPasswordController@ResetPassword');
 $router->get('wachtwoord/aanpassen/{token}', 'Auth\ResetPasswordController@showResetForm')        ->name('reset.password.token');
