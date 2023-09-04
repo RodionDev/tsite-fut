@@ -2,7 +2,6 @@
 namespace App;
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 class Team extends Model
 {
     public $table = 'team';
@@ -24,38 +23,9 @@ class Team extends Model
     }
     public function results()
     {
-        return $this->hasMany('App\Models\Result', 'team_id');
+        return $this->belongsToMany('App\Models\Result');
     }
     public function matches()
     {
-    }
-    public function scopeSearchName($query, $name)
-    {
-        return Team::select('name','logo', 'leader_id', 'id')
-            ->where(function($query) use($name)
-        {
-            $query->where('name', 'like', '%'.$name.'%');
-        });
-    }
-    public function addPlayerToTeam($user_id, $team_id)
-    {
-        $teams_and_users = DB::table('team_user')->get()->all();
-        foreach ($teams_and_users as $key => $team_and_user) 
-        {
-            if($team_and_user->user_id == $user_id && $team_and_user->team_id == $team_id)
-            {
-                continue;
-            }
-            elseif ($team_and_user->user_id != $user_id) 
-            {
-                continue;
-            }
-            else
-            {
-                return DB::table('team_user')->insert(
-                    ['team_id' => $team_id, 'user_id' => $user_id]
-                );
-            }
-        }
     }
 }

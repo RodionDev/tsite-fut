@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="">
 </head>
 <body>
-    <img src="{{ URL::to('/') . '/images/logo.png' }}">
+    <img src="{{ asset('images/logo.png') }}">
     <p>
         Je bent uitgenodigd voor registratie van Futsal Club Heerenveen!</br>
     </p>

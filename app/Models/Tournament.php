@@ -2,10 +2,6 @@
 namespace App;
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
-use App\Http\Controllers\DateController;
-use App\Models\Pool;
-use Illuminate\Support\Facades\Auth;
-use DateTime;
 class Tournament extends Model
 {
     public $table = 'tournament';

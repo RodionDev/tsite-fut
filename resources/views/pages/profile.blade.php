@@ -4,7 +4,7 @@
 <section id="profile">
         <h1 class="title">
             Profiel
-            <a href="{{ route('profile.edit.route') }}" class="btn right">Profiel wijzigen</a>
+            <a href="/profiel-aanpassen/" class="btn right">Profiel wijzigen</a>
         </h1>
         <div class="card">
             <div class="card-content">
@@ -29,7 +29,10 @@
                         @endif
                     </div>
                     <div class="col s12">
-                        <a href="{{ route('logout') }}" class="btn">Uitloggen</a>
+                        <h2 class="title">Man of the matches</h2>
+                    </div>
+                    <div class="col s12">
+                        <a href="/uitloggen/" class="btn">Uitloggen</a>
                     </div>
                 </div>
             </div>
