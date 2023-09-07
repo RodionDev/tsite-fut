@@ -11,6 +11,13 @@ use App\Models\Role;
 use Validator;
 class TeamController extends Controller
 {
+    public function search($name=null, $tournament=null)
+    {
+        $name = ($name) ? $name : request()->name;
+        return response()->json(
+            Team::searchName($name)    ->distinct()->get()
+        );
+    }
     public function teamsList()
     {
         $teams = Team::all();
@@ -27,6 +34,13 @@ class TeamController extends Controller
         ]
         );
     }
+    private function isInTeam($player_id, $team_id)
+    {
+        $team = Team::find($team_id);
+        $is_in_team = $team->players()->where('id', $player_id)->get()->first();
+        if($is_in_team)    return true;
+        else    return false;
+    }
     public function create(Request $request, $update=false)
     {
         $this->validator($request->all())->validate();  
@@ -35,11 +49,10 @@ class TeamController extends Controller
             $user = Auth::user();   
             $role = Role::Find($user->role_id); 
             if($update)
-            {
                 $team = Team::find($request->id);
-            }
-            else        $team = new Team();
-            if($role->permission >= 50 || $team->leader_id !== $user->id)  
+            else
+                $team = new Team();
+            if($role->permission >= 50 || $team->leader_id == $user->id)  
             {                
                 $team->name = $request->name;
                 if($request->leader_id)
@@ -57,7 +70,10 @@ class TeamController extends Controller
                 if($request->users)
                 {
                     foreach($request->users as $player)
-                        $team->players()->attach($player);
+                    {
+                        if(!$this->isInTeam($player, $team->id))
+                            $team->players()->attach($player);
+                    }
                 }
                 if($request->hasFile('logo'))
                 {
@@ -69,7 +85,7 @@ class TeamController extends Controller
                         $team->save();
                     }
                 }
-                return redirect(route('teams'));    
+                return redirect(route('edit.team.route', $team->id));    
             }
             abort(404); 
         }
@@ -112,7 +128,7 @@ class TeamController extends Controller
             $user = Auth::User();
             if($user->role->permission >= 50)
             {
-                return view('/pages/new-team')->with('creating', true);
+                return view('/pages/new-team')->with('creating', true)->with('user', $user);
             }
         }
         return redirect(route('home'));
@@ -125,13 +141,13 @@ class TeamController extends Controller
             $team = Team::find($id);
             if($user->id == $team->leader_id || $user->role->permission >= 50)
             {
-                $team = Team::find($id);
                 $leader = $team->leader;
                 return view('/pages/new-team')
                     ->with('creating', false)
                     ->with('team', $team)
                     ->with('leader_name', $leader->getFullName())
-                    ->with('players', $team->players);
+                    ->with('players', $team->players)
+                    ->with('user', $user);
             }
             else    abort(404);     
         }

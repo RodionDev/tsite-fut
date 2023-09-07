@@ -4,5 +4,6 @@
     "/css/pages/teams.css": "/css/pages/teams.css",
     "/js/app.js": "/js/app.js",
     "/js/pages/tournament.js": "/js/pages/tournament.js",
+    "/js/pages/cud-tournament.js": "/js/pages/cud-tournament.js",
     "/js/pages/new-team.js": "/js/pages/new-team.js"
 }

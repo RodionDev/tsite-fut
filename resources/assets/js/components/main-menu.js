@@ -5,9 +5,8 @@ for(let i=0; i < menu_items.length; i++)
 {
     let target = menu_items[i];
     let target_location = target.children[0].getAttribute("href");
-    if(target_location == window.location.pathname)
+    if(target_location == '/' + location.pathname.split('/')[1])
     {
-        console.log(target);
         target.children[0].classList.add("active");
         break;
     }

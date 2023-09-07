@@ -4,6 +4,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notifications\MailResetPasswordToken;
 use Illuminate\Support\Facades\DB;
+use App\Models\Tournament;
 class User extends Authenticatable
 {
     use Notifiable;
@@ -21,11 +22,21 @@ class User extends Authenticatable
     }
     public function getRandomUserId($role=null)
     {
-        return User::inRandomOrder()->first()->id;
+        if($role)   return User::inRandomOrder()->whereNotNull('first_name')->where('role_id', $role)->first()->id;
+        else    return User::inRandomOrder()->whereNotNull('first_name')->first()->id;
     }
     public function getUserWithToken($token)
     {
         return DB::table('user')->where('register_token', $token)->first();
+    }
+    public function tournaments($get=false)
+    {
+        $id = $this->id;
+        $tournaments = Tournament::whereHas('pools.teams.players', function($query) use($id)
+        {
+           $query->where('id', '=', $id);
+        });
+        return ($get) ? $tournaments->get() : $tournaments;
     }
     public function scopeSearchName($query, $name, $role_id=null)
     {
@@ -37,7 +48,7 @@ class User extends Authenticatable
             {
                 if($role_id)
                 {
-                    $query->where('role_id', $role_id);
+                    $query->where('role_id', '>=', $role_id);
                 }
                 $query->where('first_name', 'like', '%'.$names[$i].'%')
                     ->orWhere('sur_name', 'like', '%'.$names[$i].'%');

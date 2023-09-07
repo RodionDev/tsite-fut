@@ -4,8 +4,10 @@
 @section('content')
 <section id="teams">
         <h1 class="title">
+            @if($edit_all)
+            <a href="{{ route('create.team.route') }}" class="btn right">Nieuw</a>
+            @endif
             Teams
-            <a href="#" class="btn right">Nieuw</a>
         </h1>
         <ul class="collapsible">
             @foreach($teams as $team)
@@ -38,7 +40,7 @@
                                         <ul class="collection">
                                             @foreach($team->players as $user)
                                             <li class="collection-item">
-                                                <img src="{{ $user->avatar or asset('/images/image-missing.png') }}" alt="" class="user-avatar circle vertical-centre-image">
+                                                <img src="{{ $user->avatar or asset('/images/image-missing.png') }}" alt="" class="user-avatar vertical-centre-image">
                                                 <span class="title">{{ $user->first_name . ' ' . $user->sur_name }}</span>
                                                 <span href="#!" class="secondary-content">{{ $user->pivot->squad_number }}</span>
                                             </li>

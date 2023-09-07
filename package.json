@@ -20,7 +20,7 @@
         "vue": "^2.5.7"
     },
     "dependencies": {
-        "materialize-css": "^1.0.0-beta",
-        "mdi": "^2.2.43"
+        "@mdi/font": "^2.3.54",
+        "materialize-css": "^1.0.0-beta"
     }
 }
