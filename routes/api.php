@@ -5,9 +5,7 @@ Route::post('user/login', 'Auth\Api\APILoginController@login');
 Route::get('teams', ['uses' => 'Auth\Api\APITeamController@index', 'middleware' => 'jwt.auth' ]);
 Route::get('matchs',['uses' => 'Auth\Api\APIMatchController@index', 'middleware' => 'jwt.auth' ]);
 Route::get('tournament', 'Auth\Api\APITournamentController@index' );
-Route::get('poule', 'Auth\Api\APIPoolController@index');
-Route::get('viewt', 'Auth\Api\APITournamentController@viewTournament');
-Route::get('matches', 'Auth\Api\APIMatchController@index');
+Route::get('poule', 'Auth\Api\APITournamentController@index');
 Route::middleware('jwt.auth')->get('users', function(Request $request) {
     $user = JWTAuth::parseToken()->toUser();
     return $user;
