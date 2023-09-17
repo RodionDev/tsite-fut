@@ -8,12 +8,13 @@ class Forgot extends Mailable
 {
     use Queueable, SerializesModels;
     private $link;
+    public $subject = "Wachtwoord vergeten?";
     public function __construct($link)
     {
         $this->link = $link;
     }
     public function build()
     {
-        return $this->view('emails/reset')->with(['link' => $this->link]);
+        return $this->markdown('emails/reset')->with(['link' => $this->link]);
     }
 }

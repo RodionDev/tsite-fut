@@ -7,29 +7,29 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\PasswordReset;
 use App\Models\User;
+use App\Mail\Forgot;
 class ForgotPasswordController extends Controller
 {
     use SendsPasswordResetEmails;
     public function forgotPassword(Request $request)
     {
-        $user = User::where('email', $request->email)->get()->first();
-        if($user)
+        $user = User::where('email', $request->email)->get()->first();  
+        if($user && $user->last_seen)   
         {
-            $token = $this->generateForgotPasswordToken();
-            $password_reset = PasswordReset::where('email', $user->email);
-            dd($password_reset->get()->first());
+            $token = $this->generateForgotPasswordToken();  
+            $password_reset = PasswordReset::where('email', $user->email)->first(); 
             if(!$password_reset)
             {
                 $password_reset = new PasswordReset();
                 $password_reset->email = $user->email;
             }
-            $password_reset->token = Hash::make($token);
-            $password_reset->updated_at = time();
+            $password_reset->token = $token;
+            $password_reset->created_at = time();
             $password_reset->save();
-            dd("STOP");
             Mail::to($user->email)->send(new Forgot( route('reset.password.token', $token) ));
+            return redirect(route('forgot.password.route'));
         }
-        else abort(404); 
+        abort(404); 
     }
     protected function generateForgotPasswordToken($length = 64)
     {

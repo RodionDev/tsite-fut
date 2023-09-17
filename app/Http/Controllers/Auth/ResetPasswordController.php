@@ -2,29 +2,24 @@
 namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
-use \Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use \Illuminate\Http\Request;
 use App\Models\PasswordReset;
+use App\Models\User;
 class ResetPasswordController extends Controller
 {
     use ResetsPasswords;
     protected $redirectTo = '/';
     public function ResetPassword(Request $request)
     {
-        dd("test");
         if(Auth::Check())
-        {
             $user = Auth::User();
-            $user->password = Hash::make($request->password);   
-            $user->save();  
-        }
         else
-        {
-            dd($request);
-            $user = User::find();
-        }
+            $user = User::where('email', $request->email)->first();
+        $user->password = Hash::make($request->password);   
+        $user->save();  
         return $this->showResetForm($request, null, true);
     }
     public function getReset($token = null)
@@ -43,9 +38,7 @@ class ResetPasswordController extends Controller
             $email = $request->email;
         else    
         {
-            dd(Hash::make($token));
-            $email = PasswordReset::where('token', Hash::make($token));
-            dd($email->get());
+            $email = PasswordReset::where('token', $token)->first()->email;
         }
         return view('pages/auth/reset-password',
             ['token' => $token, 'email' => $email, 'success' => $success]

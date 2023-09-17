@@ -39,7 +39,7 @@ $router->get('login', 'Auth\LoginController@index') ->name('login');
 $router->post('registreren', 'Auth\UpdateUserController@register');
 $router->get('registreren/{token}', 'Auth\UpdateUserController@registerPage')   ->name('register');
 $router->post('wachtwoord/vergeten', 'Auth\ForgotPasswordController@forgotPassword')        ->name('forgot.password');
-Route::view('wachtwoord/vergeten', 'pages/auth/forgot-password');
+Route::view('wachtwoord/vergeten', 'pages/auth/forgot-password')                            ->name('forgot.password.route');
 $router->post('wachtwoord/aanpassen', 'Auth\ResetPasswordController@ResetPassword');
 $router->get('wachtwoord/aanpassen/{token}', 'Auth\ResetPasswordController@showResetForm')        ->name('reset.password.token');
 $router->get('wachtwoord/aanpassen', 'Auth\ResetPasswordController@showResetForm')                ->name('reset.password');
