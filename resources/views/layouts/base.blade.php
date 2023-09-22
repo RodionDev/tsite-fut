@@ -24,7 +24,6 @@
     </div>
     <footer class="container">
         @section('footer')
-            @include('components/sponsors')
         @show
         <script src="{{ URL::asset('./js/app.js') }}"></script>
         @hasSection('js')

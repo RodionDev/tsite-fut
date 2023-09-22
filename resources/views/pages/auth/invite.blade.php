@@ -2,14 +2,6 @@
 @section('site-title', 'Uitnodigen')
 @section('content')
 <section id="register">
-    @if($url)
-    <h1 class="title">Uitnodigen Link</h1>
-    <div class="card">
-        <div class="card-content">
-            <p class="break-word">{{ URL::to('/') . '/registreren/' . $url }}</p>
-        </div>
-    </div>
-    @endif
     <h1 class="title">Uitnodigen</h1>
     <div class="card">
         <div class="card-content">
@@ -33,12 +25,6 @@
                         <button type="submit" class="waves-effect waves-light btn">
                             Uitnodigen
                         </button>
-                    </div>
-                    <div class="col s12 input-field">
-                        <label>
-                            <input type="checkbox" name="request_url" />
-                            <span>Laat uitnodigen URL zien</span>
-                        </label>
                     </div>
                 </div>
             </form>

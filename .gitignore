@@ -6,7 +6,6 @@
 /public/images/avatars
 /public/images/teams
 /storage/*.key
-/storage/backups
 /vendor
 /.idea
 /.vscode

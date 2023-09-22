@@ -44,11 +44,11 @@
                     <div class="col s12">
                         <div class="row">
                             <div class="col s1">
-                                <img id="leader-image" class="px52" src="{{ $user->avatar }}"></img>
+                                <img id="leader-image" class="px52"></img>
                             </div>
                             <div class="col s11 input-field">
-                                <input id="leader-id" type="text" class="hide" name="leader_id" value="{{ $team->leader->id or $user->id }}" />  
-                                <input id="leader" type="text" class="validate search-input" name="leader" value="{{ $leader_name or $user->getFullName() }}" required />  
+                                <input id="leader-id" type="text" class="hide" name="leader_id" value="{{ $team->leader->id or '' }}" />  
+                                <input id="leader" type="text" class="validate search-input" name="leader" value="{{ $leader_name or '' }}" required />  
                                 <ul data-search-input="leader" data-search-image="leader-image" data-search-output="leader-id" data-search-id=3 class="collection z-depth-3 search-results hide"></ul> 
                                 <span class="helper-text" data-error="Vul een correcte naam in." data-success="">Vul een teamleider's naam in.</span>
                                 <label for="leader">Teamleider</label>

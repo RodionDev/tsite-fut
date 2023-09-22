@@ -135,7 +135,7 @@ class TournamentController extends Controller
             'mott_id' => 'integer|nullable',
         ]);
     }
-    public function viewTournament($id, $redirect=true)
+    public function viewTournament($id)
     {
         $user = Auth::user();
         $tournament = Tournament::find($id);
@@ -155,68 +155,29 @@ class TournamentController extends Controller
             array_unshift($pools, $my_pool);    
         $current_date = new DateTime();  
         $current_date = $current_date->format('Y-m-d H:i:00');
-        $current_matches = $tournament->matches()->where('has_ended', 0)->where('start', '<=', $current_date)->get();   
-        $current_matches_2 = $tournament->extraMatches()->where('has_ended', 0)->where('start', '<=', $current_date)->get();    
-        $current_matches = $current_matches->merge($current_matches_2)->all();  
-        if(sizeof($current_matches) > 1)   
-        {
-            foreach ($current_matches as $key => $match)    
-                $sort[$key] = strtotime($match['start']);   
-            array_multisort($sort, SORT_DESC, $current_matches); 
-            $current_matches = array_reverse($current_matches);  
-        }
+        $current_matches = $tournament->matches()->where('has_ended', 0)->where('start', '<=', $current_date)->get();
+        $current_matches_2 = $tournament->extraMatches()->where('has_ended', 0)->where('start', '<=', $current_date)->get();
+        $current_matches = $current_matches->merge($current_matches_2);
         $finished_matches = $tournament->matches()->where('has_ended', 1)->get();
         $finished_matches_2 = $tournament->extraMatches()->where('has_ended', 1)->get();
-        $finished_matches = $finished_matches->merge($finished_matches_2)->all();
-        if(sizeof($finished_matches) > 1)   
-        {
-            foreach ($finished_matches as $key => $match)    
-                $sort[$key] = strtotime($match['start']);   
-            array_multisort($sort, SORT_DESC, $finished_matches); 
-            $finished_matches = array_reverse($finished_matches);  
-        }
+        $finished_matches = $finished_matches->merge($finished_matches_2);
         $upcoming_matches = $tournament->matches()->where('has_ended', 0)->where('start', '>', $current_date)->get();
         $upcoming_matches_2 = $tournament->matches()->where('has_ended', 0)->where('start', null)->get();
         $upcoming_matches_3 = $tournament->extraMatches()->where('has_ended', 0)->where('start', '>', $current_date)->get();
         $upcoming_matches_4 = $tournament->extraMatches()->where('has_ended', 0)->where('start', null)->get();
-        $upcoming_matches = $upcoming_matches->merge($upcoming_matches_2)->merge($upcoming_matches_3)->merge($upcoming_matches_4)->all();
-        if(sizeof($upcoming_matches) > 1)   
-        {
-            foreach ($upcoming_matches as $key => $match)    
-                $sort[$key] = strtotime($match['start']);   
-            array_multisort($sort, SORT_DESC, $upcoming_matches); 
-            $upcoming_matches = array_reverse($upcoming_matches);  
-        }
-        if($redirect)
-        {
-            return view('pages/tournament',
-            [
-                'id' => $id,
-                'permission' => $user_permission,
-                'match' => $my_first_match,
-                'team1' => $team1,
-                'team2' => $team2,
-                'pools' => $pools,
-                'current_matches' => $current_matches,
-                'upcoming_matches' => $upcoming_matches,
-                'finished_matches' => $finished_matches,
-            ]);
-        }
-        else
-        {
-            $data = array(
-                'id' => $id,
-                'permission' => $user_permission,
-                'match' => $my_first_match,
-                'team1' => $team1,
-                'team2' => $team2,
-                'pools' => $pools,
-                'current_matches' => $current_matches,
-                'upcoming_matches' => $upcoming_matches,
-                'finished_matches' => $finished_matches,
-            );
-            return $data;
-        }
+        $upcoming_matches = $upcoming_matches->merge($upcoming_matches_2)->merge($upcoming_matches_3)->merge($upcoming_matches_4);
+        return view('pages/tournament',
+        [
+            'id' => $id,
+            'permission' => $user_permission,
+            'match' => $my_first_match,
+            'team1' => $team1,
+            'team2' => $team2,
+            'pools' => $pools,
+            'current_matches' => $current_matches,
+            'upcoming_matches' => $upcoming_matches,
+            'finished_matches' => $finished_matches,
+        ]);
     }
     public function tournamentsList()
     {
@@ -232,9 +193,9 @@ class TournamentController extends Controller
         else
         {
             $tournaments = $user->tournaments();
-            $current = Tournament::where('mott_id', null)->whereDate('start_date', '<=', $current_date)->get(); 
-            $upcoming = Tournament::whereDate('start_date', '>', $current_date)->get(); 
-            $finished = Tournament::whereNotNull('mott_id')->whereDate('start_date', '<', $current_date)->get();    
+            $current = $tournaments->where('mott_id', null)->whereDate('start_date', '<=', $current_date)->get(); 
+            $upcoming = $tournaments->whereDate('start_date', '>', $current_date)->get(); 
+            $finished = $tournaments->whereNotNull('mott_id')->whereDate('start_date', '<', $current_date)->get();    
             $can_edit = false;
         }
         return view('pages/tournaments',

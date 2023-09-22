@@ -65,12 +65,10 @@
                         <input id="token" type="text" name="token" value="{{ $register_token }}" required />
                     </div>
                     <div class="col s12 input-field">
-                        <p>
-                            <label>
-                                <input name="terms-of-service" type="checkbox" required>
-                                <span>Ja, ik accepteer de <a href="{{ route('terms.of.service') }}" target="_blank">Algemene Voorwaarden</a> en het <a href="{{ route('privacy.statement') }}" target="_blank">Privacybeleid</a> van mijntoernooien.nl <i>(links openen in een nieuw venster)</i>.</span>
-                            </label>
-                        </p>
+                        <label>
+                            <input name="terms-of-service" type="checkbox" required>
+                            <span>Ja, ik accepteer de <a href="{{ route('terms.of.service') }}" target="_blank">Algemene voorwaarden</a>  van mijntoernooien.nl. (link opent in een nieuw venster)</span>
+                        </label>
                     </div>
                     @endif
                     <div class="col s12 input-field">
