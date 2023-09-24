@@ -6,10 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Match;
 use App\Models\Role;
 use App\Models\Result;
-use App\Models\Team;
-use App\Models\Tournament;
 use App\Http\Controllers\Pages\TeamController;
-Use App\Http\Classes\Score;
 use Validator;
 class MatchController extends Controller
 {
@@ -81,7 +78,7 @@ class MatchController extends Controller
                 }
                 if($request->field) $match->field = $request->field;
                 if($request->tournament_id) $match->tournament_id = $request->tournament_id;
-                if($request->score1 && $request->score2)
+                if($request->score1 !== null && $request->score2 !== null)
                 {
                     $result1->score = $request->score1;
                     $result2->score = $request->score2;
@@ -114,7 +111,7 @@ class MatchController extends Controller
     {
         $user = Auth::user();
         $permission = $user->role()->first()->permission;
-        return view("/pages/ud-match",
+        return view("/pages/ud-match", 
         [
             'updating' => false,
             'permission' => $permission,
@@ -133,7 +130,7 @@ class MatchController extends Controller
             $start_time = date_format(date_create($match->start), "H:i");
             $start_date = date_format(date_create($match->start), "Y-m-d");
         }
-        return view("/pages/ud-match",
+        return view("/pages/ud-match", 
         [
             'updating' => true,
             'match' => $match,
@@ -141,56 +138,5 @@ class MatchController extends Controller
             'start_time' => $start_time,
             'start_date' => $start_date
         ]);  
-    }
-    public function showScoreboard($id)
-    {
-        $tournament = Tournament::find($id);
-        $matches = $tournament->matches()->where('has_ended', 1)->get();
-        $matches2 = $tournament->extraMatches()->where('has_ended', 1)->get();
-        $matches = $matches->merge($matches2);
-        $results =[];
-        $teams_not_played = Team::all()->all();
-        $teams_has_played = [];
-        foreach ($matches as $key => $match)
-        {
-            $result1 = Result::find($match->result1_id);
-            $result2 = Result::find($match->result2_id);
-            $new_match = [];
-            if ($result1->score == $result2->score)
-            {
-                $result1->result = 'tied';
-                $result2->result = 'tied';
-            }
-            elseif ($result1->score > $result2->score)
-            {
-                $result1->result = 'winner';
-                $result2->result = 'loser';
-            }
-            elseif ($result1->score < $result2->score)
-            {
-                $result1->result = 'loser';
-                $result2->result = 'winner';
-            }
-            $result1->team = Team::find($result1->team_id);
-            $result2->team = Team::find($result2->team_id);
-            array_push($new_match, $result1, $result2);
-            array_push($results, $new_match);
-        }
-        dd($results);
-        dd(count($results));
-        foreach ($results as $key => $result) 
-        {
-            $_team1 = Team::find($result[0]->team_id);
-            $_team2 = Team::find($result[1]->team_id);
-            if(in_array($_team1, $teams_not_played) && in_array($_team2, $teams_not_played))
-            {
-                $pos1 = array_search($_team1, $teams_not_played);
-                $pos2 = array_search($_team2, $teams_not_played);
-                unset($teams_not_played[$pos1]);
-                unset($teams_not_played[$pos2]);
-            }
-        }
-        dd(count($teams_not_played));
-        return view('pages.scoreboard', compact('teams'));
     }
 }
