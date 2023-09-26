@@ -168,6 +168,7 @@ class TournamentController extends Controller
         $finished_matches = $tournament->matches()->where('has_ended', 1)->get();
         $finished_matches_2 = $tournament->extraMatches()->where('has_ended', 1)->get();
         $finished_matches = $finished_matches->merge($finished_matches_2)->all();
+        dd($current_matches, $finished_matches);
         if(sizeof($finished_matches) > 1)   
         {
             foreach ($finished_matches as $key => $match)    
