@@ -168,14 +168,15 @@ class TournamentController extends Controller
         $finished_matches = $tournament->matches()->where('has_ended', 1)->get();
         $finished_matches_2 = $tournament->extraMatches()->where('has_ended', 1)->get();
         $finished_matches = $finished_matches->merge($finished_matches_2)->all();
-        dd($current_matches, $finished_matches);
         if(sizeof($finished_matches) > 1)   
         {
+            $sort;
             foreach ($finished_matches as $key => $match)    
                 $sort[$key] = strtotime($match['start']);   
             array_multisort($sort, SORT_DESC, $finished_matches); 
             $finished_matches = array_reverse($finished_matches);  
         }
+        dd($current_matches, $finished_matches, $sort);
         $upcoming_matches = $tournament->matches()->where('has_ended', 0)->where('start', '>', $current_date)->get();
         $upcoming_matches_2 = $tournament->matches()->where('has_ended', 0)->where('start', null)->get();
         $upcoming_matches_3 = $tournament->extraMatches()->where('has_ended', 0)->where('start', '>', $current_date)->get();
