@@ -173,10 +173,10 @@ class TournamentController extends Controller
             $sort;
             foreach ($finished_matches as $key => $match)    
                 $sort[$key] = strtotime($match['start']);   
+        dd($current_matches, $finished_matches, $sort);
             array_multisort($sort, SORT_DESC, $finished_matches); 
             $finished_matches = array_reverse($finished_matches);  
         }
-        dd($current_matches, $finished_matches, $sort);
         $upcoming_matches = $tournament->matches()->where('has_ended', 0)->where('start', '>', $current_date)->get();
         $upcoming_matches_2 = $tournament->matches()->where('has_ended', 0)->where('start', null)->get();
         $upcoming_matches_3 = $tournament->extraMatches()->where('has_ended', 0)->where('start', '>', $current_date)->get();
