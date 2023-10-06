@@ -2,12 +2,10 @@
 namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use \Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use \Illuminate\Http\Request;
-use App\Models\PasswordReset;
-use App\Models\User;
 class ResetPasswordController extends Controller
 {
     use ResetsPasswords;
@@ -15,15 +13,13 @@ class ResetPasswordController extends Controller
     public function ResetPassword(Request $request)
     {
         if(Auth::Check())
-            $user = Auth::User();
-        else
         {
-            $reset_password = PasswordReset::where('token', $request->token)->first();
-            $user = User::where('email', $reset_password->email)->first();
+            $user = Auth::User();
+            $user->password = Hash::make($request->password);   
+            $user->save();  
         }
-        $user->password = Hash::make($request->password);   
-        $user->save();  
-        return redirect(route('home'));
+        else    $this->reset($request);
+        return $this->showResetForm($request, null, true);
     }
     public function getReset($token = null)
     {
@@ -35,28 +31,9 @@ class ResetPasswordController extends Controller
     }
     public function showResetForm(Request $request, $token=null, $success=null)
     {
-        if(Auth::check())   
-            $email = Auth::user()->email;
-        elseif($request->email) 
-            $email = $request->email;
-        else    
-        {
-            $email = PasswordReset::where('token', $token)->first()->email;
-        }
+        $email = (Auth::Check()) ? Auth::User()->email : $request->email;
         return view('pages/auth/reset-password',
             ['token' => $token, 'email' => $email, 'success' => $success]
         );
-    }
-    private function generateResetPasswordToken($length = 64)
-    {
-        $character_array = array_merge(range('a','z'), range('A', 'Z'), range('0','9'));
-        $max = count($character_array)-1;
-        $token = "";
-        for ($i = 0; $i < $length; $i++)
-        {
-            $random_character = mt_rand(0, $max);
-            $token .= $character_array[$random_character];
-        }
-        return $token;
     }
 }
