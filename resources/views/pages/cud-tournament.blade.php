@@ -51,7 +51,7 @@
                                 <input id="team" type="text" class="search-input" />  
                                 <ul data-search-input="team" data-search-output="teams-list" class="collection z-depth-3 search-results hide"></ul> 
                                 <span class="helper-text" data-error="Vul een correcte naam in." data-success="">Vul een team's naam in.</span>
-                                <label for="player">Teams Toevoegen</label>
+                                <label for="team">Teams Toevoegen</label>
                             </div>
                         </div>
                         <div class="row">

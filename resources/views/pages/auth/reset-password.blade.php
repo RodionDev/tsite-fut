@@ -35,15 +35,8 @@
                             </ul>
                         </div>
                     @endif
-                    @if (Auth::Check())
-                    <div class="col s12 input-field hide">
-                    @else
-                    <div class="col s12 input-field">
-                    @endif
-                        <input id="email" type="email" class="validate" name="email" value="{{ $email ?? old('email') }}" required autofocus />
-                        <label for="email">E-mailadres</label>
-                        <span class="helper-text" data-error="Vul een juist e-mailadres in." data-success="">Vul een e-mail in.</span>
-                    </div>
+                    <input type="text" name="token" class="hide" value="{{ $token or null }}" />
+                    <input type="email" name="email" class="hide" value="{{ $email or null }}" />
                     <div class="col s12 input-field">
                         <input id="password" type="password" class="validate" name="password" required />
                         <label for="password" class="col-md-4 col-form-label text-md-right">Wachtwoord</label>
