@@ -135,9 +135,12 @@ class TournamentController extends Controller
             'mott_id' => 'integer|nullable',
         ]);
     }
-    public function viewTournament($id, $redirect=true)
+    public function viewTournament($id, $user_id=null, $redirect=true)
     {
-        $user = Auth::user();
+        if($user_id)
+            $user = User::find($user_id);
+        else
+            $user = Auth::user();
         $tournament = Tournament::find($id);
         $user_permission = $user->role->permission;
         $team1=null;
