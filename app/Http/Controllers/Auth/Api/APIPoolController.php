@@ -1,11 +1,9 @@
 <?php
 namespace App\Http\Controllers;
 namespace App\Http\Controllers\Auth\Api;
-use App\Http\Controllers\Pages\TournamentController;
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\Tournament;
-use App\Models\Team;
+use App\Models\Pool;
 use App\Models\Role;
 use JWTFactory;
 use JWTAuth;
@@ -13,21 +11,21 @@ use Validator;
 use Response;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
-class APITournamentController extends Controller
+class APIPoolController extends Controller
 {
     public function index()
     {
-        return Tournament::all();
-     }
+        return Pool::all();
+    }
     public function create()
     {
     }
     public function store(Request $request)
     {
     }
-    public function show(Tournament $tournament)
+    public function show(Pool $pool)
     {
-        return $tournament;
+        return $pool;
     }
     public function edit($id)
     {
@@ -37,11 +35,5 @@ class APITournamentController extends Controller
     }
     public function destroy($id)
     {
-    }
-    public function viewTournament($tournament_id)
-    {
-        $tournament_controller = new TournamentController;
-        $data = $tournament_controller->viewTournament($tournament_id, false);
-        return $data;
     }
 }

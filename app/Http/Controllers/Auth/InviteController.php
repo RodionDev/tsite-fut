@@ -25,7 +25,6 @@ class InviteController extends Controller
             $role = Role::find($user->role_id); 
             if($role->permission <= Role::find($request->role)->permission) abort(404);   
             $invited_user = User::where('email', $request->email)->get()->first();   
-            $invited_user_object;
             if(!$invited_user)
                 event(new Registered( $invited_user = $this->create($request->all() )));  
             elseif($invited_user->last_seen !== null)
@@ -36,10 +35,7 @@ class InviteController extends Controller
                 $invited_user_object->register_token = $this->generateRegisterToken();
                 $invited_user_object->save();
             }
-            if($invited_user_object)
-                Mail::to($invited_user->email)->send(new Invite(route('register', ['token' => $invited_user_object->register_token])));
-            else
-                Mail::to($invited_user->email)->send(new Invite(route('register', ['token' => $invited_user->register_token])));
+            Mail::to($invited_user->email)->send(new Invite(route('register', ['token' => $invited_user->register_token])));
             if (Mail::failures()) {
                 abort(404);
             }
