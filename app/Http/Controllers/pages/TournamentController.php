@@ -135,9 +135,12 @@ class TournamentController extends Controller
             'mott_id' => 'integer|nullable',
         ]);
     }
-    public function viewTournament($id, $redirect=true)
+    public function viewTournament($id, $user_id=null, $redirect=true)
     {
-        $user = Auth::user();
+        if($user_id)
+            $user = User::find($user_id);
+        else
+            $user = Auth::user();
         $tournament = Tournament::find($id);
         $user_permission = $user->role->permission;
         $team1=null;
@@ -161,8 +164,8 @@ class TournamentController extends Controller
         if(sizeof($current_matches) > 1)   
         {
             foreach ($current_matches as $key => $match)    
-                $sort[$key] = strtotime($match['start']);   
-            array_multisort($sort, SORT_DESC, $current_matches); 
+                $current_sort[$key] = strtotime($match['start']);   
+            array_multisort($current_sort, SORT_DESC, $current_matches); 
             $current_matches = array_reverse($current_matches);  
         }
         $finished_matches = $tournament->matches()->where('has_ended', 1)->get();
@@ -171,8 +174,8 @@ class TournamentController extends Controller
         if(sizeof($finished_matches) > 1)   
         {
             foreach ($finished_matches as $key => $match)    
-                $sort[$key] = strtotime($match['start']);   
-            array_multisort($sort, SORT_DESC, $finished_matches); 
+                $finished_sort[$key] = strtotime($match['start']);   
+            array_multisort($finished_sort, SORT_DESC, $finished_matches); 
             $finished_matches = array_reverse($finished_matches);  
         }
         $upcoming_matches = $tournament->matches()->where('has_ended', 0)->where('start', '>', $current_date)->get();
@@ -183,8 +186,8 @@ class TournamentController extends Controller
         if(sizeof($upcoming_matches) > 1)   
         {
             foreach ($upcoming_matches as $key => $match)    
-                $sort[$key] = strtotime($match['start']);   
-            array_multisort($sort, SORT_DESC, $upcoming_matches); 
+                $upcoming_sort[$key] = strtotime($match['start']);   
+            array_multisort($upcoming_sort, SORT_DESC, $upcoming_matches); 
             $upcoming_matches = array_reverse($upcoming_matches);  
         }
         if($redirect)
