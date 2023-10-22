@@ -20,7 +20,6 @@
         @show
     </header>
     <div class="content container flow-text">
-        @include('components/error-bar')
         @yield('content')
     </div>
     <footer class="container">
