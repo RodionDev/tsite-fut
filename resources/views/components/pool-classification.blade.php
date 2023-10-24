@@ -19,10 +19,10 @@
                     <ul>
                         @foreach($pool->teams as $team)
                         <li class="list-item">
-                            <span class="team-info">
-                                <img class="scale-image vertical-centre-image" data-image-size=40 src="{{ $team->logo or asset('images\image-missing.png') }}">
-                                {{ $team->name }}
-                            </span>
+                            <div class="team-info">
+                                <div class="image-container"><img class="scale-image vertical-centre-image" data-image-size=40 src="{{ $team->logo or asset('images\image-missing.png') }}"></div>
+                                <div>{{ $team->name }}</div>
+                            </div>
                         </li>
                         @endforeach
                     </ul>
