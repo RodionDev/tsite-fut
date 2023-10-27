@@ -25,7 +25,7 @@ class InviteController extends Controller
             $role = Role::find($user->role_id); 
             if($role->permission <= Role::find($request->role)->permission) abort(404);   
             $invited_user = User::where('email', $request->email)->get()->first();   
-            $invited_user_object;
+            $invited_user_object = null;
             if(!$invited_user)
                 event(new Registered( $invited_user = $this->create($request->all() )));  
             elseif($invited_user->last_seen !== null)
