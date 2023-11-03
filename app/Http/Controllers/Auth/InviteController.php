@@ -25,7 +25,7 @@ class InviteController extends Controller
             $role = Role::find($user->role_id); 
             if($role->permission <= Role::find($request->role)->permission) abort(404);   
             $invited_user = User::where('email', $request->email)->get()->first();   
-            $invited_user_object = null;
+            $invited_user_object;
             if(!$invited_user)
                 event(new Registered( $invited_user = $this->create($request->all() )));  
             elseif($invited_user->last_seen !== null)
@@ -45,10 +45,7 @@ class InviteController extends Controller
             }
             if($request->request_url)
             {
-                if($invited_user_object)
-                    $request_url = $invited_user_object->register_token;
-                else
-                    $request_url = $invited_user->register_token;
+                $request_url = $invited_user_object->register_token;
                 return redirect(route('invite.with.url', $request_url));    
             }
             return redirect($this->redirectPath()); 
