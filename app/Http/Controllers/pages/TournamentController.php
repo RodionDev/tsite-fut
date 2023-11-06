@@ -83,26 +83,28 @@ class TournamentController extends Controller
     public function create(Request $request, $update=false)
     {
         $this->validator($request->all())->validate();  
-        if(Auth::Check()) 
+        if(!Auth::Check())  
+            return \Redirect::back()->withErrors(['Je moet ingelogd zijn.']); 
+        $user = Auth::user();   
+        $role = Role::Find($user->role_id); 
+        if($update)
         {
-            $user = Auth::user();   
-            $role = Role::Find($user->role_id); 
-            if($update)
-                $tournament = Tournament::find($request->id);
-            else
-                $tournament = new Tournament();
-            if($role->permission >= 50)  
-            {
-                $tournament->name = $request->name;
-                $tournament->start_date = $request->start_date;
-                $tournament->end_date = $request->end_date;
-                $tournament->save();
-                if($request->teams && $request->pools_amount)
-                    return $this->generatePools($tournament, $request->teams, $request->pools_amount);
-                return redirect(route('tournaments'));    
-            }
-            abort(404); 
+            $tournament = Tournament::find($request->id);
+            if(!$tournament)    return \Redirect::back()->withErrors(['Toernooi niet gevonden.']);  
         }
+        else
+            $tournament = new Tournament();
+        if($role->permission >= 50)  
+        {
+            $tournament->name = $request->name;
+            $tournament->start_date = $request->start_date;
+            $tournament->end_date = $request->end_date;
+            $tournament->save();
+            if($request->teams && $request->pools_amount)
+                return $this->generatePools($tournament, $request->teams, $request->pools_amount);
+            return redirect(route('tournaments'));    
+        }
+        else    return \Redirect::back()->withErrors(['Je hebt hier niet de juiste permissies voor.']);
     }
     public function edit(Request $request)
     {
@@ -110,16 +112,16 @@ class TournamentController extends Controller
     }
     public function remove(int $id)
     {
-        if(Auth::Check())
+        if(!Auth::Check())  return \Redirect::back()->withErrors(['Je moet ingelogd zijn om een toernooi te verwijderen.']);
+        $user = Auth::User();
+        $tournament = Tournament::find($id);
+        if(!$tournament)    return \Redirect::back()->withErrors(['Toernooi niet gevonden.']);
+        if($user->role->permission >= 50)
         {
-            $user = Auth::User();
-            $tournament = Tournament::find($id);
-            if($user->role->permission >= 50)
-            {
-                $tournament->delete();
-                return redirect(route('tournaments'));
-            }
+            $tournament->delete();
+            return redirect(route('tournaments'));
         }
+        else    return \Redirect::back()->withErrors(['Je hebt niet de juiste permissies om een toernooi te verwijderen.']);
     }
     public function removeByRequest(Request $request)
     {
@@ -138,10 +140,17 @@ class TournamentController extends Controller
     public function viewTournament($id, $user_id=null, $redirect=true)
     {
         if($user_id)
+        {
             $user = User::find($user_id);
+            if(!$user)  return \Redirect::back()->withErrors(['Gebruiker niet gevonden']);
+        }
         else
+        {
+            if(!Auth::check())  return \Redirect::back()->withErrors(['Je moet ingelogd zijn om een toernooi te bekijken.']);
             $user = Auth::user();
+        }
         $tournament = Tournament::find($id);
+        if(!$tournament)    return \Redirect::back()->withErrors(['Toernooi niet gevonden.']);
         $user_permission = $user->role->permission;
         $team1=null;
         $team2=null;
@@ -223,6 +232,7 @@ class TournamentController extends Controller
     }
     public function tournamentsList()
     {
+        if(!Auth::Check())  return \Redirect::back()->withErrors(['Je moet ingelogd zijn een toernooien te bekijken']);
         $user = Auth::User();
         $current_date = date('Y-m-d');  
         if($user->role->permission >= 50)
@@ -257,8 +267,9 @@ class TournamentController extends Controller
             {
                 return view('/pages/cud-tournament')->with('creating', true);
             }
+            else return \Redirect::back()->withErrors(['Je hebt niet de juiste permissies om een toernooi aan te maken.']);
         }
-        return redirect(route('home'));
+        else return \Redirect::back()->withErrors(['Je moet ingelogd zijn om een toernooi te bekijken']);
     }
     public function showEditForm(int $id)
     {
@@ -266,14 +277,16 @@ class TournamentController extends Controller
         {
             $user = Auth::User();
             $tournament = Tournament::find($id);
+            if(!$tournament)    return \Redirect::back()->withErrors(['Toernooi niet gevonden.']);  
             if($user->role->permission >= 50)
             {
                 return view('/pages/cud-tournament')
                     ->with('creating', false)
                     ->with('tournament', $tournament);
             }
-            else    abort(404);     
+            else    return \Redirect::back()->withErrors(['Je hebt niet de juiste permissies om een toernooi aan te passen.']); 
         }
+        else    return \Redirect::back()->withErrors(['Je moet ingelogd zijn om een toernooi te bekijken.']);   
         return redirect(route('home'));
     }
 }
