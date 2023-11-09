@@ -18,8 +18,11 @@
                     <span class="card-title">Groep {{ range('A', 'Z')[$pool->number -1] }}</span>
                     <ul>
                         @foreach($pool->teams as $team)
-                        <li>
-                            <span class="team-info"><img class="px40 vertical-centre-image" src="{{ $team->logo or asset('images\image-missing.png') }}">{{ $team->name }}</span>
+                        <li class="list-item">
+                            <div class="team-info">
+                                <div class="image-container"><img class="scale-image vertical-centre-image" data-image-size=40 src="{{ $team->logo or asset('images\image-missing.png') }}"></div>
+                                <div>{{ $team->name }}</div>
+                            </div>
                         </li>
                         @endforeach
                     </ul>
