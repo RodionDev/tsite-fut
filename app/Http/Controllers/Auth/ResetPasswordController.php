@@ -20,7 +20,7 @@ class ResetPasswordController extends Controller
         {
             if(!$request->token)    return \Redirect::back()->withErrors(['Je moet ingelogd zijn of een token meegeven.']);
             $reset_password = PasswordReset::where('token', $request->token)->first();
-            if(!$reset_password)    return \Redirect::back()->withErrors(['Token is niet correct of verlopen.']);
+            if(!$reset_password)    return \Redirect::back()->withErrors(['Wachtwoord Reset Link is niet correct of verlopen.']);
             $user = User::where('email', $reset_password->email)->first();
             if(!$user)  return \Redirect::back()->withErrors(['Token hoort bij geen gebruiker.', 'Neem contact op met een beheerder. ERROR:resetpassword01']);
         }
