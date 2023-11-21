@@ -16,45 +16,39 @@ class UpdateUserController extends Controller
     protected $redirectTo = '/';
     public function updateUser(Request $request)
     {
-        if(Auth::Check())  
+        if(!Auth::Check())  return \Redirect::back()->withErrors(['Je moet ingelogd zijn om je profiel aan te passen.']);  
+        $this->updateValidator($request->all())->validate();  
+        $user = Auth::User();   
+        $user->fill($request->all());   
+        if ($request->hasFile('avatar'))
         {
-            $this->updateValidator($request->all())->validate();  
-            $user = Auth::User();   
-            $user->fill($request->all());   
-            if ($request->hasFile('avatar'))
-            {
-                $image_controller = new ImageController;
-                $image_path = $image_controller->uploadImage($request->file('avatar'), 'avatars', (string)$user->id);
-                if($image_path) $user->avatar = $image_path;
-            }
-            $user->save();  
-            return redirect(route('profile')); 
+            $image_controller = new ImageController;
+            $image_path = $image_controller->uploadImage($request->file('avatar'), 'avatars', (string)$user->id);
+            if($image_path) $user->avatar = $image_path;
         }
-        abort(404);
+        $user->save();  
+        return redirect(route('profile')); 
     }
     public function register(Request $request)
     {  
         $this->registerValidator($request->all())->validate();  
         $user_controller = new UserController;
         $user = $user_controller->getUserWithToken($request->token);   
-        if($user !== null)  
+        if($user == null)   return \Redirect::back()->withErrors(['Deze registreren link is incorrect of verlopen']);
+        $user = User::find($user->id);  
+        $user->fill($request->all());   
+        $user->password = Hash::make($request->password);   
+        $user->register_token = null;   
+        $user->last_seen = new \DateTime(); 
+        if ($request->hasFile('avatar'))
         {
-            $user = User::find($user->id);  
-            $user->fill($request->all());   
-            $user->password = Hash::make($request->password);   
-            $user->register_token = null;   
-            $user->last_seen = new \DateTime(); 
-            if ($request->hasFile('avatar'))
-            {
-                $image_controller = new ImageController;
-                $image_path = $image_controller->uploadImage($request->file('avatar'), 'avatars', (string)$user->id);
-                if($image_path) $user->avatar = $image_path;
-            }
-            $user->save();  
-            Auth::loginUsingId($user->id);  
-            return redirect(route('home')); 
+            $image_controller = new ImageController;
+            $image_path = $image_controller->uploadImage($request->file('avatar'), 'avatars', (string)$user->id);
+            if($image_path) $user->avatar = $image_path;
         }
-        abort(404);
+        $user->save();  
+        Auth::loginUsingId($user->id);  
+        return redirect(route('home')); 
     }
     protected function registerValidator(array $data)
     {
@@ -74,20 +68,17 @@ class UpdateUserController extends Controller
         ]);
     }
     public function editProfilePage()
-    {
-        if(Auth::Check())   return view("/pages/auth/update-user", ['registering' => 0, 'user' => Auth::User()]);
-        abort(404); 
+    {        
+        if(!Auth::check())  return \Redirect::back()->withErrors(['Je moet ingelogd zijn om je profiel aan te passen.']);
+        return view("/pages/auth/update-user", ['registering' => 0, 'user' => Auth::User()]);
     }
     public function registerPage($token)
     {
-        if($token)  
+        $user = DB::table('user')->where('register_token', $token)->first();    
+        if($user)   
         {
-            $user = DB::table('user')->where('register_token', $token)->first();    
-            if($user)   
-            {
-                return view("/pages/auth/update-user", ['registering' => 1, 'register_token' => $token]);  
-            }
+            return view("/pages/auth/update-user", ['registering' => 1, 'register_token' => $token]);  
         }
-        abort(404); 
+        else    return \Redirect::back()->withErrors(['Deze Registratie Link is incorrect of verlopen']);
     }
 }
