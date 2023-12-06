@@ -56,7 +56,7 @@ class UpdateUserController extends Controller
             'first_name' => 'required|string|max:199',
             'sur_name' => 'required|string|max:199',
             'avatar' => 'image',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:5|confirmed',
         ]);
     }
     protected function updateValidator(array $data)
