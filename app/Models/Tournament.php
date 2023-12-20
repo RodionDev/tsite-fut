@@ -38,10 +38,15 @@ class Tournament extends Model
     {
         return $this->hasMany('App\Models\Match');
     }
-    public function myPools($get=null)
+    public function myPools($get=null, $user_id=null)
     {
-        $user = Auth::user();
-        $id = $user->id;
+        if($user_id)
+            $id = $user_id;
+        else
+        {
+            $user = Auth::user();
+            $id = $user->id;
+        }
         $pools = $this->pools()->whereHas('teams.players', function($query) use($id)
         {
            $query->where('id', '=', $id);
@@ -54,12 +59,9 @@ class Tournament extends Model
         $pool = ($pools) ? $pools->orderBy('number', 'desc')->first() : null;
         return ($pool) ? $pool->number : 0;
     }
-    public function myMatches($user_id, $has_ended=null)
+    public function myMatches($user_id)
     {
-        if($has_ended !== null)
-            $matches = $this->matches()->where('has_ended', $has_ended);
-        else
-            $matches = $this->matches();
+        $matches = $this->matches();
         $my_match = $matches->whereNotNull('start')->whereHas('result1.team.players', function($query) use($user_id)
         {
            $query->where('id', '=', $user_id);
@@ -70,12 +72,9 @@ class Tournament extends Model
         });
         return $my_match->orderBy('start');
     }
-    public function myExtraMatches($user_id, $has_ended=null)
+    public function myExtraMatches($user_id)
     {
-        if($has_ended !== null)
-            $matches = $this->extraMatches()->where('has_ended', $has_ended);
-        else
-            $matches = $this->extraMatches();
+        $matches = $this->extraMatches();
         $my_match = $matches->whereNotNull('start')->whereHas('result1.team.players', function($query) use($user_id)
         {
            $query->where('id', '=', $user_id);
@@ -88,22 +87,16 @@ class Tournament extends Model
     }
     public function myFirstMatch($user_id)
     {
-        $matches1 = $this->myMatches($user_id, 0)->get();
-        $matches2 = $this->myExtraMatches($user_id, 0)->get();
-        $matches = $matches1->merge($matches2);
-        if($matches)    
+        $match1 = $this->myMatches($user_id)->first();
+        $match2 = $this->myExtraMatches($user_id)->first();
+        if($match1 && $match2)
         {
-            if(sizeof($matches) > 1)
-            {
-                foreach ($matches as $key => $match)    
-                    $sort[$key] = strtotime($match->start);   
-                $matches = $matches->all();
-                array_multisort($sort, SORT_DESC, $matches); 
-                $matches = array_reverse($matches);  
-                return $matches[0];
-            }
-            else    return $matches->first();   
+            if( new DateTime($match1->start) < new DateTime($match2->start) )
+                return $match1;
+            else    return $match2;
         }
-        return false;
+        elseif($match1) return $match1;
+        elseif($match2) return $match2;
+        else return false;
     }
 }

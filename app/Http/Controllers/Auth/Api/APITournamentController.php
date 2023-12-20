@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 namespace App\Http\Controllers\Auth\Api;
+use App\Http\Controllers\Pages\TournamentController;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Tournament;
@@ -36,5 +37,13 @@ class APITournamentController extends Controller
     }
     public function destroy($id)
     {
+    }
+    public function viewTournament($tournament_id)
+    {
+        $token = JWTAuth::getToken();
+        $payload = JWTAuth::getPayload($token)->toArray();
+        $tournament_controller = new TournamentController;
+        $data = [ $tournament_controller->viewTournament($tournament_id, $payload['sub'], false)];
+        return $data;
     }
 }
