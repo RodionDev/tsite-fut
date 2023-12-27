@@ -3,8 +3,9 @@ namespace App;
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Controllers\DateController;
-use App\Models\Pool;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use App\Models\Pool;
 use DateTime;
 class Tournament extends Model
 {
@@ -76,6 +77,7 @@ class Tournament extends Model
             $matches = $this->extraMatches()->where('has_ended', $has_ended);
         else
             $matches = $this->extraMatches();
+        Log::debug('my matches: ', $matches->get()->all());
         $my_match = $matches->whereNotNull('start')->whereHas('result1.team.players', function($query) use($user_id)
         {
            $query->where('id', '=', $user_id);
