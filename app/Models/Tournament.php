@@ -77,7 +77,6 @@ class Tournament extends Model
             $matches = $this->extraMatches()->where('has_ended', $has_ended);
         else
             $matches = $this->extraMatches();
-        Log::debug('my matches: ', $matches->get()->all());
         $my_match = $matches->whereNotNull('start')->whereHas('result1.team.players', function($query) use($user_id)
         {
            $query->where('id', '=', $user_id);
@@ -102,6 +101,7 @@ class Tournament extends Model
                 $matches = $matches->all();
                 array_multisort($sort, SORT_DESC, $matches); 
                 $matches = array_reverse($matches);  
+                Log::debug('my matches: ', $matches);
                 return $matches[0];
             }
             else    return $matches->first();   

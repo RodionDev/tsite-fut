@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Pages;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use App\Models\Tournament;
 use App\Models\Pool;
 use App\Models\Team;
@@ -155,6 +156,7 @@ class TournamentController extends Controller
         $team1=null;
         $team2=null;
         $my_first_match = $tournament->myFirstMatch($user->id);   
+        Log::debug('my first match: ', (array)$my_first_match);
         if($my_first_match)
         {
             $team1 = $my_first_match->result1->team;  
