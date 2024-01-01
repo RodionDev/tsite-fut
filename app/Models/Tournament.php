@@ -74,7 +74,10 @@ class Tournament extends Model
     public function myExtraMatches($user_id, $has_ended=null)
     {
         if($has_ended !== null)
+        {
             $matches = $this->extraMatches()->where('has_ended', $has_ended);
+            Log::debug('my EXTRA matches: ', $matches);
+        }
         else
             $matches = $this->extraMatches();
         $my_match = $matches->whereNotNull('start')->whereHas('result1.team.players', function($query) use($user_id)
