@@ -76,7 +76,7 @@ class Tournament extends Model
         if($has_ended !== null)
         {
             $matches = $this->extraMatches()->where('has_ended', $has_ended);
-            Log::debug('my EXTRA matches: ', $matches);
+            Log::debug('my EXTRA matches: ', $matches->get()->all());
         }
         else
             $matches = $this->extraMatches();
