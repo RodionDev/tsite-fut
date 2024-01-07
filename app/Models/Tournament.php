@@ -92,9 +92,7 @@ class Tournament extends Model
     }
     public function myFirstMatch($user_id)
     {
-        $matches1 = $this->myMatches($user_id, 0)->get();
-        $matches2 = $this->myExtraMatches($user_id, 0)->get();
-        $matches = $matches1->merge($matches2);
+        $matches = $this->myExtraMatches($user_id, 0)->get();
         if($matches)    
         {
             if(sizeof($matches) > 1)
