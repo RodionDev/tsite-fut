@@ -92,13 +92,16 @@ class Tournament extends Model
     }
     public function myFirstMatch($user_id)
     {
-        $matches = $this->myExtraMatches($user_id, 0)->get();
+        $matches1 = $this->myMatches($user_id, 0)->get();
+        $matches2 = $this->myExtraMatches($user_id, 0)->get();
+        $matches = $matches1->merge($matches2);
         if($matches)    
         {
             if(sizeof($matches) > 1)
             {
                 foreach ($matches as $key => $match)    
                     $sort[$key] = strtotime($match->start);   
+                Log::debug('my matches BEFORE: ', $matches->all());
                 $matches = $matches->all();
                 array_multisort($sort, SORT_DESC, $matches); 
                 $matches = array_reverse($matches);  

@@ -156,7 +156,6 @@ class TournamentController extends Controller
         $team1=null;
         $team2=null;
         $my_first_match = $tournament->myFirstMatch($user->id);   
-        Log::debug('my first match: ', (array)$my_first_match);
         if($my_first_match)
         {
             $team1 = $my_first_match->result1->team;  
