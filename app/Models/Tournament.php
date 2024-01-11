@@ -76,11 +76,10 @@ class Tournament extends Model
         if($has_ended !== null)
         {
             $matches = $this->extraMatches()->where('has_ended', $has_ended);
-            Log::debug('my EXTRA matches: ', $matches->get()->all());
         }
         else
             $matches = $this->extraMatches();
-        $my_match = $matches->whereNotNull('start')->whereHas('result1.team.players', function($query) use($user_id)
+        $my_matches = $matches->whereNotNull('start')->whereHas('result1.team.players', function($query) use($user_id)
         {
            $query->where('id', '=', $user_id);
         })
@@ -88,7 +87,8 @@ class Tournament extends Model
         {
             $query->where('id', '=', $user_id);
         });
-        return $my_match->orderBy('start');
+        Log::debug('my EXTRA matches: ', $matches->get()->all());
+        return $my_matches->orderBy('start');
     }
     public function myFirstMatch($user_id)
     {
@@ -101,7 +101,6 @@ class Tournament extends Model
             {
                 foreach ($matches as $key => $match)    
                     $sort[$key] = strtotime($match->start);   
-                Log::debug('my matches BEFORE: ', $matches->all());
                 $matches = $matches->all();
                 array_multisort($sort, SORT_DESC, $matches); 
                 $matches = array_reverse($matches);  
