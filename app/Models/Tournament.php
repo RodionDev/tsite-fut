@@ -80,7 +80,7 @@ class Tournament extends Model
         else
             $matches = $this->extraMatches();
         Log::debug('my EXTRA matches BEFORE filtering: ', $matches->get()->all());
-        $my_matches = $matches->whereNotNull('start')->where('has_ended', 1)->whereHas('result1.team.players', function($query) use($user_id)
+        $my_matches = $matches->whereNotNull('start')->where('has_ended', '=', 0)->whereHas('result1.team.players', function($query) use($user_id)
         {
            $query->where('id', '=', $user_id);
         })
