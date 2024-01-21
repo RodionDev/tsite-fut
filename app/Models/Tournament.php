@@ -73,14 +73,11 @@ class Tournament extends Model
     }
     public function myExtraMatches($user_id, $has_ended=null)
     {
+        $matches = $this->extraMatches();
         if($has_ended !== null)
-        {
-            $matches = $this->extraMatches()->where('has_ended', $has_ended);
-        }
-        else
-            $matches = $this->extraMatches();
+            $matches = $matches->where('has_ended', $has_ended);
         Log::debug('my EXTRA matches BEFORE filtering: ', $matches->get()->all());
-        $my_matches = $matches->whereNotNull('start')->where('has_ended', '=', 0)->whereHas('result1.team.players', function($query) use($user_id)
+        $matches = $matches->whereHas('result1.team.players', function($query) use($user_id)
         {
            $query->where('id', '=', $user_id);
         })
@@ -89,7 +86,7 @@ class Tournament extends Model
             $query->where('id', '=', $user_id);
         });
         Log::debug('my EXTRA matches AFTER filtering: ', $matches->get()->all());
-        return $my_matches->orderBy('start');
+        return $matches->orderBy('start');
     }
     public function myFirstMatch($user_id)
     {
