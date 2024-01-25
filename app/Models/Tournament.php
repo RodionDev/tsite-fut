@@ -74,7 +74,6 @@ class Tournament extends Model
     public function myExtraMatches($user_id, $has_ended=null)
     {
         $matches = $this->extraMatches();
-        Log::debug('my EXTRA matches BEFORE filtering: ', $matches->get()->all());
         $matches = $matches->whereHas('result1.team.players', function($query) use($user_id)
         {
            $query->where('id', '=', $user_id);
@@ -85,7 +84,6 @@ class Tournament extends Model
         });
         if($has_ended !== null)
             $matches = $matches->where('has_ended', $has_ended);
-        Log::debug('my EXTRA matches AFTER filtering: ', $matches->get()->all());
         return $matches->orderBy('start');
     }
     public function myFirstMatch($user_id)
