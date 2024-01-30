@@ -83,7 +83,7 @@ class Tournament extends Model
             $query->where('id', '=', $user_id);
         });
         if($has_ended !== null)
-            $matches = $matches->where('has_ended', $has_ended);
+            $matches = $matches->where('has_ended', 0);
         return $matches->orderBy('start');
     }
     public function myFirstMatch($user_id)

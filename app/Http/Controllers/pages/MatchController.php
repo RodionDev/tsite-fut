@@ -89,8 +89,6 @@ class MatchController extends Controller
         $match->save();
         if(!$updating && $request->tournament_id)
             return redirect(route('match.create.route', $request->tournament_id));
-        elseif($request->tournament_id)
-            return redirect(route('tournament', $request->tournament_id));
         elseif($match->id)
             return redirect(route('match.edit.route', $match->id));
         else
