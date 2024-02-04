@@ -83,21 +83,26 @@ class Tournament extends Model
             $query->where('id', '=', $user_id);
         });
         if($has_ended !== null)
-            $matches = $matches->where('has_ended', '=', "0");
+            $matches = $matches->where('has_ended', $has_ended);
         return $matches->orderBy('start');
     }
     public function myFirstMatch($user_id)
     {
         $matches1 = $this->myMatches($user_id, 0)->get();
         $matches2 = $this->myExtraMatches($user_id, 0)->get();
-        $matches = $matches1->merge($matches2);
-        if($matches)    
+        $matches_combined = $matches1->merge($matches2);
+        if($matches_combined)    
         {
+            $matches = array();
+            foreach($matches_combined as $key => $match)
+            {
+                if( $match->has_ended == 0 )
+                    $matches[] = $match;
+            }
             if(sizeof($matches) > 1)
             {
                 foreach ($matches as $key => $match)    
                     $sort[$key] = strtotime($match->start);   
-                $matches = $matches->all();
                 array_multisort($sort, SORT_DESC, $matches); 
                 $matches = array_reverse($matches);  
                 return $matches[0];
