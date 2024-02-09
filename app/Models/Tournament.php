@@ -39,10 +39,15 @@ class Tournament extends Model
     {
         return $this->hasMany('App\Models\Match');
     }
-    public function myPools($get=null)
+    public function myPools($get=null, $user_id=null)
     {
-        $user = Auth::user();
-        $id = $user->id;
+        if($user_id)
+            $id = $user_id;
+        else
+        {
+            $user = Auth::user();
+            $id = $user->id;
+        }
         $pools = $this->pools()->whereHas('teams.players', function($query) use($id)
         {
            $query->where('id', '=', $id);

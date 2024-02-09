@@ -10,6 +10,7 @@ use App\Models\Team;
 use App\Models\Match;
 use App\Models\Result;
 use App\Models\Role;
+use App\Models\User;
 use Validator;
 use DateTime;
 class TournamentController extends Controller
@@ -162,7 +163,10 @@ class TournamentController extends Controller
             $team2 = $my_first_match->result2->team;  
         }
         $pools = $tournament->pools()->get()->all();    
-        $my_pool = $tournament->myPools()->first();
+        if($user_id)
+            $my_pool = $tournament->myPools(null, $user_id)->first();
+        else
+            $my_pool = $tournament->myPools()->first();
         if(!$my_pool && !empty($pools))   $my_pool = $pools[0];
         if($pools && $my_pool)
             array_unshift($pools, $my_pool);    
