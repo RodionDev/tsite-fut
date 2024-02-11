@@ -3,9 +3,8 @@ namespace App;
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Controllers\DateController;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use App\Models\Pool;
+use Illuminate\Support\Facades\Auth;
 use DateTime;
 class Tournament extends Model
 {
@@ -60,12 +59,9 @@ class Tournament extends Model
         $pool = ($pools) ? $pools->orderBy('number', 'desc')->first() : null;
         return ($pool) ? $pool->number : 0;
     }
-    public function myMatches($user_id, $has_ended=null)
+    public function myMatches($user_id)
     {
-        if($has_ended !== null)
-            $matches = $this->matches()->where('has_ended', $has_ended);
-        else
-            $matches = $this->matches();
+        $matches = $this->matches();
         $my_match = $matches->whereNotNull('start')->whereHas('result1.team.players', function($query) use($user_id)
         {
            $query->where('id', '=', $user_id);
@@ -76,10 +72,10 @@ class Tournament extends Model
         });
         return $my_match->orderBy('start');
     }
-    public function myExtraMatches($user_id, $has_ended=null)
+    public function myExtraMatches($user_id)
     {
         $matches = $this->extraMatches();
-        $matches = $matches->whereHas('result1.team.players', function($query) use($user_id)
+        $my_match = $matches->whereNotNull('start')->whereHas('result1.team.players', function($query) use($user_id)
         {
            $query->where('id', '=', $user_id);
         })
@@ -87,33 +83,20 @@ class Tournament extends Model
         {
             $query->where('id', '=', $user_id);
         });
-        if($has_ended !== null)
-            $matches = $matches->where('has_ended', $has_ended);
-        return $matches->orderBy('start');
+        return $my_match->orderBy('start');
     }
     public function myFirstMatch($user_id)
     {
-        $matches1 = $this->myMatches($user_id, 0)->get();
-        $matches2 = $this->myExtraMatches($user_id, 0)->get();
-        $matches_combined = $matches1->merge($matches2);
-        if($matches_combined)    
+        $match1 = $this->myMatches($user_id)->first();
+        $match2 = $this->myExtraMatches($user_id)->first();
+        if($match1 && $match2)
         {
-            $matches = array();
-            foreach($matches_combined as $key => $match)
-            {
-                if( $match->has_ended == 0 )
-                    $matches[] = $match;
-            }
-            if(sizeof($matches) > 1)
-            {
-                foreach ($matches as $key => $match)    
-                    $sort[$key] = strtotime($match->start);   
-                array_multisort($sort, SORT_DESC, $matches); 
-                $matches = array_reverse($matches);  
-                return $matches[0];
-            }
-            else    return $matches->first();   
+            if( new DateTime($match1->start) < new DateTime($match2->start) )
+                return $match1;
+            else    return $match2;
         }
-        return false;
+        elseif($match1) return $match1;
+        elseif($match2) return $match2;
+        else return false;
     }
 }
