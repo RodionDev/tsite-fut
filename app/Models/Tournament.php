@@ -112,7 +112,7 @@ class Tournament extends Model
                 $matches = array_reverse($matches);  
                 return $matches[0];
             }
-            else    return $matches[0];   
+            elseif(sizeof($matches) == 1)    return $matches[0];   
         }
         return false;
     }
