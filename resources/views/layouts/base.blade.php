@@ -19,13 +19,11 @@
             @include('components/header/header')
         @show
     </header>
-    @include('components/error-notification')
     <div class="content container flow-text">
         @yield('content')
     </div>
     <footer class="container">
         @section('footer')
-            @include('components/sponsors')
         @show
         <script src="{{ URL::asset('./js/app.js') }}"></script>
         @hasSection('js')

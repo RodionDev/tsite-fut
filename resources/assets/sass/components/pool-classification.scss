@@ -12,16 +12,11 @@
     .team-info {
         padding: 8px 0;
         text-align: left;
-        div {
-            display: inline-block;
-            position: relative;
-        }
-        .image-container {
-            width: 40px;
-        }
     }
-    .list-item {
-        height: 40px;
-        max-height: 40px;
+    .team-logo {
+        max-width: 100%;
+        height: 32px;
+        width: 32px;
+        margin-right: 8px;
     }
 }

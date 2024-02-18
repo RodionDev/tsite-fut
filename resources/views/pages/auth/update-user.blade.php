@@ -24,12 +24,12 @@
             <div class="card-content">
                 <div class="row">
                     <div class="col s12 input-field">
-                        <input id="first_name" type="text" value="{{ $user->first_name or old('first_name') }}" class="validate" name="first_name" required autofocus />
+                        <input id="first_name" type="text" value="{{ $user->first_name or '' }}" class="validate" name="first_name" required autofocus />
                         <label for="first_name">Voornaam*</label>
                         <span class="helper-text" data-error="Vul een correcte naam in." data-success="">Vul je voornaam in.</span>
                     </div>
                     <div class="col s12 input-field">
-                        <input id="sur_name" type="text" value="{{ $user->sur_name or old('sur_name') }}" class="validate" name="sur_name" required />
+                        <input id="sur_name" type="text" value="{{ $user->sur_name or '' }}" class="validate" name="sur_name" required />
                         <label for="sur_name">Achternaam*</label>
                         <span class="helper-text" data-error="Vul een correcte naam in." data-success="">Vul je achternaam in.</span>
                     </div>
@@ -65,12 +65,10 @@
                         <input id="token" type="text" name="token" value="{{ $register_token }}" required />
                     </div>
                     <div class="col s12 input-field">
-                        <p>
-                            <label>
-                                <input name="terms-of-service" type="checkbox" required>
-                                <span>Ja, ik accepteer de <a href="{{ route('terms.of.service') }}" target="_blank">Algemene Voorwaarden</a> en het <a href="{{ route('privacy.statement') }}" target="_blank">Privacybeleid</a> van mijntoernooien.nl <i>(links openen in een nieuw venster)</i>.</span>
-                            </label>
-                        </p>
+                        <label>
+                            <input name="terms-of-service" type="checkbox" required>
+                            <span>Ja, ik accepteer de <a href="{{ route('terms.of.service') }}" target="_blank">Algemene voorwaarden</a>  van mijntoernooien.nl. (link opent in een nieuw venster)</span>
+                        </label>
                     </div>
                     @endif
                     <div class="col s12 input-field">

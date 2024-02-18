@@ -29,6 +29,9 @@
                         @endif
                     </div>
                     <div class="col s12">
+                        <h2 class="title">Man of the matches</h2>
+                    </div>
+                    <div class="col s12">
                         <a href="{{ route('logout') }}" class="btn">Uitloggen</a>
                     </div>
                 </div>
