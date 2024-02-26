@@ -149,7 +149,7 @@ class MatchController extends Controller
         $matches2 = $tournament->extraMatches()->where('has_ended', 1)->get();
         $matches = $matches->merge($matches2);
         $results =[];
-        $teams_not_played = Team::all()->all();
+        $teams_has_not_played = Team::all()->all();
         $teams_has_played = [];
         foreach ($matches as $key => $match) 
         {
@@ -235,7 +235,29 @@ class MatchController extends Controller
             }
         }
         $teams = $this->checkArrayDuplicateTeam($teams_has_played);
+        $teams = $this->mergeTeams($teams, $teams_has_not_played);
+        $teams_sort;
+        foreach ($teams as $key => $team) 
+        {
+            $teams_sort[$key] = $team->points;
+        }
+        array_multisort($teams_sort, SORT_DESC, $teams);
         return view('pages.scoreboard', compact('teams'));
+    }
+    private function mergeTeams($merge_array, $source_array)
+    {
+        foreach ($source_array as $key => $team) 
+        {
+            $team->points = 0;
+            $team->won = 0;
+            $team->lost = 0;
+            $team->tied = 0;
+            $team->goals = 0;
+            $team->countergoals = 0;
+            array_push($merge_array, $team);
+            $merge_array = $this->checkArrayDuplicateTeam($merge_array);
+        }
+        return $merge_array;
     }
     private function checkArrayDuplicateTeam($teams_array)
     {
@@ -263,6 +285,14 @@ class MatchController extends Controller
                 $newArray[$team->id] = $team;
             }
         }
+        $newArray = $this->sortByPoints($newArray, 'points');
         return $newArray;
     }
+    function sortByPoints($array, $property)
+    {
+        foreach ($array as $key => $array_item) 
+        {
+        }
+        return $array;
+    } 
 }
