@@ -142,14 +142,16 @@ class MatchController extends Controller
             'start_date' => $start_date
         ]);  
     }
-    public function showScoreboard($id)
+    public function showScoreboard($id, $pool_id)
     {
+        $tournament_id = $id;
         $tournament = Tournament::find($id);
         $matches = $tournament->matches()->where('has_ended', 1)->get();
         $matches2 = $tournament->extraMatches()->where('has_ended', 1)->get();
         $matches = $matches->merge($matches2);
-        $results =[];
-        $teams_has_not_played = Team::all()->all();
+        $results = [];
+        $teams_has_not_played = new Team();
+        $teams_has_not_played = $teams_has_not_played->getTeamsByPools($pool_id);
         $teams_has_played = [];
         foreach ($matches as $key => $match) 
         {
@@ -236,12 +238,16 @@ class MatchController extends Controller
         }
         $teams = $this->checkArrayDuplicateTeam($teams_has_played);
         $teams = $this->mergeTeams($teams, $teams_has_not_played);
-        $teams_sort;
+        $teams_sort_points;
+        $teams_sort_goals_saldo;
         foreach ($teams as $key => $team) 
         {
-            $teams_sort[$key] = $team->points;
+            $team->saldo = $team->goals - $team->countergoals;
+            $teams[$key] = $team;
+            $teams_sort_points[$key] = $team->points;
+            $teams_sort_goals_saldo[$key] = $team->saldo;
         }
-        array_multisort($teams_sort, SORT_DESC, $teams);
+        array_multisort($teams_sort_points, SORT_DESC, $teams_sort_goals_saldo, SORT_DESC, $teams);
         return view('pages.scoreboard', compact('teams'));
     }
     private function mergeTeams($merge_array, $source_array)

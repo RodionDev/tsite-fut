@@ -25,6 +25,7 @@
                             </div>
                         </li>
                         @endforeach
+                        <a href="/toernooi/scoreboard/{{ $id . '/' . $pool->id}}" class="waves-effect waves-light btn right">Scoreboard</a>
                     </ul>
                 </div>
             </div>

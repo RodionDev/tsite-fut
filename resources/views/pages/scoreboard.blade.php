@@ -4,20 +4,20 @@
     <table id="scoreboard">
         <thead>
             <tr>
-                <th>Team naam</th>
-                <th>Punten</th>
-                <th>Gewonnen</th>
-                <th>Verloren</th>
-                <th>Gelijk</th>
-                <th>Goals voor</th>
-                <th>Goals tegen</th>
-                <th>Goals saldo</th>
+                <th>Team</th>
+                <th>PNT</th>
+                <th>WIN</th>
+                <th>VERL</th>
+                <th>GLK</th>
+                <th>GV</th>
+                <th>GT</th>
+                <th>GS</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($teams as $team)
                 <tr>
-                    <td>{{ $team->name }}</td>
+                    <td style="white-space: nowrap">{{ $team->name }}</td>
                     <td>{{ $team->points }}</td>
                     <td>{{ $team->won }}</td>
                     <td>{{ $team->lost }}</td>

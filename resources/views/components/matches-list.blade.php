@@ -5,7 +5,6 @@
     </h1>
     <div class="row flex">
         <div class="col s12">
-             <a style="margin-left: 1%" href="/toernooi/scoreboard/{{ $id }}" class="waves-effect waves-light btn right">Scoreboard</a>
             <h5>Geweest</h5>
             <ul class="collapsible">
                 @foreach($finished_matches as $match)
