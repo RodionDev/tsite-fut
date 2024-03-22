@@ -99,7 +99,7 @@ class TeamController extends Controller
         if(!Auth::Check())  return \Redirect::back()->withErrors(['Je moet ingelogd zijn om een team te verwijderen.']);
         $user = Auth::User();
         $team = Team::find($id);
-        if(!team)   return \Redirect::back()->withErrors(['Team niet gevonden.']);
+        if(!$team)   return \Redirect::back()->withErrors(['Team niet gevonden.']);
         if($team->leader_id == $user->id || $user->role->permission >= 50)
         {
             $team->delete();
