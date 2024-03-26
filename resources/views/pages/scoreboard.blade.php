@@ -4,6 +4,7 @@
     <table id="scoreboard">
         <thead>
             <tr>
+                <td></td>
                 <th>Team</th>
                 <th>PNT</th>
                 <th>WIN</th>
@@ -15,8 +16,9 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($teams as $team)
+            @foreach ($teams as $key => $team)
                 <tr>
+                    <td>{{ $key + 1 }}</td>
                     <td style="white-space: nowrap">{{ $team->name }}</td>
                     <td>{{ $team->points }}</td>
                     <td>{{ $team->won }}</td>
