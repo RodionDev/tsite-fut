@@ -144,7 +144,6 @@ class MatchController extends Controller
     }
     public function showScoreboard($id, $pool_id)
     {
-        $tournament_id = $id;
         $tournament = Tournament::find($id);
         $matches = $tournament->matches()->where('has_ended', 1)->get();
         $matches2 = $tournament->extraMatches()->where('has_ended', 1)->get();
@@ -181,62 +180,77 @@ class MatchController extends Controller
         {
             if($match->winner && $match->loser)
             {
-                $winner = $match->winner;
-                $team = Team::find($winner->team_id);
-                $team->points = $team->points + 3;
-                if($team->lost == false)
+                if(!array_key_exists($match->winner->team_id, $teams_has_not_played) && !array_key_exists($match->loser->team_id, $teams_has_not_played))
                 {
-                    $team->lost = 0;
-                }
-                if($team->tied == false)
-                {
-                    $team->tied = 0;
-                }
-                $team->won = $team->won + 1;
-                $team->goals =$team->goals + $match->winner->score;
-                $team->countergoals = $team->countergoals + $match->loser->score;
-                array_push($teams_has_played, $team);
-                $loser = $match->loser;
-                $team = Team::find($loser->team_id);
-                if($team->points == false)
-                {
-                    $team->points = 0;
-                }
-                if($team->tied == false)
-                {
-                    $team->tied = 0;
-                }
-                if($team->won == false)
-                {
-                    $team->won = 0;
-                }
-                $team->lost = $team->lost + 1;
-                $team->goals = $team->goals + $match->loser->score;
-                $team->countergoals = $team->countergoals + $match->winner->score;
-                array_push($teams_has_played, $team);
-            }
-            elseif ($match->tiedplayers)
-            {
-                foreach ($match->tiedplayers as $key => $tiedplayer)
-                {
-                    $team = Team::find($tiedplayer->team_id);
-                    if($team->won == false)
-                    {
-                        $team->won = 0;
-                    }
+                    $winner = $match->winner;
+                    $team = Team::find($winner->team_id);
+                    $team->points = $team->points + 3;
                     if($team->lost == false)
                     {
                         $team->lost = 0;
                     }
-                    $team->points = $team->points + 1;
-                    $team->tied = $team->tied + 1;
-                    $team->goals =$team->goals + $tiedplayer->score;
-                    $team->countergoals = $team->countergoals + $tiedplayer->score;
+                    if($team->tied == false)
+                    {
+                        $team->tied = 0;
+                    }
+                    $team->won = $team->won + 1;
+                    $team->goals =$team->goals + $match->winner->score;
+                    $team->countergoals = $team->countergoals + $match->loser->score;
                     array_push($teams_has_played, $team);
+                    $loser = $match->loser;
+                    $team = Team::find($loser->team_id);
+                    if($team->points == false)
+                    {
+                        $team->points = 0;
+                    }
+                    if($team->tied == false)
+                    {
+                        $team->tied = 0;
+                    }
+                    if($team->won == false)
+                    {
+                        $team->won = 0;
+                    }
+                    $team->lost = $team->lost + 1;
+                    $team->goals = $team->goals + $match->loser->score;
+                    $team->countergoals = $team->countergoals + $match->winner->score;
+                    array_push($teams_has_played, $team);
+                }
+                else 
+                {
+                    continue;
+                }
+            }
+            elseif ($match->tiedplayers)
+            {
+                if(!array_key_exists($match->tiedplayers[0]->team_id, $teams_has_not_played) && !array_key_exists($match->tiedplayers[1]->team_id, $teams_has_not_played))
+                {
+                    foreach ($match->tiedplayers as $key => $tiedplayer)
+                    {
+                        $team = Team::find($tiedplayer->team_id);
+                        if($team->won == false)
+                        {
+                            $team->won = 0;
+                        }
+                        if($team->lost == false)
+                        {
+                            $team->lost = 0;
+                        }
+                        $team->points = $team->points + 1;
+                        $team->tied = $team->tied + 1;
+                        $team->goals =$team->goals + $tiedplayer->score;
+                        $team->countergoals = $team->countergoals + $tiedplayer->score;
+                        array_push($teams_has_played, $team);
+                    }
+                }
+                else 
+                {
+                    continue;
                 }
             }
         }
         $teams = $this->checkArrayDuplicateTeam($teams_has_played);
+        dump($teams);
         $teams = $this->mergeTeams($teams, $teams_has_not_played);
         $teams_sort_points;
         $teams_sort_goals_saldo;
