@@ -250,7 +250,6 @@ class MatchController extends Controller
             }
         }
         $teams = $this->checkArrayDuplicateTeam($teams_has_played);
-        dump($teams);
         $teams = $this->mergeTeams($teams, $teams_has_not_played);
         $teams_sort_points;
         $teams_sort_goals_saldo;
