@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Tournament;
 use App\Models\Team;
+use App\Models\Result;
+use App\Models\Pool;
 use App\Models\Role;
 use JWTFactory;
 use JWTAuth;
@@ -17,7 +19,7 @@ class APITournamentController extends Controller
 {
     public function index()
     {
-        return Tournament::all();
+         return Tournament::all();
      }
     public function create()
     {
@@ -43,7 +45,20 @@ class APITournamentController extends Controller
         $token = JWTAuth::getToken();
         $payload = JWTAuth::getPayload($token)->toArray();
         $tournament_controller = new TournamentController;
-        $data = [ $tournament_controller->viewTournament($tournament_id, $payload['sub'], false)];
-        return $data;
+        $data =[ $tournament_controller->viewTournament($tournament_id, $payload['sub'], false)]; 
+        $pools= [ $tournament_controller->viewTournament($tournament_id, $payload['sub'], false)][0]['pools']; 
+        $upcoming_matches= [ $tournament_controller->viewTournament($tournament_id, $payload['sub'], false)][0]['upcoming_matches']; 
+            $teams = array();
+                foreach( $upcoming_matches as $key => $match )
+                $start = $match['start'];
+                $field = $match['field'];
+                $team1 = Team::find(Result::find($match['result1_id'])->team_id);
+                $team2 = Team::find(Result::find($match['result2_id'])->team_id);
+                $teams = array($team1, $team2);
+                $team[$key] = $teams;
+                $teams = array();
+                foreach( $pools as $key => $match )
+                $id = $match['id'];
+                return array(['upcoming_matches'=>$teams, 'data'=> $data, 'pools'=>$id]);
     }
 }

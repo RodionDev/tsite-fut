@@ -84,7 +84,6 @@ input.disabled {
     top: 0;
     right: 0;
     color: $accent-colour;
-    padding-top: 10px;
 }
 ul.comma-list {
     display: inline;
@@ -141,7 +140,7 @@ a{ color: #000; }
     BUTTONS
 */
 .btn, .btn:active, .btn-flat:active {
-    background-color: $primary-colour !important;
+    background-color: $accent-colour !important;
     border-radius: 5px;
 }
 .btn-flat:active {
