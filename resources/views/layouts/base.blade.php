@@ -19,6 +19,7 @@
             @include('components/header/header')
         @show
     </header>
+    @include('components/error-notification')
     <div class="content container flow-text">
         @yield('content')
     </div>

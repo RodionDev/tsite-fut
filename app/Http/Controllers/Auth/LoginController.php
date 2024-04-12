@@ -9,7 +9,7 @@ class LoginController extends Controller
     protected $redirectTo = '/';
     public function index()
     {
-        if(Auth::check())   return redirect(route('tournament'));
+        if(Auth::check())   return redirect(route('home'));
         else                return view('/pages/auth/login');
     }
 }
