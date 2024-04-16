@@ -29,17 +29,6 @@ class Team extends Model
     public function matches()
     {
     }
-    public function getTeamsByPools($pool_id)
-    {
-        $raw_teams = DB::table('pool_team')->where('pool_id', $pool_id)->get();
-        $teams = [];
-        foreach ($raw_teams as $key => $team) 
-        {
-            $team = Team::find($team->team_id);
-            array_push($teams, $team);
-        }
-        return $teams;
-    }
     public function scopeSearchName($query, $name)
     {
         return Team::select('name','logo', 'leader_id', 'id')
