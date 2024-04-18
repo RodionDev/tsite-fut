@@ -5,8 +5,8 @@ return [
     'debug' => env('APP_DEBUG', false),
     'url' => env('APP_URL', 'http:
     'timezone' => 'Europe/Amsterdam',
-    'locale' => 'nl-NL',
-    'fallback_locale' => 'en-GB',
+    'locale' => 'nl',
+    'fallback_locale' => 'en',
     'key' => env('APP_KEY'),
     'cipher' => 'AES-256-CBC',
     'providers' => [
