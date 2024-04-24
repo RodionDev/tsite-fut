@@ -180,7 +180,7 @@ class MatchController extends Controller
         {
             if($match->winner && $match->loser)
             {
-                if(!array_key_exists($match->winner->team_id, $teams_has_not_played) && !array_key_exists($match->loser->team_id, $teams_has_not_played))
+                if(array_key_exists($match->winner->team_id, $teams_has_not_played) == false && array_key_exists($match->loser->team_id, $teams_has_not_played) == false)
                 {
                     $winner = $match->winner;
                     $team = Team::find($winner->team_id);
@@ -223,7 +223,7 @@ class MatchController extends Controller
             }
             elseif ($match->tiedplayers)
             {
-                if(!array_key_exists($match->tiedplayers[0]->team_id, $teams_has_not_played) && !array_key_exists($match->tiedplayers[1]->team_id, $teams_has_not_played))
+                if(array_key_exists($match->tiedplayers[0]->team_id, $teams_has_not_played) == false && array_key_exists($match->tiedplayers[1]->team_id, $teams_has_not_played) == false)
                 {
                     foreach ($match->tiedplayers as $key => $tiedplayer)
                     {
@@ -261,7 +261,30 @@ class MatchController extends Controller
             $teams_sort_goals_saldo[$key] = $team->saldo;
         }
         array_multisort($teams_sort_points, SORT_DESC, $teams_sort_goals_saldo, SORT_DESC, $teams);
+        foreach ($teams_has_not_played as $x => $_team) 
+        {
+            foreach ($teams as $y => $team) 
+            {
+                if($team->id == $_team->id)
+                {
+                    $teams_has_not_played[$x] = $_team;
+                }
+            }
+        }
+        $teams = $teams_has_not_played;
         return view('pages.scoreboard', compact('teams'));
+    }
+    private function removeUnwantedTeams($teams, $teams_has_not_played)
+    {
+        foreach ($teams as $key => $team) 
+        {
+            if(array_key_exists($team->id,  $teams_has_not_played) == false)
+            {
+                dump($team->id);
+            }
+        }
+        dd($teams_has_not_played, $teams);
+        return $teams;
     }
     private function mergeTeams($merge_array, $source_array)
     {
