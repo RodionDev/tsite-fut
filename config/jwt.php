@@ -7,6 +7,7 @@ return [
     'user' => 'App\Models\User',
     'identifier' => 'id',
     'required_claims' => ['iss', 'iat', 'exp', 'nbf', 'sub', 'jti'],
+    'ttl' => env('JWT_TTL',60), 
     'blacklist_enabled' => env('JWT_BLACKLIST_ENABLED', true),
     'providers' => [
         'user' => 'Tymon\JWTAuth\Providers\User\EloquentUserAdapter',
