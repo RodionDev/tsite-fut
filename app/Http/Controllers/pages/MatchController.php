@@ -260,7 +260,6 @@ class MatchController extends Controller
             $teams_sort_points[$key] = $team->points;
             $teams_sort_goals_saldo[$key] = $team->saldo;
         }
-        array_multisort($teams_sort_points, SORT_DESC, $teams_sort_goals_saldo, SORT_DESC, $teams);
         foreach ($teams_has_not_played as $x => $_team) 
         {
             foreach ($teams as $y => $team) 
@@ -272,6 +271,7 @@ class MatchController extends Controller
             }
         }
         $teams = $teams_has_not_played;
+        array_multisort($teams_sort_points, SORT_DESC, $teams_sort_goals_saldo, SORT_DESC, $teams);
         return view('pages.scoreboard', compact('teams'));
     }
     private function removeUnwantedTeams($teams, $teams_has_not_played)
