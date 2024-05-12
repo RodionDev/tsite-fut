@@ -11,7 +11,7 @@ use App\Models\Role;
 use Validator;
 class TeamController extends Controller
 {
-    public function search($name=null, $tournament=null)
+    public function search($name=null)
     {
         $name = ($name) ? $name : request()->name;
         return response()->json(
