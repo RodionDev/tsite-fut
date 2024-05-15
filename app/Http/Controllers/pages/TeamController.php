@@ -11,7 +11,7 @@ use App\Models\Role;
 use Validator;
 class TeamController extends Controller
 {
-    public function search($name=null)
+    public function search($name=null, $tournament=null)
     {
         $name = ($name) ? $name : request()->name;
         return response()->json(
@@ -20,7 +20,6 @@ class TeamController extends Controller
     }
     public function teamsList()
     {
-        if(!Auth::check())  return \Redirect::back()->withErrors(['Je moet ingelogd zijn om teams te bekijken.']);
         $teams = Team::all();
         $user = Auth::User();
         $edit_all = ($user->role->permission >= 50);
@@ -45,50 +44,51 @@ class TeamController extends Controller
     public function create(Request $request, $update=false)
     {
         $this->validator($request->all())->validate();  
-        if(!Auth::Check())  return \Redirect::back()->withErrors(['Je moet ingelogd zijn om een team aan te maken.']);
-        $user = Auth::user();   
-        $role = Role::Find($user->role_id); 
-        if($update)
+        if(Auth::Check()) 
         {
-            $team = Team::find($request->id);
-            if(!$team)  return \Redirect::back()->withErrors(['Team niet gevonden.']);
-        }
-        else
-            $team = new Team();
-        if($role->permission < 50 && $team->leader_id !== $user->id)    return \Redirect::back()->withErrors(['Je hebt niet de juiste permissies om een team aan te maken.']);
-        $team->name = $request->name;
-        if($request->leader_id)
-            $team->leader_id = $request->leader_id;
-        elseif($request->leader)    
-        {
-            $user_controller = new UserController;
-            $leader = $user_controller->search($request->leader);
-            $leader_id = json_decode(json_encode($leader))->original[0]->id;
-            if($leader) $team->leader_id = $leader_id;
-            else        abort(404); 
-        }
-        else    return \Redirect::back()->withErrors(['Je hebt geen team leider ingesteld.']);
-        $team->save();
-        $team->players()->detach();
-        if($request->users)
-        {
-            foreach($request->users as $player)
-            {
-                if(!$this->isInTeam($player, $team->id))
-                    $team->players()->attach($player);
-            }
-        }
-        if($request->hasFile('logo'))
-        {
-            $image_controller = new ImageController;
-            $image_path = $image_controller->uploadImage($request->file('logo'), 'teams', $team->id);
-            if($image_path)
-            {
-                $team->logo = $image_path;
+            $user = Auth::user();   
+            $role = Role::Find($user->role_id); 
+            if($update)
+                $team = Team::find($request->id);
+            else
+                $team = new Team();
+            if($role->permission >= 50 || $team->leader_id == $user->id)  
+            {                
+                $team->name = $request->name;
+                if($request->leader_id)
+                    $team->leader_id = $request->leader_id;
+                else    
+                {
+                    $user_controller = new UserController;
+                    $leader = $user_controller->search($request->leader);
+                    $leader_id = json_decode(json_encode($leader))->original[0]->id;
+                    if($leader) $team->leader_id = $leader_id;
+                    else        abort(404); 
+                }
                 $team->save();
+                $team->players()->detach();
+                if($request->users)
+                {
+                    foreach($request->users as $player)
+                    {
+                        if(!$this->isInTeam($player, $team->id))
+                            $team->players()->attach($player);
+                    }
+                }
+                if($request->hasFile('logo'))
+                {
+                    $image_controller = new ImageController;
+                    $image_path = $image_controller->uploadImage($request->file('logo'), 'teams', $team->id);
+                    if($image_path)
+                    {
+                        $team->logo = $image_path;
+                        $team->save();
+                    }
+                }
+                return redirect(route('edit.team.route', $team->id));    
             }
+            abort(404); 
         }
-        return redirect(route('edit.team.route', $team->id));    
     }
     public function edit(Request $request)
     {
@@ -96,16 +96,16 @@ class TeamController extends Controller
     }
     public function remove(int $id)
     {
-        if(!Auth::Check())  return \Redirect::back()->withErrors(['Je moet ingelogd zijn om een team te verwijderen.']);
-        $user = Auth::User();
-        $team = Team::find($id);
-        if(!$team)   return \Redirect::back()->withErrors(['Team niet gevonden.']);
-        if($team->leader_id == $user->id || $user->role->permission >= 50)
+        if(Auth::Check())
         {
-            $team->delete();
-            return redirect(route('teams'));
+            $user = Auth::User();
+            $team = Team::find($id);
+            if($team->leader_id == $user->id || $user->role->permission >= 50)
+            {
+                $team->delete();
+                return redirect(route('teams'));
+            }
         }
-        else    return \Redirect::back()->withErrors(['Je hebt niet de juiste permissies om dit team te verwijderen.']);
     }
     public function removeByRequest(Request $request)
     {
@@ -123,32 +123,34 @@ class TeamController extends Controller
     }
     public function showNewForm()
     {
-        if(!Auth::Check())  return \Redirect::back()->withErrors(['Je moet ingelogd zijn om een nieuw team aan te maken.']);
-        $user = Auth::User();
-        if($user->role->permission >= 30)
+        if(Auth::Check())
         {
-            return view('/pages/new-team')->with('creating', true)->with('user', $user);
+            $user = Auth::User();
+            if($user->role->permission >= 50)
+            {
+                return view('/pages/new-team')->with('creating', true)->with('user', $user);
+            }
         }
-        else    return \Redirect::back()->withErrors(['Je hebt niet de juiste permissies om een team aan te maken.']);
         return redirect(route('home'));
     }
     public function showEditForm(int $id)
     {
-        if(!Auth::Check())  return \Redirect::back()->withErrors(['Je moet ingelogd zijn om een team aan te passen.']);
-        $user = Auth::User();
-        $team = Team::find($id);
-        if(!$team)  return \Redirect::back()->withErrors(['Team niet gevonden.']);
-        if($user->id == $team->leader_id || $user->role->permission >= 50)
+        if(Auth::Check())
         {
-            $leader = $team->leader;
-            return view('/pages/new-team')
-                ->with('creating', false)
-                ->with('team', $team)
-                ->with('leader_name', $leader->getFullName())
-                ->with('players', $team->players)
-                ->with('user', $user);
+            $user = Auth::User();
+            $team = Team::find($id);
+            if($user->id == $team->leader_id || $user->role->permission >= 50)
+            {
+                $leader = $team->leader;
+                return view('/pages/new-team')
+                    ->with('creating', false)
+                    ->with('team', $team)
+                    ->with('leader_name', $leader->getFullName())
+                    ->with('players', $team->players)
+                    ->with('user', $user);
+            }
+            else    abort(404);     
         }
-        else    return \Redirect::back()->withErrors(['Je hebt niet de juiste permissies om dit team aan te passen.']);
         return redirect(route('home'));
     }
 }

@@ -54,6 +54,6 @@ class APITournamentController extends Controller
                 $team2 = Team::find(Result::find($match['result2_id'])->team_id);
                 $teams = array($team1, $team2);
                 $team[$key] = $teams;
-                return array('teams'=>$teams, 'upcomg'=> $upcoming_matches);
+                return $upcoming_matches;
     }
 }
