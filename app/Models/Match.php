@@ -41,4 +41,9 @@ class Match extends Model
         $date_controller = new DateController;
         return $date_controller->dutchDate($this->start, $year);
     }
+    public function scopeMyFirstMatch($query, $tournament_id, $user_id)
+    {
+        $my_match = Match::where('tournament_id', $tournament_id)->get();
+        dd($my_match);
+    }
 }

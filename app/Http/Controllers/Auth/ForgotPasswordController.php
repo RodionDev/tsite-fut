@@ -29,7 +29,6 @@ class ForgotPasswordController extends Controller
             Mail::to($user->email)->send(new Forgot( route('reset.password.token', $token) ));
             return redirect(route('forgot.password.route'));
         }
-        else    return \Redirect::back()->withErrors(['Dit email is niet gekoppeld aan een geregistreerde gebruiker.']);
         abort(404); 
     }
     protected function generateForgotPasswordToken($length = 64)

@@ -44,16 +44,25 @@ class APITournamentController extends Controller
         $token = JWTAuth::getToken();
         $payload = JWTAuth::getPayload($token)->toArray();
         $tournament_controller = new TournamentController;
-        $upcoming_matches =[ $tournament_controller->viewTournament($tournament_id, $payload['sub'], false)]; 
-        $data = [ $tournament_controller->viewTournament($tournament_id, $payload['sub'], false)][0]['upcoming_matches']; 
+        $data =[ $tournament_controller->viewTournament($tournament_id, $payload['sub'], false)]; 
+        $upcoming_matches = [ $tournament_controller->viewTournament($tournament_id, $payload['sub'], false)][0]['upcoming_matches']; 
             $teams = array();
-                foreach( $data as $key => $match )
+                foreach( $upcoming_matches as $key => $match ){
                 $start = $match['start'];
                 $field = $match['field'];
                 $team1 = Team::find(Result::find($match['result1_id'])->team_id);
                 $team2 = Team::find(Result::find($match['result2_id'])->team_id);
-                $teams = array($team1, $team2);
-                $team[$key] = $teams;
+                $upcoming_matches[$key]["team1"] = $team1;
+                $upcoming_matches[$key]["team2"] = $team2;
+                }
                 return $upcoming_matches;
+    }
+    public function viewFirstmatch($tournament_id)
+    {
+        $token = JWTAuth::getToken();
+        $payload = JWTAuth::getPayload($token)->toArray();
+        $tournament_controller = new TournamentController;
+        $data =[ $tournament_controller->viewTournament($tournament_id, $payload['sub'], false)]; 
+                return $data;
     }
 }

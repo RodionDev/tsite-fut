@@ -19,39 +19,38 @@ class InviteController extends Controller
     public function invite(Request $request)
     {
         $this->validator($request->all())->validate();  
-        if(!Auth::Check())  return \Redirect::back()->withErrors(['Je moet ingelogd zijn om mensen uit te nodigen.']);
-        $user = Auth::user();   
-        $role = Role::find($user->role_id); 
-        if($role->permission <= Role::find($request->role)->permission)     return \Redirect::back()->withErrors(['Je kan geen gebruikers uitnodigen met een rol hoger of gelijk aan jezelf.' ]);
-        $invited_user = User::where('email', $request->email)->get()->first();   
-        $invited_user_object = null;
-        if(!$invited_user)
-            event(new Registered( $invited_user = $this->create($request->all() )));  
-        elseif($invited_user->last_seen !== null)
-            abort(404);
-        else
+        if(Auth::Check()) 
         {
-            $invited_user_object = User::find($invited_user->id);
-            if(!$invited_user_object)   return \Redirect::back()->withErrors(['Gebruiker bestaat, is nog niet geregistreerd, maar ook nog niet uitgenodigd.', 'Neem contact op met een beheerder! ERROR:invite01']);
-            $invited_user_object->register_token = $this->generateRegisterToken();
-            $invited_user_object->save();
-        }
-        if($invited_user_object)
-            Mail::to($invited_user->email)->send(new Invite(route('register', ['token' => $invited_user_object->register_token])));
-        else
-            Mail::to($invited_user->email)->send(new Invite(route('register', ['token' => $invited_user->register_token])));
-        if (Mail::failures()) {
-            return \Redirect::back()->withErrors(['Er is iets verkeerd gegaan bij het versturen van een mail', 'Neem contact op met een beheerder! ERROR:invite02']);
-        }
-        if($request->request_url)
-        {
-            if($invited_user_object)
-                $request_url = $invited_user_object->register_token;
+            $user = Auth::user();   
+            $role = Role::find($user->role_id); 
+            if($role->permission <= Role::find($request->role)->permission) abort(404);   
+            $invited_user = User::where('email', $request->email)->get()->first();   
+            $invited_user_object;
+            if(!$invited_user)
+                event(new Registered( $invited_user = $this->create($request->all() )));  
+            elseif($invited_user->last_seen !== null)
+                abort(404);
             else
-                $request_url = $invited_user->register_token;
-            return redirect(route('invite.with.url', $request_url));    
+            {
+                $invited_user_object = User::find($invited_user->id);
+                $invited_user_object->register_token = $this->generateRegisterToken();
+                $invited_user_object->save();
+            }
+            if($invited_user_object)
+                Mail::to($invited_user->email)->send(new Invite(route('register', ['token' => $invited_user_object->register_token])));
+            else
+                Mail::to($invited_user->email)->send(new Invite(route('register', ['token' => $invited_user->register_token])));
+            if (Mail::failures()) {
+                abort(404);
+            }
+            if($request->request_url)
+            {
+                $request_url = $invited_user_object->register_token;
+                return redirect(route('invite.with.url', $request_url));    
+            }
+            return redirect($this->redirectPath()); 
         }
-        return redirect($this->redirectPath()); 
+        abort(404);
     }
     protected function validator(array $data)
     {
@@ -82,7 +81,6 @@ class InviteController extends Controller
     }
     public function index($url = null)
     {
-        if(!Auth::check())  return \Redirect::back()->withErrors(['Je moet ingelogd zijn om mensen uit te nodigen.']);
         $user = Auth::user();   
         $user_role = Role::find($user->role_id);
         if( $user && $user_role->permission >= 30)   
@@ -90,6 +88,6 @@ class InviteController extends Controller
             $roles = Role::where('permission', '<', $user_role->permission)->get()->all();  
             return view('/pages/auth/invite')->with('roles', $roles)->with('url', $url);  
         }
-        else    return \Redirect::back()->withErrors(['Je hebt niet de juiste permissies om een gebruiker uit te nodigen.']);
+        else    return redirect(route('home')); 
     }
 }
