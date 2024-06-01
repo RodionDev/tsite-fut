@@ -152,6 +152,11 @@ class MatchController extends Controller
         $teams_has_not_played = new Team();
         $teams_has_not_played = $teams_has_not_played->getTeamsByPools($pool_id);
         $teams_has_played = [];
+        $list_of_team_ids = [];
+        foreach ($teams_has_not_played as $key => $team) 
+        {
+            $list_of_team_ids[$key] = $team->id;
+        }
         foreach ($matches as $key => $match) 
         {
             $result1 = Result::find($match->result1_id);
@@ -180,7 +185,7 @@ class MatchController extends Controller
         {
             if($match->winner && $match->loser)
             {
-                if(array_key_exists($match->winner->team_id, $teams_has_not_played) == false && array_key_exists($match->loser->team_id, $teams_has_not_played) == false)
+                if(in_array($match->winner->team_id, $list_of_team_ids) == true && in_array($match->loser->team_id, $list_of_team_ids) == true)
                 {
                     $winner = $match->winner;
                     $team = Team::find($winner->team_id);
@@ -223,7 +228,7 @@ class MatchController extends Controller
             }
             elseif ($match->tiedplayers)
             {
-                if(array_key_exists($match->tiedplayers[0]->team_id, $teams_has_not_played) == false && array_key_exists($match->tiedplayers[1]->team_id, $teams_has_not_played) == false)
+                if(array_key_exists($match->tiedplayers[0]->team_id, $teams_has_not_played) == true && array_key_exists($match->tiedplayers[1]->team_id, $teams_has_not_played) == true)
                 {
                     foreach ($match->tiedplayers as $key => $tiedplayer)
                     {
@@ -274,18 +279,6 @@ class MatchController extends Controller
         array_multisort($teams_sort_points, SORT_DESC, $teams_sort_goals_saldo, SORT_DESC, $teams);
         return view('pages.scoreboard', compact('teams'));
     }
-    private function removeUnwantedTeams($teams, $teams_has_not_played)
-    {
-        foreach ($teams as $key => $team) 
-        {
-            if(array_key_exists($team->id,  $teams_has_not_played) == false)
-            {
-                dump($team->id);
-            }
-        }
-        dd($teams_has_not_played, $teams);
-        return $teams;
-    }
     private function mergeTeams($merge_array, $source_array)
     {
         foreach ($source_array as $key => $team) 
@@ -327,14 +320,6 @@ class MatchController extends Controller
                 $newArray[$team->id] = $team;
             }
         }
-        $newArray = $this->sortByPoints($newArray, 'points');
         return $newArray;
     }
-    function sortByPoints($array, $property)
-    {
-        foreach ($array as $key => $array_item) 
-        {
-        }
-        return $array;
-    } 
 }
