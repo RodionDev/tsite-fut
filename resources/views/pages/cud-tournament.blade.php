@@ -35,7 +35,7 @@
                         <span class="helper-text" data-error="Vul een correcte datum in." data-success="">Vul een datum in.</span>
                     </div>
                     <div class="col s12 m4 input-field">
-                        <input id="pools-amount" type="number" class="validate" min="1" name="pools_amount" required />
+                        <input id="pools-amount" type="number" class="validate" min="1" name="pools_amount" />
                         <label for="pools-amount">Aantal Poules</label>
                         <span class="helper-text" data-error="Vul een correct aantal in (min 1)." data-success="">Vul een aantal poules in.</span>
                     </div>

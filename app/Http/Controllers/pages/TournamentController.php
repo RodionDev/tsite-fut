@@ -240,19 +240,12 @@ class TournamentController extends Controller
         if(!Auth::Check())  return \Redirect::back()->withErrors(['Je moet ingelogd zijn een toernooien te bekijken']);
         $user = Auth::User();
         $current_date = date('Y-m-d');  
-        if($user->role->permission >= 50)
-        {
-            $current = Tournament::where('mott_id', null)->whereDate('start_date', '<=', $current_date)->get(); 
+            $current = Tournament::whereDate('start_date', '<=', $current_date)->whereDate('end_date', '>=', $current_date)->get(); 
             $upcoming = Tournament::whereDate('start_date', '>', $current_date)->get(); 
-            $finished = Tournament::whereNotNull('mott_id')->whereDate('start_date', '<', $current_date)->get();    
+            $finished = Tournament::whereDate('start_date', '<', $current_date)->whereDate('end_date', '<', $current_date)->get();    
             $can_edit = true;
-        }
-        else
+        if($user->role->permission < 50)
         {
-            $tournaments = $user->tournaments();
-            $current = Tournament::where('mott_id', null)->whereDate('start_date', '<=', $current_date)->get(); 
-            $upcoming = Tournament::whereDate('start_date', '>', $current_date)->get(); 
-            $finished = Tournament::whereNotNull('mott_id')->whereDate('start_date', '<', $current_date)->get();    
             $can_edit = false;
         }
         return view('pages/tournaments',
