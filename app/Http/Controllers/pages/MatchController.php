@@ -152,11 +152,7 @@ class MatchController extends Controller
         $teams_has_not_played = new Team();
         $teams_has_not_played = $teams_has_not_played->getTeamsByPools($pool_id);
         $teams_has_played = [];
-        $list_of_team_ids = [];
-        foreach ($teams_has_not_played as $key => $team) 
-        {
-            $list_of_team_ids[$key] = $team->id;
-        }
+        $list_of_team_ids = $this->getTeamIds($teams_has_not_played);
         foreach ($matches as $key => $match) 
         {
             $result1 = Result::find($match->result1_id);
@@ -228,7 +224,7 @@ class MatchController extends Controller
             }
             elseif ($match->tiedplayers)
             {
-                if(array_key_exists($match->tiedplayers[0]->team_id, $teams_has_not_played) == true && array_key_exists($match->tiedplayers[1]->team_id, $teams_has_not_played) == true)
+                if(in_array($match->tiedplayers[0]->team_id, $list_of_team_ids) == true && in_array($match->tiedplayers[1]->team_id, $list_of_team_ids) == true)
                 {
                     foreach ($match->tiedplayers as $key => $tiedplayer)
                     {
@@ -321,5 +317,14 @@ class MatchController extends Controller
             }
         }
         return $newArray;
+    }
+    private function getTeamIds($teams)
+    {
+        $list_of_team_ids = [];
+        foreach ($teams as $key => $team) 
+        {
+            $list_of_team_ids[$key] = $team->id;
+        }
+        return $list_of_team_ids;
     }
 }
