@@ -26,7 +26,7 @@
                     <td>{{ $team->tied }}</td>
                     <td>{{ $team->goals }}</td>
                     <td>{{ $team->countergoals }}</td>
-                    <td>{{ $team->goals - $team->countergoals}}</td>
+                    <td>{{ $team->saldo}}</td>
                 </tr>
             @endforeach
         </tbody>
