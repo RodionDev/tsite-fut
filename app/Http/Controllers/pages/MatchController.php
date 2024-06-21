@@ -265,16 +265,18 @@ class MatchController extends Controller
         $teams = $teams_has_not_played;
         $teams_sort_points;
         $teams_sort_goals_saldo;
-        $teams_sort_won;
+        $teams_sort_played;
+        $teams_sort_goals;
         foreach ($teams as $key => $team) 
         {
             $team->saldo = $team->goals - $team->countergoals;
             $teams[$key] = $team;
             $teams_sort_points[$key] = $team->points;
-            $teams_sort_won[$key] = $team->won;
             $teams_sort_goals_saldo[$key] = $team->saldo;
+            $teams_sort_played[$key] = $team->won + $team->lost + $team->tied;
+            $teams_sort_goals[$key] = $team->goals;
         }
-        array_multisort($teams_sort_points, SORT_DESC, $teams_sort_goals_saldo, SORT_DESC, $teams_sort_won, SORT_DESC, $teams);
+        array_multisort($teams_sort_points, SORT_DESC, $teams_sort_played, SORT_ASC, $teams_sort_goals_saldo, SORT_DESC, $teams_sort_goals, SORT_DESC, $teams);
         return view('pages.scoreboard', compact('teams'));
     }
     private function mergeTeams($merge_array, $source_array)
